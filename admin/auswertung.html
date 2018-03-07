@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Markus Rechberger">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="robots" content="noindex,nofollow">
+		<meta name="revised" content="Markus Rechberger, 11/15/2017">
+		
+		<!-- Bootstrap & jQuery -->
+		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./assets/css/hgoe.css" type="text/css">
+		<script src="./assets/jquery.min.js"></script>
+		
+		<!-- Custom Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
+		<title>Auswertung Veranstaltungsname</title>
+		
+		<style>
+			#mainPanel{
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body style="font-family: 'Open Sans',serif;">
+		<div class="container">
+			<div class="row" style="display: -webkit-flex; flex-wrap: wrap;">
+				<div class="hidden-xs col-md-3 col-sm-3" style="font-family: 'Armata', cursive;">
+    				<center>
+						<a class="menuBarItem btn text-center">
+							<img src="assets/img/teilnehmer_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
+							<p>Teilnehmer</p>
+						</a>
+						<a class="menuBarItem btn text-center">
+							<img src="assets/img/auswertungen_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
+							<p>Auswertung</p>
+						</a>
+						<a class="menuBarItem btn text-center">
+							<img src="assets/img/print_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
+							<p>Etiketten</p>
+						</a>
+						<a class="menuBarItem btn text-center" id="absagen-btn">Absagen</a>
+					</center>
+    			</div>
+				<div class="col-md-9 col-sm-9 col-xs-12">
+					<div id="mainPanel" class="panel panel-hgoe text-center">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="font-weight: bold">Auswertung</h3>
+						</div>
+						<div class="panel-body text-left" id="panel-body-table">
+							
+						</div>
+					</div>
+					&nbsp;
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

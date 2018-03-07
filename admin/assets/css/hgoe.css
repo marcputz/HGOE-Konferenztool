@@ -1,0 +1,131 @@
+body {
+	background-color: #B8DBFF;
+}
+
+.btn-hgoe {
+	box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+	color: white;
+	background-color: #1C8BFF;
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #0075F1;
+}
+.btn-hgoe:hover {
+	background-color: #006ADA;
+	color: white;
+	border-color: #004EA2;
+}
+
+.btn-hgoe-red {
+	box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+	color: white;
+	background-color: #C90003; 
+	border-color: #B40002;
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+}
+.btn-hgoe-red:hover {
+	background-color: #B40002;
+	color: white;
+	border-color: #B40002;
+}
+
+.panel-hgoe {
+	background-color: #7EAED5;
+}
+.panel-hgoe>.panel-heading {
+	color:#fff;
+	background-color: #0F6DBB;
+	border-color: #000000;
+}
+.panel-hgoe>.panel-heading+.panel-collapse .panel-body {
+	border-top-color: #000000;
+}
+
+/* Main-Page Table Row */
+
+.row-hgoe {
+	background-color: #EEEEEE;
+	border-bottom-style: dashed;
+	border-width: 1px;
+	border-color: black;
+	margin-right: 2px;
+	margin-left: 2px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.row-hgoe:hover {
+	background-color: white;
+}
+
+.row-hgoe:active {
+	background-color: #191F6D;
+	color: white;
+}
+
+.row-hgoe [class^='col'] {
+	border-right-style: solid;
+	border-left-style: solid;
+	border-color: grey;
+	border-width: 1px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	word-wrap: break-word;
+}
+
+/* NAVBAR */
+
+.navbar-hgoe {
+	background-color: #96CAFF;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: black;
+	box-shadow: 0px 0px 5px #000;
+}
+.navbar-hgoe .navbar-header .navbar-toggle {
+	background-color: #2D78C3;
+}
+.navbar-hgoe .navbar-header .navbar-toggle .icon-bar {
+	background-color: white;
+}
+.navbar-hgoe .navbar-collapse ul li a {
+	color: black
+}
+.navbar-hgoe .navbar-collapse ul li:hover a {
+	color: white;
+}
+
+/* SIZE DEPENDENT */
+
+@media (max-width: 768px) { /* xs */ 
+	.row-hgoe [class^='col'] {
+		margin-left: -1px;
+	}
+}
+
+@media (min-width: 768px) { /* sm & bigger */
+  .menuBarItem {
+	font-size:18px;
+	height:150px;
+	width:150px;
+	margin-bottom: 15px;
+	margin-top: 12px;
+	padding-top: 15px;
+  }
+}
+
+@media (min-width: 992px) { /* md & bigger */
+  .menuBarItem {
+	font-size: 20px;
+	height:170px;
+	width:170px;
+	margin-bottom: 20px;
+	margin-top: 15px;
+	padding-top: 20px;
+  }
+}
+
+@media (min-width: 1200px) { /* lg & bigger */ }
