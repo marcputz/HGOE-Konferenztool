@@ -73,10 +73,16 @@
 					
 					<!-- Veranstaltungen -->
 					<?php
+						$testserver = true;
+					
 						$servername = "websql06.sprit.org";
 						$username = "hgoe";
 						$password = "hgvfz54RFG";
 						$dbname = "hgoe_17";
+					
+						if($testserver == true) {
+							$servername = "db.marcputz.at";
+						}
 
 						// Create connection
 						$conn = new mysqli($servername, $username, $password, $dbname);
@@ -244,6 +250,10 @@
 						});
 					</script>
 				</div>
+			</div>
+			
+			<div>
+				HGÖ Konferenztool - <b>Version 0.1</b> (Pre-Release)
 			</div>
 		</div>
 	</body>
