@@ -19,12 +19,16 @@
 		$gebdat = (isset($_GET['gebdat'])) ? $_GET['gebdat'] : 'null';
 		$titel = (isset($_GET['titel'])) ? $_GET['titel'] : 'null';
 		$mitglied = (isset($_GET['bundesland'])) ? $_GET['bundesland'] : 'null';
+		$arbeit = $_GET['arbeit'];
 		
+		$testserver = true; // set this for testserver
 		$servername = "websql06.sprit.org";
 		$username = "hgoe";
 		$password = "hgvfz54RFG";
 		$dbname = "hgoe_17";
-
+		if($testserver==true){
+			$servername = "db.marcputz.at";
+		}
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -43,7 +47,7 @@
 			echo "window.location = 'anmelden.php';";
 		} else {
 			//INSERT
-			$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, KonferenzID) VALUES (";
+			$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, Berufsgruppe, KonferenzID) VALUES (";
 
 			if ($titel != "null") {
 				$sql .= "'" . $titel . "', ";
@@ -81,6 +85,8 @@
 			} else {
 				$sql .= "null, ";
 			}
+			
+			$sql .= "'" . $arbeit . "',";
 
 			$sql .= $konferenzID . ");";
 

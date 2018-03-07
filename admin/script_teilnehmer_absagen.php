@@ -11,11 +11,14 @@
 	if(isset($_GET["nr"]))  {
 		$nr = $_GET["nr"];	
 		
+		$testserver = true;//set this for stesserver
 		$servername = "websql06.sprit.org";
 		$username = "hgoe";
 		$password = "hgvfz54RFG";
 		$dbname = "hgoe_17";
-
+		if($testserver==true){
+			$servername = "db.marcputz.at";
+		}
 		// Create connection
 		$conn = mysqli_connect($servername, $username, $password, $dbname);
 

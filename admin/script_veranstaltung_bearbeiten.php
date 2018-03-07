@@ -12,11 +12,14 @@
 				$gebuehren_mitglieder = $_GET['geb-mitglieder'];
 				$gebuehren_nichtmitglieder = $_GET['geb-nichtmitglieder'];
 				
+				$testserver = true; //set this for testserver
 				$servername = "websql06.sprit.org";
 				$username = "hgoe";
 				$password = "hgvfz54RFG";
 				$dbname = "hgoe_17";
-
+				if($testserver==true){
+					$servername = "db.marcputz.at";
+				}
 				// Create connection
 				$conn = mysqli_connect($servername, $username, $password, $dbname);
 

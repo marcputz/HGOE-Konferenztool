@@ -1,7 +1,6 @@
 <?php
 if(isset($_GET["nr"]) && isset($_GET["anwesend"])) {
-	
-	$testserver = true; //set this for testserver
+	$testserver = true;
 	$servername = "websql06.sprit.org";
 	$username = "hgoe";
 	$password = "hgvfz54RFG";

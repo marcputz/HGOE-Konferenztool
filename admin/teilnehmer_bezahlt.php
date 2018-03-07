@@ -1,12 +1,11 @@
 <?php
-if(isset($_GET["nr"]) && isset($_GET["anwesend"])) {
-	
-	$testserver = true; //set this for testserver
+if(isset($_GET["nr"]) && isset($_GET["bezahlt"])) {
+	$testserver = true;
 	$servername = "websql06.sprit.org";
 	$username = "hgoe";
 	$password = "hgvfz54RFG";
 	$dbname = "hgoe_17";
-	if($testserver==true){
+	if($testserver == true){
 		$servername = "db.marcputz.at";
 	}
 	// Create connection
@@ -17,8 +16,8 @@ if(isset($_GET["nr"]) && isset($_GET["anwesend"])) {
 		die("Connection failed: " . mysqli_connect_error());
 	} 
 
-	$sql = "UPDATE hgoe_teilnehmer SET Anwesend = ";
-	if(($_GET["anwesend"]) == "ja") {
+	$sql = "UPDATE hgoe_teilnehmer SET Bezahlt = ";
+	if(($_GET["bezahlt"]) == "ja") {
 		$sql .= "1";
 	} else {
 		$sql .= "0";

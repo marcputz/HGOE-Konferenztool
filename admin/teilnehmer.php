@@ -246,12 +246,15 @@
 						<?php
 							if(isset($_GET["vid"])) {
 								$vid = $_GET["vid"];
-
+								
+								$testserver = true; //set this for testsever;
 								$servername = "websql06.sprit.org";
 								$username = "hgoe";
 								$password = "hgvfz54RFG";
 								$dbname = "hgoe_17";
-
+								if($testserver==false){
+									$servername = "db.marcputz.at";
+								}
 								// Create connection
 								$conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -1,6 +1,15 @@
 <!doctype html>
 <html>
 	<head>
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114935320-1"></script>
+		<script>
+  	    	window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  		    gtag('js', new Date());
+
+  			gtag('config', 'UA-114935320-1');
+		</script>
 		<!-- Meta Data -->
 		<meta charset="UTF-8">
 		<meta name="author" content="Marc Putz">

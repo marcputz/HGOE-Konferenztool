@@ -1,14 +1,19 @@
 <?php
+
+	$testserver = true; //set this for testserver
 	$servername = "websql06.sprit.org";
 	$username = "hgoe";
 	$password = "hgvfz54RFG";
 	$dbname = "hgoe_17";
+	if($testserver==true){
+			$servername = "db.marcputz.at";
+		}
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	$id = $_GET["id"];
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
-	$sql = "select Titel, Vorname, Nachname from hgoe_teilnehmer where Nachname like 'Schweiger;";//where KonferenzID=" . $id. ";";
+	/*$sql = "select Titel, Vorname, Nachname from hgoe_teilnehmer where Nachname like 'Schweiger;";//where KonferenzID=" . $id. ";";
 	$result = $conn->query($sql);
 	$dir = dirname(__FILE__);
 	require_once $dir . '/../lib/PHPRtfLite.php';
@@ -41,5 +46,5 @@
 		$cell->$table->getCell(1,1);
 		$cell->writeText("<b>ERROR</b>");
 	}
-	$conn->close();
+	$conn->close();*/
 	$rtf->save($dir . '/generated/' . basename(__FILE__, '.php') . '.rtf');
