@@ -1,7 +1,7 @@
 <script>
 	<?php
 		if(isset($_GET['id'])) {
-			if(isset($_GET['name']) && isset($_GET['datum']) && isset($_GET['beginnFrist']) && isset($_GET['endeFrist']) && isset($_GET['geb-mitglieder']) && isset($_GET['geb-nichtmitglieder'])) {
+			if(isset($_GET['name']) && isset($_GET['datum']) && isset($_GET['beginnFrist']) && isset($_GET['endeFrist'])) {
 				$id = $_GET['id'];
 				$name = $_GET['name'];
 				$datum = $_GET['datum'];
@@ -9,14 +9,14 @@
 				$endeAnmeldefrist = $_GET['endeFrist'];
 				$stornierungsfrist = (isset($_GET['stornierungsfrist'])) ? $_GET['stornierungsfrist'] : 'null';
 				$maxAnmeldungen = (isset($_GET['maxAnmeldungen'])) ? $_GET['maxAnmeldungen'] : 'null';
-				$gebuehren_mitglieder = $_GET['geb-mitglieder'];
-				$gebuehren_nichtmitglieder = $_GET['geb-nichtmitglieder'];
 				
-				$testserver = true; //set this for testserver
+				$testserver = false; //set this for testserver
+				
 				$servername = "websql06.sprit.org";
 				$username = "hgoe";
 				$password = "hgvfz54RFG";
 				$dbname = "hgoe_17";
+				
 				if($testserver==true){
 					$servername = "db.marcputz.at";
 				}
@@ -30,7 +30,7 @@
 				
 				$sql = "UPDATE hgoe_konferenzen SET Name = '" . 
 						$name . "', datum = '" . $datum . "', beginnanmeldefrist = '" . 
-						$beginnAnmeldefrist . "', endeanmeldefrist = '" . $endeAnmeldefrist . "', gebuehr_mitglied = '" . $gebuehren_mitglieder . "', gebuehr_nichtmitglied = '" . $gebuehren_nichtmitglieder . "'";
+						$beginnAnmeldefrist . "', endeanmeldefrist = '" . $endeAnmeldefrist . "'";
 						
 				if($stornierungsfrist != 'null') {
 					$sql .= ", stornierungsfrist = '" . $stornierungsfrist . "'";

@@ -378,23 +378,7 @@
 								</div>
 							</div>
 							
-							<br><br>
-							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
-									<p>Gebühren (Mitglieder)</p>
-								</div>
-								<div class="col-sm-8 col-xs-7">
-									<input id="gebuehren_mitglieder" type="number" placeholder="Eingeben...">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
-									<p>Gebühren (Nicht Mitglieder)</p>
-								</div>
-								<div class="col-sm-8 col-xs-7">
-									<input id="gebuehren_nichtmitglieder" type="number" placeholder="Eingeben...">
-								</div>
-							</div>
+							<br>
 							
 							<div class="row text-center" style="margin-top:25px;" id="saveBtnDIV">
 								<input class="btn btn-hgoe" style="width: 140px" id="saveBtn" value="Speichern">
@@ -417,12 +401,10 @@
 											var stornierungCB = document.getElementById('stornierungCB').checked;
 											var stornierungsfrist = $('#endeStornierungsfrist').val();
 											var maxAnmeldungen = $('#maxAnmeldungen').val();
-											var gebuehrenMitglieder = document.getElementById('gebuehren_mitglieder').value;
-											var gebuehrenNichtmitglieder = document.getElementById('gebuehren_nichtmitglieder').value;
 											
 											if((stornierungCB && stornierungsfrist.length > 0) || !stornierungCB) {
-												if(name.length > 0 && datum.length > 0 && beginnAnmeldefrist.length > 0 && endeAnmeldefrist.length > 0 && gebuehrenMitglieder.length > 0 && gebuehrenNichtmitglieder.length > 0) {
-													var url = 'script_veranstaltung_bearbeiten.php?id=' + id + '&name=' + name + '&datum=' + datum + "&beginnFrist=" + beginnAnmeldefrist + "&endeFrist=" + endeAnmeldefrist + "&geb-mitglieder=" + gebuehrenMitglieder + "&geb-nichtmitglieder=" + gebuehrenNichtmitglieder;
+												if(name.length > 0 && datum.length > 0 && beginnAnmeldefrist.length > 0 && endeAnmeldefrist.length > 0) {
+													var url = 'script_veranstaltung_bearbeiten.php?id=' + id + '&name=' + name + '&datum=' + datum + "&beginnFrist=" + beginnAnmeldefrist + "&endeFrist=" + endeAnmeldefrist;
 
 													if(stornierungCB) {
 														url = url + "&stornierungsfrist=" + stornierungsfrist;
@@ -512,8 +494,6 @@
 							$datum = $row["datum"];
 							$beginnAnmeldefrist = $row["beginnanmeldefrist"];
 							$endeAnmeldefrist = $row["endeanmeldefrist"];
-							$gebuehr_mitglieder = $row["gebuehr_mitglied"];
-							$gebuehr_nichtmitglieder = $row["gebuehr_nichtmitglied"];
 							if(!(is_null($row["stornierungsfrist"]))) {
 								$stornierungsfrist = $row["stornierungsfrist"];
 							}
@@ -523,8 +503,6 @@
 							
 							echo "name = '" . $name . "';";
 							echo "datum = '" . $datum . "';";
-							echo "gebuehr_mitglieder = " . $gebuehr_mitglieder . ";";
-							echo "gebuehr_nichtmitglieder = " . $gebuehr_nichtmitglieder . ";";
 							echo "var temp1 = '" . $beginnAnmeldefrist . "'.split(/[- :]/);";
 							echo "beginnAnmeldefrist = temp1[0] + '-' + temp1[1] + '-' + temp1[2] + 'T' + temp1[3] + ':' + temp1[4];";
 							echo "var temp2 = '" . $endeAnmeldefrist . "'.split(/[- :]/);";
@@ -569,16 +547,12 @@
 							$endeAnmeldefrist = "null";
 							$stornierungsfrist = "null";
 							$maxAnmeldungen = "null";
-							$gebuehr_mitglieder = -1;
-							$gebuehr_nichtmitglieder = -1;
 
 							while($row = $result->fetch_assoc()) {
 								$name = $row["Name"];
 								$datum = $row["datum"];
 								$beginnAnmeldefrist = $row["beginnanmeldefrist"];
 								$endeAnmeldefrist = $row["endeanmeldefrist"];
-								$gebuehr_mitglieder = $row["gebuehr_mitglied"];
-								$gebuehr_nichtmitglieder = $row["gebuehr_nichtmitglied"];
 								if(!(is_null($row["stornierungsfrist"]))) {
 									$stornierungsfrist = $row["stornierungsfrist"];
 								}
@@ -588,8 +562,6 @@
 
 								echo "name = '" . $name . "';";
 								echo "datum = '" . $datum . "';";
-								echo "gebuehr_mitglieder = " . $gebuehr_mitglieder . ";";
-								echo "gebuehr_nichtmitglieder = " . $gebuehr_nichtmitglieder . ";";
 								echo "var temp1 = '" . $beginnAnmeldefrist . "'.split(/[- :]/);";
 								echo "beginnAnmeldefrist = temp1[0] + '-' + temp1[1] + '-' + temp1[2] + 'T' + temp1[3] + ':' + temp1[4];";
 								echo "var temp2 = '" . $endeAnmeldefrist . "'.split(/[- :]/);";
@@ -624,8 +596,6 @@
 			}
 			$('#beginnAnmeldefrist').val(beginnAnmeldefrist);
 			$('#endeAnmeldefrist').val(endeAnmeldefrist);
-			$('#gebuehren_mitglieder').val(gebuehr_mitglieder);
-			$('#gebuehren_nichtmitglieder').val(gebuehr_nichtmitglieder);
 			if(stornierungsfrist != 'null') {
 				$('#endeStornierungsfrist').val(stornierungsfrist);
 			}

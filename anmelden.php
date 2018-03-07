@@ -37,11 +37,13 @@
 			<div class="col-xs-7">
            		<select id="veranstaltungCB" style="width: 100%">
            			<?php
-						$testserver = true;
+						$testserver = false;
+					
 						$servername = "websql06.sprit.org";
 						$username = "hgoe";
 						$password = "hgvfz54RFG";
 						$dbname = "hgoe_17";
+					
 						if($testserver==true){
 							$servername="db.marcputz.at";
 						}
@@ -125,87 +127,6 @@
 			<div class="col-xs-7"><input type="text" id="ort" style="width: 100%"></div>
 		</div> 
 		<br>
-		<div class="row">
-			<div class="col-xs-5 col-md-3">Burufsgruppe</div>
-			<div class="col-xs-7">
-				<select id="arbeit" style="width: 100%;">
-            		<option value="1">keine Angabe</option>
-            		<option value="2">Diplom-Sozialbetreuer für Familienarbeit</option>
-					<option value="3">Elementarpädagoge</option>
-            		<option value="4">Fach- und Diplom-Sozialbetreuer für Altenarbeit </option>
-					<option value="5">Fach- und Diplom-Sozialbetreuer für Behindertenarbeit (BA)</option>
-            		<option value="6">Fach-Sozialbetreuer / Diplom-Sozialbetreuer</option>
-					<option value="7">Heimleiter</option>
-					<option value="8">Flüchtlingsbetreuer</option>
-					<option value="9asdfsdf">Hortpädagoge</option>
-       				<option value="9c3423">Kinder- und Jugendberater</option>
-       				<option value="9324234">Pastoralassistent</option>
-       				<option value="94234234">Sozialpädagoge</option>
-       				<option value="94234">Streetworker</option>
-       				<option value="9243234">Anglist/Amerikanist</option>
-       				<option value="93242342">Arbeits- und Organisationspsychologe</option>
-       				<option value="9324234234">Begleitlehrer/Integrationslehrer</option>
-       				<option value="95345rt3t">Berufsschullehrer</option>
-       				<option value="9reg3">Bewährungshelfer</option>
-       				<option value="9g3g34gr">Bildungs- und Berufsberater</option>
-       				<option value="9g3g3g">Bildungsmanager</option>
-       				<option value="9gergerg">Coach</option>
-       				<option value="9geergebrgerg">Diversity Manager</option>
-       				<option value="9ergergergergerg">Lehrer an Allgemeinbildenden Höheren Schulen</option>
-       				<option value="9bwrbrw">Lehrer an allgemeinen Pflichtschulen</option>
-       				<option value="9vewvevw">Lehrer an Berufsbildenden Mittleren und Höheren Schulen</option>
-       				<option value="9ntent">Lehrer an Neuen Mittelschulen</option>
-       				<option value="nrnrne9">Lehrer für Bildnerische Erziehung und Werkerziehung</option>
-       				<option value="znetn9">Lehrer für Darstellende Kunst (Schauspiellehrer)</option>
-       				<option value="9rnren">Lehrer für Deutsch als Fremdsprache (DaF-Lektor) </option>
-       				<option value="retnt9">Lehrer für die Primarstufe</option>
-       				<option value="rtnrtnrt9">Lehrer für die Sekundarstufe - Allgemeinbildung</option>
-       				<option value="rtbbrwb9">Lehrer für die Sekundarstufe - Berufsbildung</option>
-       				<option value="brwbrwtb9">Lehrer für Inklusiv- und Sonderpädagogik</option>
-       				<option value="rwtrwtb9">Lektor (Uni, FH)</option>
-       				<option value="bwrtbbrbrw9">Lerntherapeut</option>
-       				<option value="retewrtret9">Logopäde</option>
-       				<option value="egergerg9">Musiklehrer</option>
-       				<option value="gergerg9">Musiktherapeut</option>
-       				<option value="ergerhth9">Pädagoge</option>
-       				<option value="ghfhfs9">Psychologe</option>
-       				<option value="sdh9">Psychotherapeut</option>
-       				<option value="hdsf9">Schulpsychologe</option>
-       				<option value="gsh9">Schulsozialarbeiter</option>
-       				<option value="bcv9">Sexualpädagoge</option>
-       				<option value="eqrt9">Sozialarbeiter</option>
-       				<option value="ewrt9">Sozialpädagoge</option>
-       				<option value="dfdfhdfh9">Soziologe</option>
-       				<option value="grthr9">Supervisor</option>
-       				<option value="rtht9">Universitätsassistent</option>
-       				<option value="hrthrth9">Universitätsprofessor</option>
-       				<option value="gfhfgbrt9">Verkehrspsychologe</option>
-       				<option value="hdhdfget9">Volksschullehrer</option>
-       				<option value="9dfgdfgte">Wirtschaftscoach</option>
-       				<option value="9dfhdfhf">Diplom-Sozialbetreuer für Familienarbeit</option>
-       				<option value="erherherh9">Diplomierter Gesundheits- und Krankenpfleger</option>
-       				<option value="9gdfgdger">Diplomierter Gesundheits- und Krankenpfleger (Hauskrankenpflege)</option>
-       				<option value="9gergger">Diplomierter Gesundheits- und Krankenpfleger (Intensivpflege)</option>
-       				<option value="9dfvdfvdf">Diplomierter psychiatrischer Gesundheits- und Krankenpfleger</option>
-       				<option value="9dfvdf">Fach- und Diplom-Sozialbetreuer für Altenarbeit</option>
-       				<option value="9dfgdfg">Fach- und Diplom-Sozialbetreuer für Behindertenarbeit (BA) </option>
-       				<option value="9gdffgdfg">Gesundheitsmanager</option>
-       				<option value="9gbfdbfb">Pflegeassistent</option>
-       				<option value="9dfgbfb">Apotheker</option>
-       				<option value="9bdfgbdfb">Arbeits- und Organisationspsychologe</option>
-       				<option value="9gfbfdgbgdfbfg">Arzt</option>
-       				<option value="9erthrthrth">Diätologe</option>
-       				<option value="9ewrteteqb">Ergotherapeut</option>
-       				<option value="9rthrnrh">Kognitionswissenschafter</option>
-       				<option value="9gwetrnhrn">Kognitionswissenschafter</option>
-       				<option value="9tehewthweth">Physiotherapeut</option>
-       				<option value="9ewthwhrth">Psychotherapeut</option>
-       				<option value="9htehewet">Zahnarzt</option>
-       				<option value="9thwththtwh">Sonstige</option>
-        		</select>
-			</div>
-		</div> 
-		<br>
 		<br>
 		<div class="row">
 			<div class="col-xs-4 col-md-3">Mitglied</div>
@@ -282,8 +203,6 @@
 			var plz = document.getElementById("plz").value;
 			var ort = document.getElementById("ort").value.trim();
 			
-			var arbeit = document.getElementById("arbeit").options[document.getElementById('arbeit').selectedIndex].text;
-			
 			var bundesland = document.getElementById("bundesland").options[document.getElementById('bundesland').selectedIndex].text;
 			
 			var mitglied = document.querySelector('input[name="mitglied"]:checked').value;
@@ -317,9 +236,6 @@
 				url += "&ort=" + ort;
 				if(bundesland != "null") {
 					url += "&bundesland=" + bundesland;
-				}
-				if(arbeit){
-					url += "&arbeit=" + arbeit;
 				}
 				
 				window.location = url;
