@@ -21,14 +21,18 @@
 		$mitglied = (isset($_GET['bundesland'])) ? $_GET['bundesland'] : 'null';
 		$arbeit = $_GET['arbeit'];
 		
-		$testserver = true; // set this for testserver
+		$testserver = false; // set this for testserver
 		$servername = "websql06.sprit.org";
 		$username = "hgoe";
 		$password = "hgvfz54RFG";
 		$dbname = "hgoe_17";
-		if($testserver==true){
+		
+		if($testserver == true){
 			$servername = "db.marcputz.at";
 		}
+		
+		echo "console.log('Database Server: " . $servername . "');\n";
+		
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -94,7 +98,7 @@
 				echo "alert('Erfolgreich angemeldet!');";
 				echo "window.location = 'anmelden_erfolgreich.php?id=" . $konferenzID . "';";
 			} else {
-				echo "alert('Error: Sql-Exception <br>" . $conn->error . "');";
+				echo "alert(\"Error: Sql-Exception <br>" . $conn->error . "\");";
 				echo "window.location = 'anmelden.php';";
 			}
 		}
