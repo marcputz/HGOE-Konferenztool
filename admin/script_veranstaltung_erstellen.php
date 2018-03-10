@@ -1,4 +1,12 @@
 <?php
+	session_start();
+	$config = include('./config.php');
+
+	if(!isset($_SESSION['user'])) {
+		header("location: login.php");
+		exit();
+	}
+
 	if(isset($_GET['name']) && isset($_GET['datum']) && isset($_GET['beginnFrist']) && isset($_GET['endeFrist']) && isset($_GET["geb-mitglieder"]) && isset($_GET["geb-nichtmitglieder"])) {
 		$name = $_GET['name'];
 		$datum = $_GET['datum'];
@@ -9,18 +17,8 @@
 		$gebuehren_mitglieder = $_GET['geb-mitglieder'];
 		$gebuehren_nichtmitglieder = $_GET['geb-nichtmitglieder'];
 		
-		$testserver = true; //set this for testserver
-		
-		$servername = "websql06.sprit.org";
-		$username = "hgoe";
-		$password = "hgvfz54RFG";
-		$dbname = "hgoe_17";
-		
-		if($testserver==true){
-			$servername = "db.marcputz.at";
-		}
 		// Create connection
-		$conn = new mysqli($servername, $username, $password, $dbname);
+		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 
 		// Check connection
 		if ($conn->connect_error) {

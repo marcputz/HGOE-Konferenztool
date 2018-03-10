@@ -1,3 +1,14 @@
+<!-- prüft ob der User eingeloggt ist -->
+<?php
+	session_start();
+	$config = include('./config.php');
+
+	if(!isset($_SESSION['user'])) {
+		header("location: login.php");
+		exit();
+	}
+?>
+
 <!doctype html>
 <html>
 	<head>
@@ -459,13 +470,8 @@
 				if(isset($_GET['id'])) {
 					$id = $_GET['id'];
 
-					$servername = "websql06.sprit.org";
-					$username = "hgoe";
-					$password = "hgvfz54RFG";
-					$dbname = "hgoe_17";
-
 					// Create connection
-					$conn = new mysqli($servername, $username, $password, $dbname);
+					$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 					
 					// Check connection
 					if ($conn->connect_error) {

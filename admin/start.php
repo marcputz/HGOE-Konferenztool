@@ -1,8 +1,20 @@
+<!-- prüft ob der User eingeloggt ist -->
+<?php
+	session_start();
+	$config = include('./config.php');
+
+	if(!isset($_SESSION['user'])) {
+		header("location: login.php");
+		exit();
+	}
+?>
+
 <!doctype html>
 <html>
 	<head>
 			<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114935320-1"></script>
+		
 		<script>
   	    	window.dataLayer = window.dataLayer || [];
   			function gtag(){dataLayer.push(arguments);}
@@ -10,6 +22,7 @@
 
   			gtag('config', 'UA-114935320-1');
 		</script>
+		
 		<!-- Meta Data -->
 		<meta charset="UTF-8">
 		<meta name="author" content="Marc Putz">
@@ -41,7 +54,7 @@
 				</div>
 				<div class="col-sm-6 text-right hidden-xs" style="height: 70px;">
 					<a class="btn-hgoe btn" style="color: white; margin-top:15px; width: 225px;" href="./erstellen.html">Neue Veranstaltung erstellen</a>
-					<button class="btn btn-hgoe" style="margin-top: 15px; margin-left: 20px; background-color: red; border-color: red;">Logout</button>
+					<a class="btn btn-hgoe-red" style="margin-top: 15px; margin-left: 20px;" href="./logout.php">Ausloggen</a>
 				</div>
 				
 				<!-- kleine Bildschirmgrößen -->
@@ -73,19 +86,12 @@
 					
 					<!-- Veranstaltungen -->
 					<?php
-						$testserver = true;
-					
-						$servername = "websql06.sprit.org";
-						$username = "hgoe";
-						$password = "hgvfz54RFG";
-						$dbname = "hgoe_17";
-					
-						if($testserver == true) {
-							$servername = "db.marcputz.at";
-						}
+						echo "<script>";
+						echo "	console.log('Connected to Database: " . $config['db_host'] . " as user " . $config['db_user'] . "');\n";
+						echo "</script>";
 
 						// Create connection
-						$conn = new mysqli($servername, $username, $password, $dbname);
+						$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 
 						// Check connection
 						if ($conn->connect_error) {
@@ -175,13 +181,8 @@
 					
 					<!-- Veranstaltungen -->
 					<?php
-						$servername = "websql06.sprit.org";
-						$username = "hgoe";
-						$password = "hgvfz54RFG";
-						$dbname = "hgoe_17";
-
 						// Create connection
-						$conn = new mysqli($servername, $username, $password, $dbname);
+						$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 
 						// Check connection
 						if ($conn->connect_error) {
@@ -253,7 +254,7 @@
 			</div>
 			
 			<div>
-				HGÖ Konferenztool - <b>Version 0.1</b> (Pre-Release)
+				HGÖ Konferenztool - <b>Version 0.2</b> (Pre-Release)
 			</div>
 		</div>
 	</body>

@@ -1,3 +1,7 @@
+<?php
+$config = include('./admin/config.php');
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -21,20 +25,11 @@
 		$mitglied = (isset($_GET['bundesland'])) ? $_GET['bundesland'] : 'null';
 		$arbeit = $_GET['arbeit'];
 		
-		$testserver = false; // set this for testserver
-		$servername = "websql06.sprit.org";
-		$username = "hgoe";
-		$password = "hgvfz54RFG";
-		$dbname = "hgoe_17";
 		
-		if($testserver == true){
-			$servername = "db.marcputz.at";
-		}
-		
-		echo "console.log('Database Server: " . $servername . "');\n";
+		echo "console.log('Database Server: " . $config['db_host'] . "');\n";
 		
 		// Create connection
-		$conn = new mysqli($servername, $username, $password, $dbname);
+		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 
 		// Check connection
 		if ($conn->connect_error) {

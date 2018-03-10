@@ -1,3 +1,13 @@
+<?php
+session_start();
+$config = include('./config.php');
+
+if(!isset($_SESSION['user'])) {
+	header("location: login.php");
+	exit();
+}
+?>
+
 <html>
 <body>
 <script>
@@ -6,16 +16,8 @@
 	if(isset($_GET["id"]))  {
 		$id = $_GET["id"];	
 
-		$testserver = true; //set this for testserver
-		$servername = "websql06.sprit.org";
-		$username = "hgoe";
-		$password = "hgvfz54RFG";
-		$dbname = "hgoe_17";
-		if($testserver==true){
-			$servername = "db.marcputz.at";
-		}
 		// Create connection
-		$conn = mysqli_connect($servername, $username, $password, $dbname);
+		$conn = mysqli_connect($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 
 		// Check connection
 		if (!$conn) {
@@ -69,11 +71,19 @@
 			}
 				
 			//EXECUTES INSERT QUERY
-			mysqli_query($conn, $sql);
+			if(!mysqli_query($conn, $sql)) {
+				echo "console.log(\"Error beim Löschen: " . mysqli_error($conn) . "\");";
+			} else {
+				echo "console.log('In History Tabelle eingefügt.');";
+			}
 			
 			$sql = "DELETE FROM hgoe_konferenzen WHERE KonferenzID = " . $id . ";";
 			//EXECUTES DELETE QUERY
-			mysqli_query($conn, $sql);
+			if(!mysqli_query($conn, $sql)) {
+				echo "console.log(\"Error beim Löschen: " . mysqli_error($conn) . "\");";
+			} else {
+				echo "console.log('Aus Veranstaltungs-Tabelle gelöscht');";
+			}
 
 			echo "alert('Veranstaltung abgesagt!');";
 			echo "window.location = 'start.php';";
@@ -83,7 +93,6 @@
 		}
 
 		mysqli_close($conn);
-		
 	} else {
 		echo "alert('Kann leere Veranstaltung nicht absagen!');";
 		echo "window.location = 'detail.php'";

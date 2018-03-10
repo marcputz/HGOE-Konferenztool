@@ -1,15 +1,15 @@
 <?php
+session_start();
+$config = include('./config.php');
+
+if(!isset($_SESSION['user'])) {
+	header("location: login.php");
+	exit();
+}
+
 if(isset($_GET["nr"]) && isset($_GET["anwesend"])) {
-	$testserver = true;
-	$servername = "websql06.sprit.org";
-	$username = "hgoe";
-	$password = "hgvfz54RFG";
-	$dbname = "hgoe_17";
-	if($testserver==true){
-		$servername = "db.marcputz.at";
-	}
 	// Create connection
-	$conn = mysqli_connect($servername, $username, $password, $dbname);
+	$conn = mysqli_connect($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 
 	// Check connection
 	if (!$conn) {

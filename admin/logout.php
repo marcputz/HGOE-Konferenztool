@@ -28,7 +28,7 @@
 
 	<body style="font-family: Open Sans, Arial, sans-serif;">
 		<div class="container" style="max-width: 600px;">
-			<div class="panel panel-hgoe text-center">
+			<div class="panel panel-hgoe text-center" style="margin-top: 25px;">
 				<div class="panel-heading" style="font-family: Armata, Times New Roman, serif;">
 					HGÖ - Logout
 				</div>
