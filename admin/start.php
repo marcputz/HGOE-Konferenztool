@@ -53,7 +53,7 @@
 					Willkommen!</h1>
 				</div>
 				<div class="col-sm-6 text-right hidden-xs" style="height: 70px;">
-					<a class="btn-hgoe btn" style="color: white; margin-top:15px; width: 225px;" href="./erstellen.html">Neue Veranstaltung erstellen</a>
+					<a class="btn-hgoe btn" style="color: white; margin-top:15px; width: 225px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
 					<a class="btn btn-hgoe-red" style="margin-top: 15px; margin-left: 20px;" href="./logout.php">Ausloggen</a>
 				</div>
 				
@@ -63,7 +63,7 @@
 					Willkommen!</h1>
 				</div>
 				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="height: 50px;">
-					<a class="btn-hgoe btn" style="color: white; width: 300px;" href="./erstellen.html">Neue Veranstaltung erstellen</a>
+					<a class="btn-hgoe btn" style="color: white; width: 300px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
 				</div>
 			</div>
 			

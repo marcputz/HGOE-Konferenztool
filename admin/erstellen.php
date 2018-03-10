@@ -1,3 +1,14 @@
+<!-- prüft ob der User eingeloggt ist -->
+<?php
+	session_start();
+	$config = include('./config.php');
+
+	if(!isset($_SESSION['user'])) {
+		header("location: login.php");
+		exit();
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,185 +16,143 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HGÖ - Veranstaltung erstellen</title>
     
-    <!-- Bootstrap -->
-	<link href="assets/css/bootstrap.css" rel="stylesheet">
+	<!-- Bootstrap & jQuery -->
+	<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/css/hgoe.css" type="text/css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="./assets/jquery.min.js"></script>
 	
 	<!-- Custom Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
 
 	<style>
-		.hgoe-row {
-			padding-bottom: 10px;
+		.row {
+			padding-bottom: 15px;
 		}
 	</style>
 		
   </head>
-  <body>
-  <div class="container">
-  <br><br><br><br>
-  <div class="row">
-  <div class="col-xs-offset-2 col-xs-12">
-  	<div class="panel panel-hgoe text-center">
-  	  <div class="panel-heading">
-  	    <h3 class="panel-title">Veranstaltung Erstellen</h3>
-      </div>
-  	  <div class="panel-body">
-  	  <div class = "table-condensed text-left">
-		<div class="row hgoe-row">
-			<div class="col-xs-4">
-				<p>Name</p>
+<body>
+	<div class="container">
+		<div class="panel panel-hgoe text-center" style="margin-top: 15px;">
+			<div class="panel-heading">
+				<h3 class="panel-title">Veranstaltung Erstellen</h3>
 			</div>
-			<div class="col-xs-8">
-				<input type="text" id="ve_name" style="width:100%">
+			<div class="panel-body">
+				<div class = "table-condensed text-left">
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Name</p>
+						</div>
+						<div class="col-xs-8">
+							<input type="text" id="nameTF" style="width:100%">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Datum</p>
+						</div>
+						<div class="col-xs-8">
+							<input type="date" id ="datumTF">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Beginn Anmeldefrist</p>
+						</div>
+						<div class="col-xs-8">
+							<input type="datetime-local" id ="beginnAnmeldefristTF">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Ende Anmeldefrist</p>
+						</div>
+						<div class="col-xs-8">
+							<input type="datetime-local" id ="endeAnmeldefristTF">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Stornierbar</p>
+						</div>
+						<div class="col-xs-8">
+							<label class="radio-inline">
+								<input type="radio" name="optradio" id = "ve_opt_ja" onClick="setVisible()">Ja
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name = "optradio" id = "ve_opt_nein" checked onClick="setVisible()">Nein
+							</label>
+						</div>
+					</div>
+					<div class="row" style="display: none" id = "ve_stor">
+						<div class="col-xs-4">
+							<p>Ende Stornierungsfrist</p>
+						</div>
+						<div class="col-xs-8">
+							<input type="date" id ="stornierungsfristTF">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>max. Anmeldungen</p>
+						</div>
+						<div class="col-xs-8">
+							<input type = "number" id="maxAnmeldungenTF">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Gebühren (Mitglieder)</p>
+						</div>
+						<div class="col-xs-8">
+							<input type = "number" id="gebuehren_mitgliederTF"> <b style="color: white;">€</b>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<p>Gebühren (Nicht-Mitglieder)</p>
+						</div>
+						<div class="col-xs-8">
+							<input type = "number" id="gebuehren_nichtmitgliederTF"> <b style="color: white;">€</b>
+						</div>
+					</div>
+				</div>
+				<br><br>
+				<button id="ve_btn" class="btn btn-hgoe" onclick="executeCreateScript()" style="width: 180px;">Erstellen</button>
 			</div>
 		</div>
-		<br>
- 		<div class="row hgoe-row">
-			<div class="col-xs-4">
-				<p>Datum</p>
-			</div>
-			<div class="col-xs-8">
-				<input type="date" id ="ve_date">
-			</div>
-		</div>
-		<br>
-		<div class="row hgoe-row">
-			<div class="col-xs-4">
-				<p>Beginn Anmeldefrist</p>
-			</div>
-			<div class="col-xs-8">
-				<input type="date" id ="ve_frist_start">
-			</div>
-		</div>
-		<div class="row hgoe-row">
-			<div class="col-xs-4">
-				<p>Ende Anmeldefrist</p>
-			</div>
-			<div class="col-xs-8">
-				<input type="date" id ="ve_frist_end">
-			</div>
-		</div>
-		<br>
-		<div class="row hgoe-row">
-			<div class="col-xs-4">
-				<p>Stornierbar</p>
-			</div>
-			<div class="col-xs-8">
-				<label class="radio-inline">
-    				<input type="radio" name="optradio" id = "ve_opt_ja" onClick="setVisible()">Ja
-    			</label>
-   				<label class="radio-inline">
-    				<input type="radio" name = "optradio" id = "ve_opt_nein" checked onClick="setVisible()">Nein
-   				</label>
-			</div>
-		</div>
-		<div class="row hgoe-row" style="display: none" id = "ve_stor">
-			<div class="col-xs-4">
-				<p>Ende Stornierungsfrist</p>
-			</div>
-			<div class="col-xs-8">
-				<input type="date" id ="ve_stor_date">
-			</div>
-		</div>
-		<!--<br id="br1" style="visibility: hidden">-->
-		<!--<div id = "br1" style="display: none">
-			<br>
-		</div>-->
-		<br>
-		<div class="row hgoe-row">
-			<div class="col-xs-4">
-				<p>max. Anmeldungen</p>
-			</div>
-			<div class="col-xs-8">
-				<input type = "number" id="ve_maxanm">
-			</div>
-		</div>
-		</div>
- 			
-		<?php
-		  	$testserver = true;
-			$servername = "websql06.sprit.org";
-			$username = "hgoe";
-			$password = "hgvfz54RFG";
-		  	$dbname = "hgoe_17";
-		  	if($testserver == true){
-				$servername = "db.marcputz.at";
-			}
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $dbname);
+	</div>
 
-			// Check connection
-			if ($conn->connect_error) {
-				die("Connection failed: " . $conn->connect_error);
-			} 
+  <script type="text/javascript">	  
+	function executeCreateScript() {
+		var name = document.getElementById("nameTF").value;
+		var datum = document.getElementById("datumTF").value;
+		var beginnAnmeldefrist = document.getElementById("beginnAnmeldefristTF").value;
+		var endeAnmeldefrist = document.getElementById("endeAnmeldefristTF").value;
+		var stornierungsfrist = document.getElementById("stornierungsfristTF").value;
+		var maxAnmeldungen = document.getElementById("maxAnmeldungenTF").value;
+		var gebuehren_mitglieder = document.getElementById("gebuehren_mitgliederTF").value;
+		var gebuehren_nichtmitglieder = document.getElementById("gebuehren_nichtmitgliederTF").value;
+		
+		if(name.length > 0 && datum.length > 0 && beginnAnmeldefrist.length > 0 && endeAnmeldefrist.length > 0 && gebuehren_mitglieder.length > 0 && gebuehren_nichtmitglieder.length > 0) {
+			var url = 'script_veranstaltung_erstellen.php?name=' + name + '&datum=' + datum + "&beginnFrist=" + beginnAnmeldefrist + "&endeFrist=" + endeAnmeldefrist + "&geb-mitglieder=" + gebuehren_mitglieder + "&geb-nichtmitglieder=" + gebuehren_nichtmitglieder;
 			
-		  	$sql = "INSERT INTO hgoe_konferenzen (Name, datum, beginnanmeldefrist, endeanmeldefrist)
-				VALUES ('Test', '2000-01-01', '2000-01-01 00:00:00', '2000-01-01 11:59:00')";
-		  	
-		  	if ($conn->query($sql) === TRUE) {
-				echo "New record created successfully";
-			} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
+			if(stornierungsfrist.length > 0) {
+				url = url + "&stornierungsfrist=" + stornierungsfrist;
 			}
-
-			$conn->close();
-		  ?>
+			if(maxAnmeldungen.length > 0) {
+				url = url + "&maxAnmeldungen=" + maxAnmeldungen;
+			}
+			
+			window.location = url;
+		} else {
+			alert('Bitte geben Sie alle Pflichtfelder an!');	
+		}
+	}
 	  
-  			<!--<tbody>
-
-    			<tr>
-   				  <td>Datum<br><br></td>
-      			  <td><input type="date" id ="ve_date"><br><br></td>
-    			</tr>
-    			<tr>
-   				  <td>Beginn Anmeldefrist</td>
-      			  <td><input type="date" id ="ve_frist_start"></td>
-    			</tr>
-    			<tr>
-   				  <td>Ende Anmeldefrist<br><br></td>
-      			  <td><input type="date" id ="ve_frist_end"><br><br></td>
-    			</tr>
-    			<tr>
-    				<td>Stornierbar</td>
-   				  <td>
-    					<label class="radio-inline">
-    						<input type="radio" name="optradio" id = "ve_opt_ja" onClick="setVisible()">Ja
-    					</label>
-   					<label class="radio-inline">
-    						<input type="radio" name = "optradio" id = "ve_opt_nein" checked onClick="setVisible()">Nein
-   					  </label>
-   					  <!-- <input type="checkbox" onClick="setVisible()" id="test" name="test"> -->
-    				<!--</td>
-    			</tr>
-    			<tr style="display: none" id = "ve_stor">
-    				<td>Ende Stornierungsfrist</td>
-      			  	<td><input type="date" id ="ve_stor_date"></td>
-    			</tr>
-    			<tr>
-    				<td><br><br>max. Anmeldungen</td>
-    				<td><br><br><input type = "number" id="ve_maxanm"></td>
-    			</tr>
-    			
-  			</tbody>
-</table> -->
-  	<br><br><br>
-	  <button id="ve_btn" class="btn btn-hgoe" style="width: 180px;" onClick="test()">Erstellen</button>
- 	  </div>
-  	  <!-- <div class="panel-footer" >
-		  <a class="text-success" id="ve_footer"></a> </div>
-  	  </div> -->
-  	  </div>
-	  </div>
-	  </div>
-	  </div>
-
-  <script>
-	  
-	function doButton(){
+	function doButton() {
 		//var v = Document.getElementById("ve_footer");
 		Document.getElementById("ve_btn").class="btn btn-success";
 	}
@@ -210,11 +179,7 @@
 	  
   </script>
   
-  <script>
-		function test(){
-			alert("Veranstaltung erfolgreich erstellt!");
-		}
-  </script>
+  
   
   </body>
 </html>
