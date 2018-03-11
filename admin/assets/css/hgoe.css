@@ -32,6 +32,20 @@ body {
 	border-color: #B40002;
 }
 
+.btn-hgoe-grey {
+	box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+	color: black;
+	background-color: #BDBDBD; 
+	border-color: #858585;
+	font-weight: bold;
+	border-style: solid;
+	border-width: 1px;
+}
+.btn-hgoe-grey:hover {
+	background-color: #858585;
+	color: black;
+}
+
 .panel-hgoe {
 	background-color: #7EAED5;
 }

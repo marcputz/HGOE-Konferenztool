@@ -1,8 +1,9 @@
-<!-- prüft ob der User eingeloggt ist -->
 <?php
-	session_start();
 	$config = include('./config.php');
 
+	//Für Testzwecke ggf. auskommentieren
+	session_start();
+	
 	if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
@@ -55,6 +56,12 @@
 				<div class="col-sm-6 text-right hidden-xs" style="height: 70px;">
 					<a class="btn-hgoe btn" style="color: white; margin-top:15px; width: 225px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
 					<a class="btn btn-hgoe-red" style="margin-top: 15px; margin-left: 20px;" href="./logout.php">Ausloggen</a>
+					<a class="btn btn-hgoe-grey" style="margin-top: 15px; margin-left: 20px;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"></a>
+					<script>
+						function settingsPlaceholder() {
+							alert('Dieser Button ist leider noch in Entwicklung.');
+						}
+					</script>
 				</div>
 				
 				<!-- kleine Bildschirmgrößen -->
