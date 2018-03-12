@@ -32,6 +32,7 @@
 		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./assets/css/hgoe.css" type="text/css">
 		<script src="./assets/jquery.min.js"></script>
+		<script src="./assets/bootstrap.min.js"></script>
 		
 		<!-- Custom Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -154,7 +155,7 @@
 	<nav class="navbar navbar-default navbar-hgoe navbar-static-top hidden-sm hidden-md hidden-lg">
 	  <div class="container-fluid">
 		<div class="navbar-header">
-		  <button type="button" id="navbar-btn" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		  <button type="button" id="navbar-btn" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
 			<span class="sr-only">Navigation</span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -162,7 +163,7 @@
 		  </button>
 			  <a class="navbar-brand" href="./start.php"><img style="height:40px;" src="assets/img/hgoe_logo_breitbild.png"></a>
 		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<div class="collapse navbar-collapse" id="navbar-collapse">
 		  <ul id="navbar-list" class="nav navbar-nav">
 			<li><a id="navbar-teilnehmer-btn">Teilnehmer</a></li>
 			<li><a href="#">Auswertung</a></li>
