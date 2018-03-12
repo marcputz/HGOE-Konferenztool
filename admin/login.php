@@ -18,12 +18,14 @@ if(isset($_GET['login'])) {
 		//user found
 		while($row = $result->fetch_assoc()) {
 			$username = $row['username'];
+			$administrator = $row['administrator'];
 			
 			//check password
 			$passwordHash = $row['password'];
 			if($passwordHash == hash('sha256', $passwordEntered)) {
 				//password correct
 				$_SESSION['user'] = $username;
+				$_SESSION['admin'] = $administrator;
         		die('<script> window.location = "start.php"; </script>');
 			} else {
 				$errorMessage = "Das Passwort ist nicht korrekt!";
