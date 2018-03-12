@@ -1,21 +1,39 @@
 <?php 
 session_start();
+$config = include('./config.php');
 
-$username = 'admin';
-$password = 'admin';
+echo "<script> console.log('" . $password . "'); </script>";
  
 if(isset($_GET['login'])) {
+	$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	
     $usernameEntered = (isset($_POST['username'])) ? $_POST['username'] : 'empty';
     $passwordEntered = (isset($_POST['password'])) ? $_POST['password'] : 'empty';
-        
-    //Überprüfung des Passworts
-    if ($usernameEntered == $username && $passwordEntered == $password) {
-        $_SESSION['user'] = $username;
-        die('<script> window.location = "start.php"; </script>');
-    } else {
-        $errorMessage = "Nutzername oder Passwort war ungültig<br><br>";
-    }
-    
+	
+	$sql = "SELECT * FROM hgoe_17.hgoe_user WHERE username like '" . $usernameEntered . "'";
+	$result = $conn->query($sql);
+	
+	if ($result->num_rows > 0) {
+		//user found
+		while($row = $result->fetch_assoc()) {
+			$username = $row['username'];
+			
+			//check password
+			$passwordHash = $row['password'];
+			if($passwordHash == hash('sha256', $passwordEntered)) {
+				//password correct
+				$_SESSION['user'] = $username;
+        		die('<script> window.location = "start.php"; </script>');
+			} else {
+				$errorMessage = "Das Passwort ist nicht korrekt!";
+			}
+		}
+	} else {
+		$errorMessage = "Dieser Benutzer existiert nicht!";
+	}
 }
 ?>
 
@@ -62,7 +80,7 @@ if(isset($_GET['login'])) {
 							if(isset($errorMessage)) {
 								echo "<br><br>";
 								echo "<div style='margin-bottom: 0px; color: red;'>";
-								echo $errorMessage;
+								echo $errorMessage . "<br><br>";
 								echo "</div>";
 							}
 						?>
