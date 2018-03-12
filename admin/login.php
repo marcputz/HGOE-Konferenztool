@@ -10,6 +10,7 @@ if(isset($_GET['login'])) {
 	
     $usernameEntered = (isset($_POST['username'])) ? $_POST['username'] : 'empty';
     $passwordEntered = (isset($_POST['password'])) ? $_POST['password'] : 'empty';
+	echo "<script> console.log('MD5-Hash of entered password: " . hash('sha256', $passwordEntered) . "'); </script>";
 	
 	$sql = "SELECT * FROM hgoe_17.hgoe_user WHERE username like '" . $usernameEntered . "'";
 	$result = $conn->query($sql);
