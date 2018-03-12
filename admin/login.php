@@ -1,8 +1,6 @@
 <?php 
 session_start();
 $config = include('./config.php');
-
-echo "<script> console.log('" . $password . "'); </script>";
  
 if(isset($_GET['login'])) {
 	$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
