@@ -67,9 +67,10 @@
 				</div>
 				
 				<!-- kleine Bildschirmgrößen -->
-				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl">
-					<h1><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: -10px;"> &nbsp;
+				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="margin-bottom: 10px; margin-top: 5px;">
+					<h1 style="margin-top: -5px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 10px;"> &nbsp;
 					Willkommen!</h1>
+					<p style="margin-left: 80px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
 				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="height: 50px;">
 					<a class="btn-hgoe btn" style="color: white; width: 300px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
@@ -262,8 +263,14 @@
 				</div>
 			</div>
 			
-			<div class="container-fluid text-center">
-				<p>HGÖ Konferenztool - <b>Version 0.2</b> (Pre-Release)</p>
+			<div class="container-fluid text-center hidden-sm hidden-md hidden-lg" style="margin-bottom: 15px;">
+				<a class="btn btn-hgoe-red" href="./logout.php" style="width: 180px;">Ausloggen</a>
+				<br>
+				<a class="btn btn-hgoe-grey" style="margin-top: 17px; width: 180px;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
+			</div>
+			
+			<div class="container-fluid text-center" style="margin-bottom: 20px;">
+				<p>© HGÖ Konferenztool - <b>Version 0.2</b> (Pre-Release)</p>
 				<a href="../hilfe.php" style="font-size: 18px; color: black;"><img src="./assets/img/help_icon.svg" style="height: 22px; margin-top: -3px; margin-right: 3px;">Hilfe</a>
 			</div>
 		</div>
