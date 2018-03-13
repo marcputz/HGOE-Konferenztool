@@ -1,9 +1,8 @@
 <?php
 	$config = include('./config.php');
+	session_start();
 
 	//Für Testzwecke ggf. auskommentieren
-	session_start();
-	
 	if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
@@ -49,17 +48,20 @@
 			<div class="container-fluid row" style="padding-bottom: 5px;">
 			
 				<!-- normale Bildschirmgrößen -->
-				<div class="col-sm-6 text-left hidden-xs" style="height: 70px;">
-					<h1><img src="assets/img/hgoe_logo.png" style="height: 65px; margin-top: -16px;">&nbsp;
-					Willkommen!</h1>
+				<div class="col-sm-5 text-left hidden-xs" style="height: 70px;">
+					<h2 style="margin-top: -4px;"><img src="assets/img/hgoe_logo.png" style="height: 65px; margin-top: 8px;">&nbsp;
+					Willkommen!</h2>
+					<p style="margin-left: 65px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
-				<div class="col-sm-6 text-right hidden-xs" style="height: 70px;">
-					<a class="btn-hgoe btn" style="color: white; margin-top:15px; width: 225px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
+				<div class="col-sm-7 text-right hidden-xs" style="height: 70px;">
+					<a class="btn-hgoe btn" style="color: white; margin-top:15px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
 					<a class="btn btn-hgoe-red" style="margin-top: 15px; margin-left: 20px;" href="./logout.php">Ausloggen</a>
 					<a class="btn btn-hgoe-grey" style="margin-top: 15px; margin-left: 20px;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"></a>
 					<script>
 						function settingsPlaceholder() {
-							alert('Dieser Button ist leider noch in Entwicklung.');
+							if(confirm('Dieses Feature ist noch in Entwicklung und sollte ausschließlich von den Entwicklern verwendet werden. Wollen Sie wirklich weiter?')) {
+								window.location = "./settings/settings.php";
+							}
 						}
 					</script>
 				</div>
@@ -260,8 +262,9 @@
 				</div>
 			</div>
 			
-			<div>
-				HGÖ Konferenztool - <b>Version 0.2</b> (Pre-Release)
+			<div class="container-fluid text-center">
+				<p>HGÖ Konferenztool - <b>Version 0.2</b> (Pre-Release)</p>
+				<a href="../hilfe.php" style="font-size: 18px; color: black;"><img src="./assets/img/help_icon.svg" style="height: 22px; margin-top: -3px; margin-right: 3px;">Hilfe</a>
 			</div>
 		</div>
 	</body>
