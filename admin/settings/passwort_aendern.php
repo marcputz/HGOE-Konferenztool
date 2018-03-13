@@ -2,14 +2,13 @@
 <?php
 	$config = include('../config.php');
 
-	//Für Testzwecke ggf. auskommentieren
 	session_start();
 	
+	//Für Testzwecke ggf. auskommentieren
 	if(!isset($_SESSION['user'])) {
 		header("location: ../login.php");
 		exit();
 	} else {
-		echo "console.log('" . $_SESSION['admin'] . " - " . $_SESSION['user'] . "');";
 		//check privileges
 		if($_SESSION['admin'] == 0 && $_SESSION['user'] != $_GET['user']) {
 			//neither an admin, nor the concerned user. password change not allowed

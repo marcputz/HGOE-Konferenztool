@@ -44,7 +44,11 @@
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-xs-6"><h4>Benutzerkonten</h4></div>
-								<div class="col-xs-6 text-right"><a class="btn btn-hgoe" href="./user_anlegen.php">Neuen Nutzer anlegen</a></div>
+								<div class="col-xs-6 text-right"><?php
+									if($_SESSION['admin'] == 1) {
+										echo "<a class='btn btn-hgoe' style='width: 100%; max-width: 150px;' href='./user_anlegen.php'>Neuer Nutzer</a>";
+									}
+								?></div>
 							</div>
 							<?php
 								$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
