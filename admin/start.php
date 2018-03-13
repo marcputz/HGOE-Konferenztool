@@ -39,7 +39,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
 		
-		<title>HGÖ - Konferenztool - Startseite</title>
+		<title>HGÖ - Startseite</title>
 	</head>
 
 	<body style="font-family: Open Sans, Arial, sans-serif;">

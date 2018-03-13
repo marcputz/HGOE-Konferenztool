@@ -41,13 +41,13 @@ if(isset($_GET['login'])) {
 <!DOCTYPE html> 
 <html> 
 	<head>
-		<title>Login</title>
+		<title>HGÖ - Login</title>
 		
 		<meta charset="UTF-8">
 		<meta name="author" content="Marc Putz">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
 		<meta name="robots" content="noindex,nofollow">
-		<meta name="revised" content="Marc Putz, 03/08/2017">
+		<meta name="revised" content="Marc Putz, 03/12/2017">
 		
 		<!-- Bootstrap & jQuery -->
 		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">

@@ -24,6 +24,8 @@
 		<!-- Custom Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
+		
+		<title>HGÖ - Logout</title>
 	</head>
 
 	<body style="font-family: Open Sans, Arial, sans-serif;">
