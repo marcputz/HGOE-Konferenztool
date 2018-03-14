@@ -30,7 +30,7 @@
 		
 		<!-- Bootstrap & jQuery -->
 		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="./assets/css/hgoe.css" type="text/css">
+		<link rel="stylesheet" href="assets/css/hgoe.php" type="text/css">
 		<script src="./assets/jquery.min.js"></script>
 		<script src="./assets/bootstrap.min.js"></script>
 		
@@ -55,14 +55,14 @@
 			}
 			
 			.menuBarItem {
-				background-color: #7EAED5;
-				box-shadow: 2px 2px 4px rgba(47,102,146,0.80);
+				background-color: <?php echo $config['color_secondary']; ?>;
+				box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 				color: black;
 				margin-bottom: 10px;
 				margin-top: 10px;
 			}
 			.menuBarItem:hover {
-				background-color: #4F90C5;
+				filter: brightness(90%);
 			}
 			
 			#navbar-btn {

@@ -1,20 +1,25 @@
+<?php 
+	header("Content-type: text/css"); 
+
+	$config = include("../../config.php");
+?>
+
 body {
-	background-color: #B8DBFF;
+	background-color: <?php echo $config['color_background']; ?>;
 }
 
 .btn-hgoe {
 	box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
 	color: white;
-	background-color: #1C8BFF;
+	background-color: <?php echo $config['color_button']; ?>;
 	font-weight: bold;
 	border-style: solid;
 	border-width: 1px;
-	border-color: #0075F1;
+	border-color: <?php echo $config['color_primary']; ?>;
 }
 .btn-hgoe:hover {
-	background-color: #006ADA;
+	filter: brightness(80%);
 	color: white;
-	border-color: #004EA2;
 }
 
 .btn-hgoe-red {
@@ -29,7 +34,6 @@ body {
 .btn-hgoe-red:hover {
 	background-color: #B40002;
 	color: white;
-	border-color: #B40002;
 }
 
 .btn-hgoe-grey {
@@ -47,11 +51,11 @@ body {
 }
 
 .panel-hgoe {
-	background-color: #7EAED5;
+	background-color: <?php echo $config['color_secondary']; ?>;
 }
 .panel-hgoe>.panel-heading {
 	color:#fff;
-	background-color: #0F6DBB;
+	background-color: <?php echo $config['color_primary']; ?>;
 	border-color: #000000;
 }
 .panel-hgoe>.panel-heading+.panel-collapse .panel-body {
@@ -76,7 +80,7 @@ body {
 }
 
 .row-hgoe:active {
-	background-color: #191F6D;
+	background-color: <?php echo $config['color_selected']; ?>;
 	color: white;
 }
 
@@ -93,14 +97,14 @@ body {
 /* NAVBAR */
 
 .navbar-hgoe {
-	background-color: #96CAFF;
+	background-color: <?php echo $config['color_secondary']; ?>;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-color: black;
-	box-shadow: 0px 0px 5px #000;
+	box-shadow: 0px 0px 5px rgba(0,0,0, 0.8);
 }
 .navbar-hgoe .navbar-header .navbar-toggle {
-	background-color: #2D78C3;
+	background-color: <?php echo $config['color_primary']; ?>;
 }
 .navbar-hgoe .navbar-header .navbar-toggle .icon-bar {
 	background-color: white;

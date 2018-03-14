@@ -11,7 +11,7 @@ $config = include('./admin/config.php');
     <title>Anmeldung Erfolgreich</title>
     <!-- Bootstrap -->
 	<link href="admin/assets/css/bootstrap.min.css" rel="stylesheet">
-	<link href="admin/assets/css/hgoe.css" rel="stylesheet">
+	<link href="admin/assets/css/hgoe.php" rel="stylesheet">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		

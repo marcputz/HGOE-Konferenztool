@@ -18,7 +18,7 @@
 		
 		<!-- Bootstrap & jQuery -->
 		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="./assets/css/hgoe.css" type="text/css">
+		<link rel="stylesheet" href="assets/css/hgoe.php" type="text/css">
 		<script src="./assets/jquery.min.js"></script>
 		
 		<!-- Custom Fonts -->

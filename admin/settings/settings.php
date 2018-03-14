@@ -11,12 +11,52 @@
 
 	if(isset($_GET['save'])) {
 		//save to $config
-		$config['db_host'] = $_POST['dbHostTF'];
-		$config['db_user'] = $_POST['dbUserTF'];
-		$config['db_password'] = $_POST['dbPassTF'];
-		$config['db_schema'] = $_POST['dbSchemaTF'];
+		
+		if(isset($_GET['color'])) {
+			if($_GET['color'] == 'blue') {
+				$config['color_secondary'] = '#7EAED5';
+				$config['color_primary'] = '#0F6DBB';
+				$config['color_background'] = '#B8DBFF';
+				$config['color_selected'] = '#191F6D';
+				$config['color_button'] = '#1C8BFF';
+			}
+			if($_GET['color'] == 'green') {
+				$config['color_secondary'] = '#7CCE7B';
+				$config['color_primary'] = '#18830E';
+				$config['color_background'] = '#D7F8DA';
+				$config['color_selected'] = '#196D38';
+				$config['color_button'] = '#14B312';
+			}
+			if($_GET['color'] == 'yellow') {
+				$config['color_secondary'] = '#D5D676';
+				$config['color_primary'] = '#B0AF1B';
+				$config['color_background'] = '#FDFBC8';
+				$config['color_selected'] = '#5E610F';
+				$config['color_button'] = '#C5C20B';
+			}
+			if($_GET['color'] == 'orange') {
+				$config['color_secondary'] = '#D3B471';
+				$config['color_primary'] = '#A97109';
+				$config['color_background'] = '#FDE4C8';
+				$config['color_selected'] = '#61480E';
+				$config['color_button'] = '#C2840D';
+			}
+		}
+		
+		if(isset($_GET['database'])) {
+			$config['db_host'] = $_POST['dbHostTF'];
+			$config['db_user'] = $_POST['dbUserTF'];
+			$config['db_password'] = $_POST['dbPassTF'];
+			$config['db_schema'] = $_POST['dbSchemaTF'];
+		}
 		
 		file_put_contents('../config.php', "<?php return " . substr(var_export($config, true), 0, strlen(var_export($config, true)) - 3) . "); ?>");
+		
+		if(isset($_GET['database'])) {
+			//user database changed, so logout
+			header('location: ../logout.php');
+			exit;
+		}
 	}
 ?>
 </script>
@@ -33,7 +73,7 @@
 		
 		<!-- Bootstrap & jQuery -->
 		<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="../assets/css/hgoe.css" type="text/css">
+		<link rel="stylesheet" href="../assets/css/hgoe.php" type="text/css">
 		<script src="../assets/jquery.min.js"></script>
 		
 		<!-- Custom Fonts -->
@@ -45,6 +85,18 @@
 		<style>
 			.row {
 				margin-bottom: 8px;
+			}
+			
+			.square {
+				width: 60px;
+				height: 60px;
+				
+				border-style: solid;
+				border-color: black;
+				border-width: 2px;
+				display: inline-block;
+				line-height: 55px;
+				margin: 5px;
 			}
 		</style>
 	</head>
@@ -115,6 +167,35 @@
 								//keine Benutzer --> FATAL ERROR --> Anmeldung nicht mehr möglich
 							}
 						?>
+						
+						<br><br>
+						<div class="row">
+							<div class="col-xs-12"><h4>Farbwahl</h4></div>
+						</div>
+						<div class="row">
+							<form>
+								<div class="col-xs-12 text-center" style='inline'>
+									<div class="square" id="colorBlue" style='background-color: #1324DE; color: white;'>Blau</div>
+									<div class="square" id="colorGreen" style='background-color: #069100; color: white;'>Grün</div>
+									<div class="square" id="colorYellow" style='background-color: #D5EA09;'>Gelb</div>
+									<div class="square" id="colorOrange" style='background-color: #EA9E08;'>Orange</div>
+								</div>
+								<script>
+									$("#colorBlue").click( function() {
+										window.location = './settings.php?save=1&color=blue';
+									});
+									$("#colorGreen").click( function() {
+										window.location = './settings.php?save=1&color=green';
+									});
+									$("#colorYellow").click( function() {
+										window.location = './settings.php?save=1&color=yellow';
+									});
+									$("#colorOrange").click( function() {
+										window.location = './settings.php?save=1&color=orange';
+									});
+								</script>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -132,9 +213,9 @@
 					});
 				</script>
 				<div class="panel-body" id="advancedSettingsPanel">
-					<form action="?save=1" method="post">
-						<div class="container-fluid" style="margin: 5px;">
-							<div class="row"><div class="col-xs-12"><h4>Datenbank</h4></div></div>
+					<div class="container-fluid" style="margin: 5px;">
+						<div class="row"><div class="col-xs-12"><h4>Datenbank</h4></div></div>
+						<form action="?save=1&database=1" method="post">
 							<div class="row">
 								<div class="col-xs-4 text-right">Server: </div>
 								<div class="col-xs-8 text-left"><input type="text" name="dbHostTF" style="width: 90%" value='<?php echo $config['db_host']; ?>'></div>
@@ -154,8 +235,8 @@
 							<div class="row">
 								<div class="col-xs-12"><button class="btn btn-hgoe" type="submit" style="margin-top: 5px; width: 150px;">Speichern</button></div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

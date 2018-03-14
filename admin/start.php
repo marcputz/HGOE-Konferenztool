@@ -32,7 +32,7 @@
 		
 		<!-- Bootstrap & jQuery -->
 		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="./assets/css/hgoe.css" type="text/css">
+		<link rel="stylesheet" href="assets/css/hgoe.php" type="text/css">
 		<script src="./assets/jquery.min.js"></script>
 		
 		<!-- Custom Fonts -->
@@ -87,7 +87,7 @@
 				</div>
 				<div id="panelAktuell" class="panel-body panel-collapse collapse in" style="font-size: 14px;">
 					<!-- Tabllen Überschrift -->
-					<div class="row-hgoe row" style="font-size: 17px; font-weight: bold; background-color: #3D83BC; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
+					<div class="row-hgoe row" style="font-size: 17px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
 						<div class="col-xs-8 col-sm-3" style="border-color: #CBD4FF">Veranstaltung</div>
 						<div class="col-xs-4 col-sm-3" style="border-color: #CBD4FF">Datum</div>
 						<div class="col-sm-3 hidden-xs" style="border-color: #CBD4FF">Anmeldefrist</div>
@@ -182,7 +182,7 @@
 				</div>
 				<div id="panelAelter" class="panel-body panel-collapse collapse in" style="font-size: 14px;">
 					<!-- Tabllen Überschrift -->
-					<div class="row-hgoe row" style="font-size: 17px; font-weight: bold; background-color: #3D83BC; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
+					<div class="row-hgoe row" style="font-size: 17px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
 						<div class="col-xs-8 col-sm-3" style="border-color: #CBD4FF">Veranstaltung</div>
 						<div class="col-xs-4 col-sm-3" style="border-color: #CBD4FF">Datum</div>
 						<div class="col-sm-3 hidden-xs" style="border-color: #CBD4FF">Anmeldefrist</div>
