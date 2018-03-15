@@ -3,10 +3,10 @@
 	session_start();
 
 	//Für Testzwecke ggf. auskommentieren
-	if(!isset($_SESSION['user'])) {
+	/*if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
-	}
+	}*/
 ?>
 
 <!doctype html>
@@ -68,8 +68,8 @@
 				
 				<!-- kleine Bildschirmgrößen -->
 				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="margin-bottom: 10px; margin-top: 5px;">
-					<h1 style="margin-top: -5px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 10px;"> &nbsp;
-					Willkommen!</h1>
+					<h2 style="margin-top: -5px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 10px;"> &nbsp;
+					Willkommen!</h2>
 					<p style="margin-left: 80px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
 				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="height: 50px;">
