@@ -36,7 +36,7 @@
 			}
 			if($_GET['color'] == 'orange') {
 				$config['color_secondary'] = '#D3B471';
-				$config['color_primary'] = '#BE7C02';
+				$config['color_primary'] = '#A97109';
 				$config['color_background'] = '#FDE4C8';
 				$config['color_selected'] = '#61480E';
 				$config['color_button'] = '#C2840D';
