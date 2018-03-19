@@ -3,10 +3,10 @@
 	session_start();
 
 	//Für Testzwecke ggf. auskommentieren
-	/*if(!isset($_SESSION['user'])) {
+	if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
-	}*/
+	}
 ?>
 
 <!doctype html>
@@ -60,9 +60,7 @@
 					<a class="btn btn-hgoe-grey" style="margin-top: 15px; margin-left: 20px;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"></a>
 					<script>
 						function settingsPlaceholder() {
-							if(confirm('Dieses Feature ist noch in Entwicklung und sollte ausschließlich von den Entwicklern verwendet werden. Wollen Sie wirklich weiter?')) {
-								window.location = "./settings/settings.php";
-							}
+							window.location = "./settings/settings.php";
 						}
 					</script>
 				</div>

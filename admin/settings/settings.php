@@ -204,7 +204,12 @@
 				</div>
 			</div>
 			
-			<div class="panel panel-hgoe" style='margin-top: 10px;'>
+			<div class="panel panel-hgoe <?php
+				//add the class 'hide' if user is not an admin
+				if($_SESSION['admin'] != 1) {
+					echo "hide";
+				}
+			?>" style='margin-top: 10px;'>
 				<div class="panel-heading" id="advancedSettingsPanelHeading">
 					<h3 class="panel-title" style="font-weight: bold;">Erweiterte Einstellungen</h3>
 				</div>
