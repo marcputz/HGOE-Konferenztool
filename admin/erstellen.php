@@ -98,7 +98,7 @@
 							<p>max. Anmeldungen</p>
 						</div>
 						<div class="col-xs-8">
-							<input type = "number" id="maxAnmeldungenTF">
+							<input type = "number" placeholder="(Optional)" id="maxAnmeldungenTF">
 						</div>
 					</div>
 					<br>

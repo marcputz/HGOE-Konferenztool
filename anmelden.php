@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114935320-1"></script>
-		<script>
-  	    	window.dataLayer = window.dataLayer || [];
-  			function gtag(){dataLayer.push(arguments);}
-  		    gtag('js', new Date());
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114935320-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
-  			gtag('config', 'UA-114935320-1');
-		</script>
+		gtag('config', 'UA-114935320-1');
+	</script>
+   
     <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,8 +18,8 @@
     <!-- Bootstrap -->
 	<link href="admin/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="admin/assets/css/hgoe.php" rel="stylesheet">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="./admin/assets/jquery.min.js" type="text/javascript"></script>
+	<script src="./admin/assets/bootstrap.min.js"></script>
 		
 	<!-- Custom Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -26,7 +27,7 @@
   </head>
   <body>
   <div class="container-fluid" style="font-family: Open Sans, Arial, sans-serif;">
-  <div class="container">
+  <div class="container" style="max-width: 700px;">
   <div class="panel panel-hgoe" style="margin-top: 15px;">
 	<div class="panel-heading text-center">
 	    <h3 class="panel-title" style="color: white; font-size: 25px; font-family: Armata, Arial, sans-serif;">Anmeldung</h3>
@@ -58,8 +59,10 @@
 							while($row = $result->fetch_assoc()) {
 								$id = $row["KonferenzID"];
 								$name = $row["Name"];
+								$gebuehrMitglied = $row['gebuehr_mitglied'];
+								$gebuehrNichtmitglied = $row['gebuehr_nichtmitglied'];
 								
-								echo "<option value='" . $id . "'>" . $name . "</option>";
+								echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "'>" . $name . "</option>";
 							}
 						} else {
 							echo "<option value='0'>Keine aktuellen Veranstaltungen</option>";
@@ -70,6 +73,7 @@
         		</select>
 	  		</div>
 		</div>
+		<br>
 		<div class="row text-center" style="margin: 8px;">
 			<p>Felder mit <b>"*"</b> sind Pflichtfelder und müssen ausgefüllt werden!</p>
 		</div>
@@ -169,8 +173,66 @@
 		</div>
 	  	
 	  	<br>
-
-  		<div class="container text-center">
+	  	<div class="row text-center" id="text" style='margin-left: 15px; margin-right: 15px;'>
+			<p>Mit dem Klick auf "Anmelden" aktzeptiere ich, die Teilnahmegebühren von <span>0</span> € an unten stehende Addresse schnellstmöglich zu überweisen:</p>
+			<p style='font-size: 16px'>
+				<b>IBAN:</b> <?php echo $config['iban']; ?><br>
+				<b>BIC:</b> <?php echo $config['bic']; ?><br>
+				<b>Betrag:</b> <span>0</span> €<br>
+				<b>Verwendungszweck:</b> Name + Veranstaltung<br>
+			</p>
+		</div>
+  	
+  		<script>
+			$(document).ready( function() {
+				updateGebuehren();
+			});
+			$("#veranstaltungCB").change( function() {
+				updateGebuehren();
+			});
+			document.getElementById('opt_mit').onclick = function () {
+				updateGebuehren();
+			};
+			document.getElementById('opt_and').onclick = function () {
+				updateGebuehren();
+			};
+			document.getElementById('opt_kein').onclick = function () {
+				updateGebuehren();
+			};
+			
+			function updateGebuehren() {
+				var selected = document.getElementById('veranstaltungCB').options[document.getElementById('veranstaltungCB').selectedIndex];
+				var gebMit = selected.getAttribute('data-gebMit');
+				var gebNichtMit = selected.getAttribute('data-gebNichtMit');
+				
+				if(document.querySelector('input[name="mitglied"]:checked').value == 2) { 
+					//ist KEIN mitglied
+					$("#text p span").text(gebNichtMit);
+					
+					if(gebNichtMit == 0.00) {
+						//es fallen keine gebühren an, text ausblenden
+						$("#text").hide();
+					} else {
+						//es fallen gebühren an, text einblenden
+						$("#text").show();
+					}
+				} else { 
+					//ist Mitglied
+					$("#text p span").text(gebMit);
+					
+					if(gebMit == 0.00) {
+						//es fallen keine gebühren an, text ausblenden
+						$("#text").hide();
+					} else {
+						//es fallen gebühren an, text einblenden
+						$("#text").show();
+					}
+				}
+			}
+		</script>
+	  	
+	  	<br>
+  		<div class="container-fluid text-center">
 	  		<button id="anmeldenBtn" class="btn btn-hgoe" type="submit" style="padding-left: 40px; padding-right: 40px;">Anmelden</button>
 		</div>
 	  </div>

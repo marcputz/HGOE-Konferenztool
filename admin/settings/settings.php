@@ -49,6 +49,10 @@
 			$config['db_password'] = $_POST['dbPassTF'];
 			$config['db_schema'] = $_POST['dbSchemaTF'];
 		}
+		if(isset($_GET['kontodaten'])) {
+			$config['iban'] = $_POST['ibanTF'];
+			$config['bic'] = $_POST['bicTF'];
+		}
 		
 		file_put_contents('../config.php', "<?php return " . substr(var_export($config, true), 0, strlen(var_export($config, true)) - 3) . "); ?>");
 		
@@ -202,7 +206,7 @@
 			
 			<div class="panel panel-hgoe" style='margin-top: 10px;'>
 				<div class="panel-heading" id="advancedSettingsPanelHeading">
-					<h3 class="panel-title" style="font-weight: bold;">Erweiterte Entwickler-Einstellungen</h3>
+					<h3 class="panel-title" style="font-weight: bold;">Erweiterte Einstellungen</h3>
 				</div>
 				<script>
 					$("#advancedSettingsPanelHeading").click( function() {
@@ -214,7 +218,35 @@
 				</script>
 				<div class="panel-body" id="advancedSettingsPanel">
 					<div class="container-fluid" style="margin: 5px;">
-						<div class="row"><div class="col-xs-12"><h4>Datenbank</h4></div></div>
+						<div class="row">
+							<div class="col-xs-12">
+								<h4>Kontodaten</h4>
+								<p>Diese Daten werden dem User bei der Anmeldung angezeigt</p>
+							</div>
+						</div>
+						<form action="?save=1&kontodaten=1" method="post">
+							<div class="row">
+								<div class="col-xs-4 text-right">IBAN: </div>
+								<div class="col-xs-8 text-left"><input type="text" name="ibanTF" style="width: 90%" value='<?php echo $config['iban']; ?>'></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-4 text-right">BIC: </div>
+								<div class="col-xs-8 text-left"><input type="text" name="bicTF" style="width: 90%" value='<?php echo $config['bic']; ?>'></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12"><button class="btn btn-hgoe" type="submit" style="margin-top: 5px; width: 150px;">Speichern</button></div>
+							</div>
+						</form>
+					</div>
+					
+					<br>
+					<div class="container-fluid" style="margin: 5px;">
+						<div class="row">
+							<div class="col-xs-12">
+								<h4>Datenbank</h4>
+								<p>Hier kann die Datenbank für den Fall einer Datenbank-Migration geändert werden. Diese Einstellung sollte NUR von einem Administrator vorgenommen werden</p>
+							</div>
+						</div>
 						<form action="?save=1&database=1" method="post">
 							<div class="row">
 								<div class="col-xs-4 text-right">Server: </div>

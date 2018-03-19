@@ -11,7 +11,7 @@ if(!isset($_SESSION['user'])) {
 <script>
 	<?php
 		if(isset($_GET['id'])) {
-			if(isset($_GET['name']) && isset($_GET['datum']) && isset($_GET['beginnFrist']) && isset($_GET['endeFrist'])) {
+			if(isset($_GET['name']) && isset($_GET['datum']) && isset($_GET['beginnFrist']) && isset($_GET['endeFrist']) && isset($_GET['gebNichtmitglieder']) && isset($_GET['gebMitglieder'])) {
 				$id = $_GET['id'];
 				$name = $_GET['name'];
 				$datum = $_GET['datum'];
@@ -19,6 +19,8 @@ if(!isset($_SESSION['user'])) {
 				$endeAnmeldefrist = $_GET['endeFrist'];
 				$stornierungsfrist = (isset($_GET['stornierungsfrist'])) ? $_GET['stornierungsfrist'] : 'null';
 				$maxAnmeldungen = (isset($_GET['maxAnmeldungen'])) ? $_GET['maxAnmeldungen'] : 'null';
+				$gebMitglieder = $_GET['gebMitglieder'];
+				$gebNichtmitglieder = $_GET['gebNichtmitglieder'];
 				
 				// Create connection
 				$conn = mysqli_connect($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
@@ -30,7 +32,7 @@ if(!isset($_SESSION['user'])) {
 				
 				$sql = "UPDATE hgoe_konferenzen SET Name = '" . 
 						$name . "', datum = '" . $datum . "', beginnanmeldefrist = '" . 
-						$beginnAnmeldefrist . "', endeanmeldefrist = '" . $endeAnmeldefrist . "'";
+						$beginnAnmeldefrist . "', endeanmeldefrist = '" . $endeAnmeldefrist . "', gebuehr_mitglied = '" . $gebMitglieder . "', gebuehr_nichtmitglied = '" . $gebNichtmitglieder . "'";
 						
 				if($stornierungsfrist != 'null') {
 					$sql .= ", stornierungsfrist = '" . $stornierungsfrist . "'";
