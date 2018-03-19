@@ -3,16 +3,16 @@
 	session_start();
 
 	//Für Testzwecke ggf. auskommentieren
-	/*if(!isset($_SESSION['user'])) {
+	if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
-	}*/
+	}
 ?>
 
 <!doctype html>
 <html>
 	<head>
-			<!-- Global site tag (gtag.js) - Google Analytics -->
+		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114935320-1"></script>
 		
 		<script>
@@ -34,6 +34,7 @@
 		<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/hgoe.php" type="text/css">
 		<script src="./assets/jquery.min.js"></script>
+		<script src="./assets/bootstrap.min.js"></script>
 		
 		<!-- Custom Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -270,7 +271,7 @@
 			</div>
 			
 			<div class="container-fluid text-center" style="margin-bottom: 20px;">
-				<p>© HGÖ Konferenztool - <b>Version 0.2</b> (Pre-Release)</p>
+				<p>© HGÖ Konferenztool - <b>Version 0.3</b> (Pre-Release)</p>
 				<a href="../hilfe.php" style="font-size: 18px; color: black;"><img src="./assets/img/help_icon.svg" style="height: 22px; margin-top: -3px; margin-right: 3px;">Hilfe</a>
 			</div>
 		</div>
