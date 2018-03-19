@@ -57,12 +57,7 @@
 				<div class="col-sm-7 text-right hidden-xs" style="height: 70px;">
 					<a class="btn-hgoe btn" style="color: white; margin-top:15px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
 					<a class="btn btn-hgoe-red" style="margin-top: 15px; margin-left: 20px;" href="./logout.php">Ausloggen</a>
-					<a class="btn btn-hgoe-grey" style="margin-top: 15px; margin-left: 20px;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"></a>
-					<script>
-						function settingsPlaceholder() {
-							window.location = "./settings/settings.php";
-						}
-					</script>
+					<a class="btn btn-hgoe-grey" style="margin-top: 15px; margin-left: 20px;" href="./settings/settings.php"><img src="assets/img/settings_icon.svg" style="height: 20px;"></a>
 				</div>
 				
 				<!-- kleine Bildschirmgrößen -->
