@@ -3,10 +3,10 @@
 	session_start();
 
 	//Für Testzwecke ggf. auskommentieren
-	if(!isset($_SESSION['user'])) {
+	/*if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
-	}
+	}*/
 ?>
 
 <!doctype html>
@@ -69,12 +69,12 @@
 				
 				<!-- kleine Bildschirmgrößen -->
 				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="margin-bottom: 10px; margin-top: 5px;">
-					<h2 style="margin-top: -5px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 10px;"> &nbsp;
-					Willkommen!</h2>
+					<h3 style="margin-top: -5px; font-size: 24px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 10px;"> &nbsp;
+					Willkommen!</h3>
 					<p style="margin-left: 80px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
-				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="height: 50px;">
-					<a class="btn-hgoe btn" style="color: white; width: 300px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
+				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="margin-bottom: 20px;">
+					<a class="btn-hgoe btn" style="color: white; max-width: 300px; width: 100%; word-wrap: break-word;" href="erstellen.php">Neue Veranstaltung erstellen</a>
 				</div>
 			</div>
 			
