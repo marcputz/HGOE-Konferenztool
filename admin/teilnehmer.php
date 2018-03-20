@@ -1325,7 +1325,7 @@
 
 		<!-- CONTENT -->
 		<div class="container">
-			<div class="row" style="display: -webkit-flex; flex-wrap: wrap;">
+			<div class="row" style="display: -webkit-flex; flex-wrap: wrap; margin-bottom: 50px;">
 
 				<!-- MENU BAR bei größeren Bildschirmen-->
 				<div class="hidden-xs col-md-3 col-sm-3 text-right" style="padding-bottom: 5px;">
