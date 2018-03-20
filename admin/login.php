@@ -70,7 +70,7 @@ if(isset($_GET['login'])) {
 					<form action="?login=1" method="post">
 						<div class="row">
 							<div class="col-xs-5 text-right"><b>Nutzername:</b></div>
-							<div class="col-xs-7 text-left"><input type="username" size="40" maxlength="250" name="username" style="width: 100%; max-width: 300px;"></div>
+							<div class="col-xs-7 text-left"><input type="text" size="40" maxlength="250" name="username" style="width: 100%; max-width: 300px;"></div>
 						</div>
 						<div class="row" style="margin-top: 10px;">
 							<div class="col-xs-5 text-right"><b>Passwort:</b></div>
