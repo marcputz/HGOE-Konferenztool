@@ -84,7 +84,7 @@
 				}
 				
 				$fullName = $vname . " " . $nname;
-				if(($filterName == '' || strpos("x".$fullName, $filterName) !== false) && ($filterAnwesend == false || $row['Anwesend'] == 1) && ($filterBezahlt == false || $row['Bezahlt'] == 1)) { 	
+				if(($filterName == '' || strpos(strtoupper("x".$fullName), strtoupper($filterName)) !== false) && ($filterAnwesend == false || $row['Anwesend'] == 1) && ($filterBezahlt == false || $row['Bezahlt'] == 1)) { 	
 					$ret .= "<div class='row'>";
 					$ret .= "<div class='row row-hgoe equal' style='background-color: white;'>";
 					$ret .= "	<div class='col-xs-2 col-sm-1 dropdown-btn' style='border-left-width: 0px;'><a data-toggle='collapse' data-target='#detail_" . $nr . "'>";
