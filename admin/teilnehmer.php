@@ -1,4 +1,3 @@
-<!-- prüft ob der User eingeloggt ist -->
 <?php
 	session_start();
 	$config = include('./config.php');
@@ -11,27 +10,27 @@
 	if(isset($_GET['vid'])) {
 		if(isset($_GET['alle'])) {
 			//get all
-			echo getTeilnehmer();
+			echo getTeilnehmer('', false, false);
 			exit;
 		}
 		if(isset($_GET['filterName'])) {
 			//search by name
-			echo getTeilnehmerByName($_GET['filterName']);
+			echo getTeilnehmer($_GET['filterName'], false, false);
 			exit;
 		}
 		if(isset($_GET['filterAnwesend'])) {
 			//search all anwesend
-			echo getTeilnehmerAnwesend();
+			echo getTeilnehmer('', false, true);
 			exit;
 		}
 		if(isset($_GET['filterBezahlt'])) {
 			//search all bezahlt
-			echo getTeilnehmerBezahlt();
+			echo getTeilnehmer('', true, false);
 			exit;
 		}
 	}
 
-	function getTeilnehmerAnwesend() {
+	function getTeilnehmer($filterName, $filterBezahlt, $filterAnwesend) {
 		$config = include('./config.php');
 		
 		$ret = "";
@@ -68,593 +67,6 @@
 				$ort = $row["Ort"];
 				$plz = $row["PLZ"];
 				$email = $row["eMail"];
-				
-				if(!(is_null($row["Mitglied"]))) {
-					$mitglied = $row["Mitglied"];
-				}
-				if(!(is_null($row["Titel"]))) {
-					$titel = $row["Titel"];
-				}
-				if(!(is_null($row["Geburtsdatum"]))) {
-					$gebdat = $row["Geburtsdatum"];
-				}
-				if(!(is_null($row["Strasse"]))) {
-					$strasse = $row["Strasse"];
-				}
-				if(!(is_null($row["Hausnr"]))) {
-					$hausnr = $row["Hausnr"];
-				}
-				
-				if($row['Anwesend'] != 1) {
-					//ist nicht anwesend, skip
-				} else {
-					//ist anwesend, anzeigen
-					$ret .= "<div class='row'>";
-					$ret .= "<div class='row row-hgoe equal' style='background-color: white;'>";
-					$ret .= "	<div class='col-xs-2 col-sm-1 dropdown-btn' style='border-left-width: 0px;'><a data-toggle='collapse' data-target='#detail_" . $nr . "'>";
-					$ret .= "		<img id='arrow_up_" . $nr . "' src='assets/img/arrow_drop_up.svg' style='width: 30px; margin: -10px; margin-left: -5px;'>";
-					$ret .= "		<img id='arrow_down_" . $nr . "' src='assets/img/arrow_drop_down.svg' style='width: 30px; margin: -10px; margin-left: -5px;'>";
-					$ret .= "			<script>";
-					$ret .= "			$(document).ready( function() {\n";
-					$ret .= "				$('#arrow_down_" . $nr . "').hide();\n";
-					$ret .= "			});\n";
-					$ret .= "			$('#arrow_up_" . $nr . "').click( function() {\n";
-					$ret .= "				$('#arrow_down_" . $nr . "').show();\n;";
-					$ret .= "				$('#arrow_up_" . $nr . "').hide();\n";
-					$ret .= "			});\n";
-					$ret .= "			$('#arrow_down_" . $nr . "').click( function() {\n";
-					$ret .= "				$('#arrow_up_" . $nr . "').show();\n";
-					$ret .= "				$('#arrow_down_" . $nr . "').hide();\n";
-					$ret .= "			});\n";
-					$ret .= "			</script>";
-					$ret .= "		</a></div>";
-					$ret .= "		<div class='hidden-xs hidden-sm col-md-1' style='border-right-style: solid; border-left-style: solid; border-color: grey; border-width: 1px; padding-top: 10px; padding-bottom: 10px; word-wrap: break-word;'><b>" . $nr . "</b></div>";
-					$ret .= "		<div class='col-xs-10 col-sm-7 col-md-7'>" . (($titel != "null") ? ($titel . " ") : "") . $vname . " " . $nname . "</div>";
-					$ret .= "		<div class='col-xs-12 col-sm-4 col-md-3 text-right bordered-xs' style='font-size: 12.5px; border-right-width: 0px;'>";
-					$ret .= "			Bezahlt <input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . ">";
-					$ret .= "			Anwesend <input id='anwesendCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Anwesend"] == 1) ? "checked" : "") . ">";
-					$ret .= "		</div>";
-					$ret .= "	</div>";
-					$ret .= "	<div class='row-hgoe-detail row collapse text-right' style='font-size: 13px;' id='detail_" . $nr . "'>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Titel</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='titel_" . $nr . "' type='text' style='width: 100%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Vorname</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='vname_" . $nr . "' type='text' style='width: 100%;' value='" . $vname . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Name</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='nname_" . $nr . "' type='text' style='width: 100%;' value='" . $nname . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2 hidden-sm hidden-md hidden-lg'>Geb-Dat.</div>";
-					$ret .= "		<div class='col-xs-4 col-md-2 hidden-xs'>Geburtsdat.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='gebdat_" . $nr . "' type='date' style='width: 100%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>E-Mail</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='email_" . $nr . "' type='email' style='width: 100%;' value='" . $email . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Straße</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 100%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Hausnr.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 100%;' " . (($hausnr != -1) ? ("value='" . $hausnr . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>PLZ*</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2'><input id='plz_" . $nr . "' type='number' style='width: 100%;' value='" . $plz . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-1'>Ort*</div>";
-					$ret .= "		<div class='col-xs-8 col-md-3'><input id='ort_" . $nr . "' type='text' style='width: 100%;' value='" . $ort . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Ist Mitglied*</div>";
-					$ret .= "		<div class='col-xs-2 col-md-2' style='height: 38px;'>";
-					$ret .= "			<input id='mitglied_" . $nr . "' type='checkbox' style='width: 100%; min-height:20px; min-width:20px; margin-top: -2px;' value='true'>";
-					$ret .= "		</div>";
-					$ret .= "		<div class='col-xs-12 col-md-8' style='margin: 0px; padding: 0px;'>";
-					$ret .= "			<div class='col-xs-4 col-md-3'>Bundesland</div>";
-					$ret .= "			<div class='col-xs-8 col-md-9'>";
-					$ret .= "				<select style='width: 100%;' id='bundesland_" . $nr . "'>";
-					$ret .= "					<option value='1'>Burgenland</option>";
-					$ret .= "					<option value='2'>Steiermark</option>";
-					$ret .= "					<option value='3'>Niederösterreich</option>";
-					$ret .= "					<option value='4'>Oberösterreich</option>";
-					$ret .= "					<option value='5'>Salzburg</option>";
-					$ret .= "					<option value='6'>Kärnten</option>";
-					$ret .= "					<option value='7'>Tirol</option>";
-					$ret .= "					<option value='8'>Vorarlberg</option>";
-					$ret .= "					<option value='9'>Wien</option>";
-					$ret .= "				</select>";
-					$ret .= "			</div>";
-					$ret .= "		</div>";
-					$ret .= "		<script>";
-					$ret .= "		$('#bezahltCB_" . $nr . "').click( function() {\n";
-					$ret .= "			if(document.getElementById('bezahltCB_" . $nr . "').checked == true) {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_bezahlt.php?nr=" . $nr . "&bezahlt=ja',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			} else {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_bezahlt.php?nr=" . $nr . "&bezahlt=nein',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			}\n";
-					$ret .= "		});\n";
-					$ret .= "		$('#anwesendCB_" . $nr . "').click( function() {\n";
-					$ret .= "			if(document.getElementById('anwesendCB_" . $nr . "').checked == true) {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_anwesend.php?nr=" . $nr . "&anwesend=ja',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			} else {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_anwesend.php?nr=" . $nr . "&anwesend=nein',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			}\n";
-					$ret .= "		});\n";
-					$ret .= "			$('#mitglied_" . $nr . "').click( function() {\n";
-					$ret .= "				if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').disabled = false;\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#FBFBFB';\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#000000'\n";
-					$ret .= "				} else {\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').disabled = true;";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";
-					$ret .= "				}";
-					$ret .= "			});";
-
-					if($mitglied == 'null') {
-						$ret .= "		$(document).ready( function() {";
-						$ret .= "			document.getElementById('bundesland_" . $nr . "').disabled = true;";
-						$ret .= "			document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
-						$ret .= "			document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";	
-						$ret .= "		});";
-					} else {
-						$ret .= "		$(document).ready( function() {";
-						$ret .= "			document.getElementById('mitglied_" . $nr . "').checked = true;";
-						switch($mitglied) {
-							case 'Burgenland': $ret .= "$('#bundesland_" . $nr . "').val(1);"; break;
-							case 'Steiermark': $ret .= "$('#bundesland_" . $nr . "').val(2);"; break;
-							case 'Niederösterreich': $ret .= "$('#bundesland_" . $nr . "').val(3);"; break;
-							case 'Oberösterreich': $ret .= "$('#bundesland_" . $nr . "').val(4);"; break;
-							case 'Salzburg': $ret .= "$('#bundesland_" . $nr . "').val(5);"; break;
-							case 'Kärnten': $ret .= "$('#bundesland_" . $nr . "').val(6);"; break;
-							case 'Tirol': $ret .= "$('#bundesland_" . $nr . "').val(7);"; break;
-							case 'Vorarlberg': $ret .= "$('#bundesland_" . $nr . "').val(8);"; break;
-							case 'Wien': $ret .= "$('#bundesland_" . $nr . "').val(9);"; break;
-						}
-						$ret .= "		});";
-					}
-
-					$ret .= "		</script>";
-					$ret .= "		<div class='col-xs-6 text-right'>";
-					$ret .= "			<a id='savebtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe'>Speichern</a>";
-					$ret .= "		</div>";
-					$ret .= "		<div class='col-xs-6 text-left'>";
-					$ret .= "			<a id='abmeldenbtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe-red'>Abmelden</a>";
-					$ret .= "		</div>";
-					$ret .= "		<script>\n";
-					$ret .= "		$('#abmeldenbtn_" . $nr . "').click( function() {\n";
-					$ret .= "			if(confirm('Wollen Sie diesen Teilnehmer wirklich abmelden?')) {\n";
-					$ret .= "				window.location = './script_teilnehmer_absagen.php?nr=" . $nr . "&vid=" . $vid . "';\n";
-					$ret .= "			}\n";
-					$ret .= "		});\n";
-					$ret .= "		$('#savebtn_" . $nr . "').click( function() {\n";
-					$ret .= "			var titel = 'null';\n";
-					$ret .= "			var vname = 'null';\n";
-					$ret .= "			var nname = 'null';\n";
-					$ret .= "			var gebdat = 'null';\n";
-					$ret .= "			var email = 'null';\n";
-					$ret .= "			var strasse = 'null';\n";
-					$ret .= "			var hausnr = -1;\n";
-					$ret .= "			var plz = -1;\n";
-					$ret .= "			var ort = 'null';\n";
-					$ret .= "			var bundesland = 'null';\n";
-					$ret .= "			if($('#titel_" . $nr . "').val())\n";
-					$ret .= "				titel = $('#titel_" . $nr . "').val();\n";
-					$ret .= "			if($('#vname_" . $nr . "').val())\n";
-					$ret .= "				vname = $('#vname_" . $nr . "').val();\n";
-					$ret .= "			if($('#nname_" . $nr . "').val())\n";
-					$ret .= "				nname = $('#nname_" . $nr . "').val();\n";
-					$ret .= "			if($('#gebdat_" . $nr . "').val())\n";
-					$ret .= "				gebdat = $('#gebdat_" . $nr . "').val();\n";
-					$ret .= "			if($('#email_" . $nr . "').val())\n";
-					$ret .= "				email = $('#email_" . $nr . "').val();\n";
-					$ret .= "			if($('#strasse_" . $nr . "').val())\n";
-					$ret .= "				strasse = $('#strasse_" . $nr . "').val();\n";
-					$ret .= "			if($('#hausnr_" . $nr . "').val())\n";
-					$ret .= "				hausnr = $('#hausnr_" . $nr . "').val();\n";
-					$ret .= "			if($('#plz_" . $nr . "').val())\n";
-					$ret .= "				plz = $('#plz_" . $nr . "').val();\n";
-					$ret .= "			if($('#ort_" . $nr . "').val())\n";
-					$ret .= "				ort = $('#ort_" . $nr . "').val();\n";
-					$ret .= "			if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
-					$ret .= "				bundesland = document.getElementById('bundesland_" . $nr . "').options[document.getElementById('bundesland_". $nr . "').selectedIndex].text;\n";
-					$ret .= "			}\n";
-					$ret .= "			if(vname != 'null' && nname != 'null' && email != 'null' && plz != -1 && ort != 'null') {\n";
-					$ret .= "				var url = 'script_teilnehmer_bearbeiten.php?nr=" . $nr . "';\n";
-					$ret .= "				url += '&vname=' + vname;\n";
-					$ret .= "				url += '&nname=' + nname;\n";
-					$ret .= "				url += '&email=' + email;\n";
-					$ret .= "				url += '&plz=' + plz;\n";
-					$ret .= "				url += '&ort=' + ort;\n";
-					$ret .= "				if(titel != 'null')\n";
-					$ret .= "					url += '&titel=' + titel;\n";
-					$ret .= "				if(gebdat != 'null')\n";
-					$ret .= "					url += '&gebdat=' + gebdat;\n";
-					$ret .= "				if(strasse != 'null')\n";
-					$ret .= "					url += '&strasse=' + strasse;\n";
-					$ret .= "				if(hausnr != -1)\n";
-					$ret .= "					url += '&hausnr=' + hausnr;\n";
-					$ret .= "				if(bundesland != 'null')\n";
-					$ret .= "					url += '&bundesland=' + bundesland;\n";
-					$ret .= "				window.location = url;\n";
-					$ret .= "			} else {\n";
-					$ret .= "				alert('Bitte geben Sie alle Pflichtparameter ein!');\n";
-					$ret .= "			}\n";
-					$ret .= "		});";
-					$ret .= "		</script>";
-					$ret .= "	</div>";
-					$ret .= "</div>";
-				}
-			}
-			
-			if($ret == "") {
-				$ret .= "<div class='row'>";
-				$ret .= "	<div class='row-hgoe row' style='background-color: white;'>";
-				$ret .= "		<div class='col-xs-12'>Es wurden keine Teilnehmer gefunden</div>";
-				$ret .= "	</div>";
-				$ret .= "</div>";
-			}
-		} else {
-			$ret .= "<div class='row'>";
-			$ret .= "	<div class='row-hgoe row' style='background-color: white;'>";
-			$ret .= "		<div class='col-xs-12'>Es wurden keine Teilnehmer gefunden</div>";
-			$ret .= "	</div>";
-			$ret .= "</div>";
-		}
-		
-		return $ret;
-	}
-
-	function getTeilnehmerBezahlt() {
-		$config = include('./config.php');
-		
-		$ret = "";
-		$vid = $_GET["vid"];
-
-		// Create connection
-		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
-
-		// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-
-		$sql = "SELECT * FROM hgoe_17.hgoe_teilnehmer WHERE KonferenzID = " . $vid;
-		$result = $conn->query($sql);
-
-		if ($result->num_rows > 0) {
-			while($row = $result->fetch_assoc()) {
-				$nr = "null";
-				$titel = "null";
-				$vname = "null";
-				$nname = "null";
-				$gebdat = "null";
-				$email = "null";
-				$strasse = "null";
-				$hausnr = -1;
-				$ort = "null";
-				$plz = "null";
-				$mitglied = "null";
-
-				$nr = $row["TeilnehmerNr"];
-				$vname = $row["Vorname"];
-				$nname = $row["Nachname"];
-				$ort = $row["Ort"];
-				$plz = $row["PLZ"];
-				$email = $row["eMail"];
-				
-				if(!(is_null($row["Mitglied"]))) {
-					$mitglied = $row["Mitglied"];
-				}
-				if(!(is_null($row["Titel"]))) {
-					$titel = $row["Titel"];
-				}
-				if(!(is_null($row["Geburtsdatum"]))) {
-					$gebdat = $row["Geburtsdatum"];
-				}
-				if(!(is_null($row["Strasse"]))) {
-					$strasse = $row["Strasse"];
-				}
-				if(!(is_null($row["Hausnr"]))) {
-					$hausnr = $row["Hausnr"];
-				}
-				
-				if($row['Bezahlt'] != 1) {
-					//hat nicht bezahlt, skip
-				} else {
-					//hat bezahlt, anzeigen
-					$ret .= "<div class='row'>";
-					$ret .= "<div class='row row-hgoe equal' style='background-color: white;'>";
-					$ret .= "	<div class='col-xs-2 col-sm-1 dropdown-btn' style='border-left-width: 0px;'><a data-toggle='collapse' data-target='#detail_" . $nr . "'>";
-					$ret .= "		<img id='arrow_up_" . $nr . "' src='assets/img/arrow_drop_up.svg' style='width: 30px; margin: -10px; margin-left: -5px;'>";
-					$ret .= "		<img id='arrow_down_" . $nr . "' src='assets/img/arrow_drop_down.svg' style='width: 30px; margin: -10px; margin-left: -5px;'>";
-					$ret .= "			<script>";
-					$ret .= "			$(document).ready( function() {\n";
-					$ret .= "				$('#arrow_down_" . $nr . "').hide();\n";
-					$ret .= "			});\n";
-					$ret .= "			$('#arrow_up_" . $nr . "').click( function() {\n";
-					$ret .= "				$('#arrow_down_" . $nr . "').show();\n;";
-					$ret .= "				$('#arrow_up_" . $nr . "').hide();\n";
-					$ret .= "			});\n";
-					$ret .= "			$('#arrow_down_" . $nr . "').click( function() {\n";
-					$ret .= "				$('#arrow_up_" . $nr . "').show();\n";
-					$ret .= "				$('#arrow_down_" . $nr . "').hide();\n";
-					$ret .= "			});\n";
-					$ret .= "			</script>";
-					$ret .= "		</a></div>";
-					$ret .= "		<div class='hidden-xs hidden-sm col-md-1' style='border-right-style: solid; border-left-style: solid; border-color: grey; border-width: 1px; padding-top: 10px; padding-bottom: 10px; word-wrap: break-word;'><b>" . $nr . "</b></div>";
-					$ret .= "		<div class='col-xs-10 col-sm-7 col-md-7'>" . (($titel != "null") ? ($titel . " ") : "") . $vname . " " . $nname . "</div>";
-					$ret .= "		<div class='col-xs-12 col-sm-4 col-md-3 text-right bordered-xs' style='font-size: 12.5px; border-right-width: 0px;'>";
-					$ret .= "			Bezahlt <input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . ">";
-					$ret .= "			Anwesend <input id='anwesendCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Anwesend"] == 1) ? "checked" : "") . ">";
-					$ret .= "		</div>";
-					$ret .= "	</div>";
-					$ret .= "	<div class='row-hgoe-detail row collapse text-right' style='font-size: 13px;' id='detail_" . $nr . "'>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Titel</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='titel_" . $nr . "' type='text' style='width: 100%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Vorname</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='vname_" . $nr . "' type='text' style='width: 100%;' value='" . $vname . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Name</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='nname_" . $nr . "' type='text' style='width: 100%;' value='" . $nname . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2 hidden-sm hidden-md hidden-lg'>Geb-Dat.</div>";
-					$ret .= "		<div class='col-xs-4 col-md-2 hidden-xs'>Geburtsdat.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='gebdat_" . $nr . "' type='date' style='width: 100%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>E-Mail</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='email_" . $nr . "' type='email' style='width: 100%;' value='" . $email . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Straße</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 100%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Hausnr.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 100%;' " . (($hausnr != -1) ? ("value='" . $hausnr . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>PLZ*</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2'><input id='plz_" . $nr . "' type='number' style='width: 100%;' value='" . $plz . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-1'>Ort*</div>";
-					$ret .= "		<div class='col-xs-8 col-md-3'><input id='ort_" . $nr . "' type='text' style='width: 100%;' value='" . $ort . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Ist Mitglied*</div>";
-					$ret .= "		<div class='col-xs-2 col-md-2' style='height: 38px;'>";
-					$ret .= "			<input id='mitglied_" . $nr . "' type='checkbox' style='width: 100%; min-height:20px; min-width:20px; margin-top: -2px;' value='true'>";
-					$ret .= "		</div>";
-					$ret .= "		<div class='col-xs-12 col-md-8' style='margin: 0px; padding: 0px;'>";
-					$ret .= "			<div class='col-xs-4 col-md-3'>Bundesland</div>";
-					$ret .= "			<div class='col-xs-8 col-md-9'>";
-					$ret .= "				<select style='width: 100%;' id='bundesland_" . $nr . "'>";
-					$ret .= "					<option value='1'>Burgenland</option>";
-					$ret .= "					<option value='2'>Steiermark</option>";
-					$ret .= "					<option value='3'>Niederösterreich</option>";
-					$ret .= "					<option value='4'>Oberösterreich</option>";
-					$ret .= "					<option value='5'>Salzburg</option>";
-					$ret .= "					<option value='6'>Kärnten</option>";
-					$ret .= "					<option value='7'>Tirol</option>";
-					$ret .= "					<option value='8'>Vorarlberg</option>";
-					$ret .= "					<option value='9'>Wien</option>";
-					$ret .= "				</select>";
-					$ret .= "			</div>";
-					$ret .= "		</div>";
-					$ret .= "		<script>";
-					$ret .= "		$('#bezahltCB_" . $nr . "').click( function() {\n";
-					$ret .= "			if(document.getElementById('bezahltCB_" . $nr . "').checked == true) {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_bezahlt.php?nr=" . $nr . "&bezahlt=ja',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			} else {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_bezahlt.php?nr=" . $nr . "&bezahlt=nein',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			}\n";
-					$ret .= "		});\n";
-					$ret .= "		$('#anwesendCB_" . $nr . "').click( function() {\n";
-					$ret .= "			if(document.getElementById('anwesendCB_" . $nr . "').checked == true) {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_anwesend.php?nr=" . $nr . "&anwesend=ja',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			} else {\n";
-					$ret .= "				$.ajax({\n";
-					$ret .= "					url: './script_teilnehmer_anwesend.php?nr=" . $nr . "&anwesend=nein',\n";
-					$ret .= "					type: 'GET',\n";
-					$ret .= "					success: function(results) { \n";
-					$ret .= "						if(results != 'OK')\n";
-					$ret .= "							alert(results);\n";
-					$ret .= "					}\n";
-					$ret .= "				});\n";
-					$ret .= "			}\n";
-					$ret .= "		});\n";
-					$ret .= "			$('#mitglied_" . $nr . "').click( function() {\n";
-					$ret .= "				if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').disabled = false;\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#FBFBFB';\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#000000'\n";
-					$ret .= "				} else {\n";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').disabled = true;";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
-					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";
-					$ret .= "				}";
-					$ret .= "			});";
-
-					if($mitglied == 'null') {
-						$ret .= "		$(document).ready( function() {";
-						$ret .= "			document.getElementById('bundesland_" . $nr . "').disabled = true;";
-						$ret .= "			document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
-						$ret .= "			document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";	
-						$ret .= "		});";
-					} else {
-						$ret .= "		$(document).ready( function() {";
-						$ret .= "			document.getElementById('mitglied_" . $nr . "').checked = true;";
-						switch($mitglied) {
-							case 'Burgenland': $ret .= "$('#bundesland_" . $nr . "').val(1);"; break;
-							case 'Steiermark': $ret .= "$('#bundesland_" . $nr . "').val(2);"; break;
-							case 'Niederösterreich': $ret .= "$('#bundesland_" . $nr . "').val(3);"; break;
-							case 'Oberösterreich': $ret .= "$('#bundesland_" . $nr . "').val(4);"; break;
-							case 'Salzburg': $ret .= "$('#bundesland_" . $nr . "').val(5);"; break;
-							case 'Kärnten': $ret .= "$('#bundesland_" . $nr . "').val(6);"; break;
-							case 'Tirol': $ret .= "$('#bundesland_" . $nr . "').val(7);"; break;
-							case 'Vorarlberg': $ret .= "$('#bundesland_" . $nr . "').val(8);"; break;
-							case 'Wien': $ret .= "$('#bundesland_" . $nr . "').val(9);"; break;
-						}
-						$ret .= "		});";
-					}
-
-					$ret .= "		</script>";
-					$ret .= "		<div class='col-xs-6 text-right'>";
-					$ret .= "			<a id='savebtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe'>Speichern</a>";
-					$ret .= "		</div>";
-					$ret .= "		<div class='col-xs-6 text-left'>";
-					$ret .= "			<a id='abmeldenbtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe-red'>Abmelden</a>";
-					$ret .= "		</div>";
-					$ret .= "		<script>\n";
-					$ret .= "		$('#abmeldenbtn_" . $nr . "').click( function() {\n";
-					$ret .= "			if(confirm('Wollen Sie diesen Teilnehmer wirklich abmelden?')) {\n";
-					$ret .= "				window.location = './script_teilnehmer_absagen.php?nr=" . $nr . "&vid=" . $vid . "';\n";
-					$ret .= "			}\n";
-					$ret .= "		});\n";
-					$ret .= "		$('#savebtn_" . $nr . "').click( function() {\n";
-					$ret .= "			var titel = 'null';\n";
-					$ret .= "			var vname = 'null';\n";
-					$ret .= "			var nname = 'null';\n";
-					$ret .= "			var gebdat = 'null';\n";
-					$ret .= "			var email = 'null';\n";
-					$ret .= "			var strasse = 'null';\n";
-					$ret .= "			var hausnr = -1;\n";
-					$ret .= "			var plz = -1;\n";
-					$ret .= "			var ort = 'null';\n";
-					$ret .= "			var bundesland = 'null';\n";
-					$ret .= "			if($('#titel_" . $nr . "').val())\n";
-					$ret .= "				titel = $('#titel_" . $nr . "').val();\n";
-					$ret .= "			if($('#vname_" . $nr . "').val())\n";
-					$ret .= "				vname = $('#vname_" . $nr . "').val();\n";
-					$ret .= "			if($('#nname_" . $nr . "').val())\n";
-					$ret .= "				nname = $('#nname_" . $nr . "').val();\n";
-					$ret .= "			if($('#gebdat_" . $nr . "').val())\n";
-					$ret .= "				gebdat = $('#gebdat_" . $nr . "').val();\n";
-					$ret .= "			if($('#email_" . $nr . "').val())\n";
-					$ret .= "				email = $('#email_" . $nr . "').val();\n";
-					$ret .= "			if($('#strasse_" . $nr . "').val())\n";
-					$ret .= "				strasse = $('#strasse_" . $nr . "').val();\n";
-					$ret .= "			if($('#hausnr_" . $nr . "').val())\n";
-					$ret .= "				hausnr = $('#hausnr_" . $nr . "').val();\n";
-					$ret .= "			if($('#plz_" . $nr . "').val())\n";
-					$ret .= "				plz = $('#plz_" . $nr . "').val();\n";
-					$ret .= "			if($('#ort_" . $nr . "').val())\n";
-					$ret .= "				ort = $('#ort_" . $nr . "').val();\n";
-					$ret .= "			if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
-					$ret .= "				bundesland = document.getElementById('bundesland_" . $nr . "').options[document.getElementById('bundesland_". $nr . "').selectedIndex].text;\n";
-					$ret .= "			}\n";
-					$ret .= "			if(vname != 'null' && nname != 'null' && email != 'null' && plz != -1 && ort != 'null') {\n";
-					$ret .= "				var url = 'script_teilnehmer_bearbeiten.php?nr=" . $nr . "';\n";
-					$ret .= "				url += '&vname=' + vname;\n";
-					$ret .= "				url += '&nname=' + nname;\n";
-					$ret .= "				url += '&email=' + email;\n";
-					$ret .= "				url += '&plz=' + plz;\n";
-					$ret .= "				url += '&ort=' + ort;\n";
-					$ret .= "				if(titel != 'null')\n";
-					$ret .= "					url += '&titel=' + titel;\n";
-					$ret .= "				if(gebdat != 'null')\n";
-					$ret .= "					url += '&gebdat=' + gebdat;\n";
-					$ret .= "				if(strasse != 'null')\n";
-					$ret .= "					url += '&strasse=' + strasse;\n";
-					$ret .= "				if(hausnr != -1)\n";
-					$ret .= "					url += '&hausnr=' + hausnr;\n";
-					$ret .= "				if(bundesland != 'null')\n";
-					$ret .= "					url += '&bundesland=' + bundesland;\n";
-					$ret .= "				window.location = url;\n";
-					$ret .= "			} else {\n";
-					$ret .= "				alert('Bitte geben Sie alle Pflichtparameter ein!');\n";
-					$ret .= "			}\n";
-					$ret .= "		});";
-					$ret .= "		</script>";
-					$ret .= "	</div>";
-					$ret .= "</div>";
-				}
-			}
-			
-			if($ret == "") {
-				$ret .= "<div class='row'>";
-				$ret .= "	<div class='row-hgoe row' style='background-color: white;'>";
-				$ret .= "		<div class='col-xs-12'>Es wurden keine Teilnehmer gefunden</div>";
-				$ret .= "	</div>";
-				$ret .= "</div>";
-			}
-		} else {
-			$ret .= "<div class='row'>";
-			$ret .= "	<div class='row-hgoe row' style='background-color: white;'>";
-			$ret .= "		<div class='col-xs-12'>Es wurden keine Teilnehmer gefunden</div>";
-			$ret .= "	</div>";
-			$ret .= "</div>";
-		}
-		
-		return $ret;
-	}
-
-	function getTeilnehmerByName($filterName) {
-		$config = include('./config.php');
-		
-		$ret = "";
-		$vid = $_GET["vid"];
-
-		// Create connection
-		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
-
-		// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-
-		$sql = "SELECT * FROM hgoe_17.hgoe_teilnehmer WHERE KonferenzID = " . $vid;
-		$result = $conn->query($sql);
-
-		if ($result->num_rows > 0) {
-			while($row = $result->fetch_assoc()) {
-				$nr = "null";
-				$titel = "null";
-				$vname = "null";
-				$nname = "null";
-				$gebdat = "null";
-				$email = "null";
-				$strasse = "null";
-				$hausnr = -1;
-				$ort = "null";
-				$plz = "null";
-				$mitglied = "null";
-
-				$nr = $row["TeilnehmerNr"];
-				$vname = $row["Vorname"];
-				$nname = $row["Nachname"];
-				$ort = $row["Ort"];
-				$plz = $row["PLZ"];
-				$email = $row["eMail"];
-				
 				if(!(is_null($row["Mitglied"]))) {
 					$mitglied = $row["Mitglied"];
 				}
@@ -672,10 +84,7 @@
 				}
 				
 				$fullName = $vname . " " . $nname;
-				if(!strpos(strtoupper("x".$fullName), strtoupper($filterName)) !== false) {
-					//does not contain Name, do nothing and skip
-				} else {
-					//contains name, print out
+				if(($filterName == '' || strpos("x".$fullName, $filterName) !== false) && ($filterAnwesend == false || $row['Anwesend'] == 1) && ($filterBezahlt == false || $row['Bezahlt'] == 1)) { 	
 					$ret .= "<div class='row'>";
 					$ret .= "<div class='row row-hgoe equal' style='background-color: white;'>";
 					$ret .= "	<div class='col-xs-2 col-sm-1 dropdown-btn' style='border-left-width: 0px;'><a data-toggle='collapse' data-target='#detail_" . $nr . "'>";
@@ -703,33 +112,34 @@
 					$ret .= "		</div>";
 					$ret .= "	</div>";
 					$ret .= "	<div class='row-hgoe-detail row collapse text-right' style='font-size: 13px;' id='detail_" . $nr . "'>";
+					$ret .= "		<div class='col-xs-12' style='height: 5px;'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'>Titel</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='titel_" . $nr . "' type='text' style='width: 100%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Vorname</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='vname_" . $nr . "' type='text' style='width: 100%;' value='" . $vname . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Name</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='nname_" . $nr . "' type='text' style='width: 100%;' value='" . $nname . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='titel_" . $nr . "' type='text' style='width: 90%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-4 col-md-2'><b>Vorname</b></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='vname_" . $nr . "' type='text' style='width: 90%;' value='" . $vname . "'></div>";
+					$ret .= "		<div class='col-xs-4 col-md-2'><b>Name</b></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='nname_" . $nr . "' type='text' style='width: 90%;' value='" . $nname . "'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2 hidden-sm hidden-md hidden-lg'>Geb-Dat.</div>";
 					$ret .= "		<div class='col-xs-4 col-md-2 hidden-xs'>Geburtsdat.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='gebdat_" . $nr . "' type='date' style='width: 100%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>E-Mail</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input id='email_" . $nr . "' type='email' style='width: 100%;' value='" . $email . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='gebdat_" . $nr . "' type='date' style='width: 90%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-4 col-md-2'><b>E-Mail</b></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='email_" . $nr . "' type='email' style='width: 90%;' value='" . $email . "'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'>Straße</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 100%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 90%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'>Hausnr.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 100%;' " . (($hausnr != -1) ? ("value='" . $hausnr . "'") : "") . "></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>PLZ*</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2'><input id='plz_" . $nr . "' type='number' style='width: 100%;' value='" . $plz . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-1'>Ort*</div>";
-					$ret .= "		<div class='col-xs-8 col-md-3'><input id='ort_" . $nr . "' type='text' style='width: 100%;' value='" . $ort . "'></div>";
-					$ret .= "		<div class='col-xs-4 col-md-2'>Ist Mitglied*</div>";
-					$ret .= "		<div class='col-xs-2 col-md-2' style='height: 38px;'>";
+					$ret .= "		<div class='col-xs-8 col-md-2 text-left'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 90%;' " . (($hausnr != -1) ? ("value='" . $hausnr . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-4 col-md-2'><b>PLZ</b></div>";
+					$ret .= "		<div class='col-xs-8 col-md-2 text-left'><input id='plz_" . $nr . "' type='number' style='width: 90%;' value='" . $plz . "'></div>";
+					$ret .= "		<div class='col-xs-4 col-md-1'><b>Ort</b></div>";
+					$ret .= "		<div class='col-xs-8 col-md-3 text-left'><input id='ort_" . $nr . "' type='text' style='width: 90%;' value='" . $ort . "'></div>";
+					$ret .= "		<div class='col-xs-4 col-md-2'><b>Ist Mitglied</b></div>";
+					$ret .= "		<div class='col-xs-2 col-md-2 text-left' style='height: 38px;'>";
 					$ret .= "			<input id='mitglied_" . $nr . "' type='checkbox' style='width: 100%; min-height:20px; min-width:20px; margin-top: -2px;' value='true'>";
 					$ret .= "		</div>";
 					$ret .= "		<div class='col-xs-12 col-md-8' style='margin: 0px; padding: 0px;'>";
 					$ret .= "			<div class='col-xs-4 col-md-3'>Bundesland</div>";
-					$ret .= "			<div class='col-xs-8 col-md-9'>";
-					$ret .= "				<select style='width: 100%;' id='bundesland_" . $nr . "'>";
+					$ret .= "			<div class='col-xs-8 col-md-9 text-left'>";
+					$ret .= "				<select style='width: 90%;' id='bundesland_" . $nr . "'>";
 					$ret .= "					<option value='1'>Burgenland</option>";
 					$ret .= "					<option value='2'>Steiermark</option>";
 					$ret .= "					<option value='3'>Niederösterreich</option>";
@@ -894,288 +304,10 @@
 			}
 			
 			if($ret == "") {
+				//no teilnehmer found
 				$ret .= "<div class='row'>";
 				$ret .= "	<div class='row-hgoe row' style='background-color: white;'>";
 				$ret .= "		<div class='col-xs-12'>Es wurden keine Teilnehmer gefunden</div>";
-				$ret .= "	</div>";
-				$ret .= "</div>";
-			}
-		} else {
-			$ret .= "<div class='row'>";
-			$ret .= "	<div class='row-hgoe row' style='background-color: white;'>";
-			$ret .= "		<div class='col-xs-12'>Es wurden keine Teilnehmer gefunden</div>";
-			$ret .= "	</div>";
-			$ret .= "</div>";
-		}
-		
-		return $ret;
-	}
-
-	function getTeilnehmer() {
-		$config = include('./config.php');
-		
-		$ret = "";
-		$vid = $_GET["vid"];
-
-		// Create connection
-		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
-
-		// Check connection
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
-
-		$sql = "SELECT * FROM hgoe_17.hgoe_teilnehmer WHERE KonferenzID = " . $vid;
-		$result = $conn->query($sql);
-
-		if ($result->num_rows > 0) {
-			while($row = $result->fetch_assoc()) {
-				$nr = "null";
-				$titel = "null";
-				$vname = "null";
-				$nname = "null";
-				$gebdat = "null";
-				$email = "null";
-				$strasse = "null";
-				$hausnr = -1;
-				$ort = "null";
-				$plz = "null";
-				$mitglied = "null";
-
-				$nr = $row["TeilnehmerNr"];
-				$vname = $row["Vorname"];
-				$nname = $row["Nachname"];
-				$ort = $row["Ort"];
-				$plz = $row["PLZ"];
-				$email = $row["eMail"];
-				if(!(is_null($row["Mitglied"]))) {
-					$mitglied = $row["Mitglied"];
-				}
-				if(!(is_null($row["Titel"]))) {
-					$titel = $row["Titel"];
-				}
-				if(!(is_null($row["Geburtsdatum"]))) {
-					$gebdat = $row["Geburtsdatum"];
-				}
-				if(!(is_null($row["Strasse"]))) {
-					$strasse = $row["Strasse"];
-				}
-				if(!(is_null($row["Hausnr"]))) {
-					$hausnr = $row["Hausnr"];
-				}
-
-				$ret .= "<div class='row'>";
-				$ret .= "<div class='row row-hgoe equal' style='background-color: white;'>";
-				$ret .= "	<div class='col-xs-2 col-sm-1 dropdown-btn' style='border-left-width: 0px;'><a data-toggle='collapse' data-target='#detail_" . $nr . "'>";
-				$ret .= "		<img id='arrow_up_" . $nr . "' src='assets/img/arrow_drop_up.svg' style='width: 30px; margin: -10px; margin-left: -5px;'>";
-				$ret .= "		<img id='arrow_down_" . $nr . "' src='assets/img/arrow_drop_down.svg' style='width: 30px; margin: -10px; margin-left: -5px;'>";
-				$ret .= "			<script>";
-				$ret .= "			$(document).ready( function() {\n";
-				$ret .= "				$('#arrow_down_" . $nr . "').hide();\n";
-				$ret .= "			});\n";
-				$ret .= "			$('#arrow_up_" . $nr . "').click( function() {\n";
-				$ret .= "				$('#arrow_down_" . $nr . "').show();\n;";
-				$ret .= "				$('#arrow_up_" . $nr . "').hide();\n";
-				$ret .= "			});\n";
-				$ret .= "			$('#arrow_down_" . $nr . "').click( function() {\n";
-				$ret .= "				$('#arrow_up_" . $nr . "').show();\n";
-				$ret .= "				$('#arrow_down_" . $nr . "').hide();\n";
-				$ret .= "			});\n";
-				$ret .= "			</script>";
-				$ret .= "		</a></div>";
-				$ret .= "		<div class='hidden-xs hidden-sm col-md-1' style='border-right-style: solid; border-left-style: solid; border-color: grey; border-width: 1px; padding-top: 10px; padding-bottom: 10px; word-wrap: break-word;'><b>" . $nr . "</b></div>";
-				$ret .= "		<div class='col-xs-10 col-sm-7 col-md-7'>" . (($titel != "null") ? ($titel . " ") : "") . $vname . " " . $nname . "</div>";
-				$ret .= "		<div class='col-xs-12 col-sm-4 col-md-3 text-right bordered-xs' style='font-size: 12.5px; border-right-width: 0px;'>";
-				$ret .= "			Bezahlt <input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . ">";
-				$ret .= "			Anwesend <input id='anwesendCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Anwesend"] == 1) ? "checked" : "") . ">";
-				$ret .= "		</div>";
-				$ret .= "	</div>";
-				$ret .= "	<div class='row-hgoe-detail row collapse text-right' style='font-size: 13px;' id='detail_" . $nr . "'>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>Titel</div>";
-				$ret .= "		<div class='col-xs-8 col-md-4'><input id='titel_" . $nr . "' type='text' style='width: 100%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>Vorname</div>";
-				$ret .= "		<div class='col-xs-8 col-md-4'><input id='vname_" . $nr . "' type='text' style='width: 100%;' value='" . $vname . "'></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>Name</div>";
-				$ret .= "		<div class='col-xs-8 col-md-4'><input id='nname_" . $nr . "' type='text' style='width: 100%;' value='" . $nname . "'></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2 hidden-sm hidden-md hidden-lg'>Geb-Dat.</div>";
-				$ret .= "		<div class='col-xs-4 col-md-2 hidden-xs'>Geburtsdat.</div>";
-				$ret .= "		<div class='col-xs-8 col-md-4'><input id='gebdat_" . $nr . "' type='date' style='width: 100%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>E-Mail</div>";
-				$ret .= "		<div class='col-xs-8 col-md-4'><input id='email_" . $nr . "' type='email' style='width: 100%;' value='" . $email . "'></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>Straße</div>";
-				$ret .= "		<div class='col-xs-8 col-md-4'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 100%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>Hausnr.</div>";
-				$ret .= "		<div class='col-xs-8 col-md-2'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 100%;' " . (($hausnr != -1) ? ("value='" . $hausnr . "'") : "") . "></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>PLZ*</div>";
-				$ret .= "		<div class='col-xs-8 col-md-2'><input id='plz_" . $nr . "' type='number' style='width: 100%;' value='" . $plz . "'></div>";
-				$ret .= "		<div class='col-xs-4 col-md-1'>Ort*</div>";
-				$ret .= "		<div class='col-xs-8 col-md-3'><input id='ort_" . $nr . "' type='text' style='width: 100%;' value='" . $ort . "'></div>";
-				$ret .= "		<div class='col-xs-4 col-md-2'>Ist Mitglied*</div>";
-				$ret .= "		<div class='col-xs-2 col-md-2' style='height: 38px;'>";
-				$ret .= "			<input id='mitglied_" . $nr . "' type='checkbox' style='width: 100%; min-height:20px; min-width:20px; margin-top: -2px;' value='true'>";
-				$ret .= "		</div>";
-				$ret .= "		<div class='col-xs-12 col-md-8' style='margin: 0px; padding: 0px;'>";
-				$ret .= "			<div class='col-xs-4 col-md-3'>Bundesland</div>";
-				$ret .= "			<div class='col-xs-8 col-md-9'>";
-				$ret .= "				<select style='width: 100%;' id='bundesland_" . $nr . "'>";
-				$ret .= "					<option value='1'>Burgenland</option>";
-				$ret .= "					<option value='2'>Steiermark</option>";
-				$ret .= "					<option value='3'>Niederösterreich</option>";
-				$ret .= "					<option value='4'>Oberösterreich</option>";
-				$ret .= "					<option value='5'>Salzburg</option>";
-				$ret .= "					<option value='6'>Kärnten</option>";
-				$ret .= "					<option value='7'>Tirol</option>";
-				$ret .= "					<option value='8'>Vorarlberg</option>";
-				$ret .= "					<option value='9'>Wien</option>";
-				$ret .= "				</select>";
-				$ret .= "			</div>";
-				$ret .= "		</div>";
-				$ret .= "		<script>";
-				$ret .= "		$('#bezahltCB_" . $nr . "').click( function() {\n";
-				$ret .= "			if(document.getElementById('bezahltCB_" . $nr . "').checked == true) {\n";
-				$ret .= "				$.ajax({\n";
-				$ret .= "					url: './script_teilnehmer_bezahlt.php?nr=" . $nr . "&bezahlt=ja',\n";
-				$ret .= "					type: 'GET',\n";
-				$ret .= "					success: function(results) { \n";
-				$ret .= "						if(results != 'OK')\n";
-				$ret .= "							alert(results);\n";
-				$ret .= "					}\n";
-				$ret .= "				});\n";
-				$ret .= "			} else {\n";
-				$ret .= "				$.ajax({\n";
-				$ret .= "					url: './script_teilnehmer_bezahlt.php?nr=" . $nr . "&bezahlt=nein',\n";
-				$ret .= "					type: 'GET',\n";
-				$ret .= "					success: function(results) { \n";
-				$ret .= "						if(results != 'OK')\n";
-				$ret .= "							alert(results);\n";
-				$ret .= "					}\n";
-				$ret .= "				});\n";
-				$ret .= "			}\n";
-				$ret .= "		});\n";
-				$ret .= "		$('#anwesendCB_" . $nr . "').click( function() {\n";
-				$ret .= "			if(document.getElementById('anwesendCB_" . $nr . "').checked == true) {\n";
-				$ret .= "				$.ajax({\n";
-				$ret .= "					url: './script_teilnehmer_anwesend.php?nr=" . $nr . "&anwesend=ja',\n";
-				$ret .= "					type: 'GET',\n";
-				$ret .= "					success: function(results) { \n";
-				$ret .= "						if(results != 'OK')\n";
-				$ret .= "							alert(results);\n";
-				$ret .= "					}\n";
-				$ret .= "				});\n";
-				$ret .= "			} else {\n";
-				$ret .= "				$.ajax({\n";
-				$ret .= "					url: './script_teilnehmer_anwesend.php?nr=" . $nr . "&anwesend=nein',\n";
-				$ret .= "					type: 'GET',\n";
-				$ret .= "					success: function(results) { \n";
-				$ret .= "						if(results != 'OK')\n";
-				$ret .= "							alert(results);\n";
-				$ret .= "					}\n";
-				$ret .= "				});\n";
-				$ret .= "			}\n";
-				$ret .= "		});\n";
-				$ret .= "			$('#mitglied_" . $nr . "').click( function() {\n";
-				$ret .= "				if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
-				$ret .= "					document.getElementById('bundesland_" . $nr . "').disabled = false;\n";
-				$ret .= "					document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#FBFBFB';\n";
-				$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#000000'\n";
-				$ret .= "				} else {\n";
-				$ret .= "					document.getElementById('bundesland_" . $nr . "').disabled = true;";
-				$ret .= "					document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
-				$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";
-				$ret .= "				}";
-				$ret .= "			});";
-
-				if($mitglied == 'null') {
-					$ret .= "		$(document).ready( function() {";
-					$ret .= "			document.getElementById('bundesland_" . $nr . "').disabled = true;";
-					$ret .= "			document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
-					$ret .= "			document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";	
-					$ret .= "		});";
-				} else {
-					$ret .= "		$(document).ready( function() {";
-					$ret .= "			document.getElementById('mitglied_" . $nr . "').checked = true;";
-					switch($mitglied) {
-						case 'Burgenland': $ret .= "$('#bundesland_" . $nr . "').val(1);"; break;
-						case 'Steiermark': $ret .= "$('#bundesland_" . $nr . "').val(2);"; break;
-						case 'Niederösterreich': $ret .= "$('#bundesland_" . $nr . "').val(3);"; break;
-						case 'Oberösterreich': $ret .= "$('#bundesland_" . $nr . "').val(4);"; break;
-						case 'Salzburg': $ret .= "$('#bundesland_" . $nr . "').val(5);"; break;
-						case 'Kärnten': $ret .= "$('#bundesland_" . $nr . "').val(6);"; break;
-						case 'Tirol': $ret .= "$('#bundesland_" . $nr . "').val(7);"; break;
-						case 'Vorarlberg': $ret .= "$('#bundesland_" . $nr . "').val(8);"; break;
-						case 'Wien': $ret .= "$('#bundesland_" . $nr . "').val(9);"; break;
-					}
-					$ret .= "		});";
-				}
-
-				$ret .= "		</script>";
-				$ret .= "		<div class='col-xs-6 text-right'>";
-				$ret .= "			<a id='savebtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe'>Speichern</a>";
-				$ret .= "		</div>";
-				$ret .= "		<div class='col-xs-6 text-left'>";
-				$ret .= "			<a id='abmeldenbtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe-red'>Abmelden</a>";
-				$ret .= "		</div>";
-				$ret .= "		<script>\n";
-				$ret .= "		$('#abmeldenbtn_" . $nr . "').click( function() {\n";
-				$ret .= "			if(confirm('Wollen Sie diesen Teilnehmer wirklich abmelden?')) {\n";
-				$ret .= "				window.location = './script_teilnehmer_absagen.php?nr=" . $nr . "&vid=" . $vid . "';\n";
-				$ret .= "			}\n";
-				$ret .= "		});\n";
-				$ret .= "		$('#savebtn_" . $nr . "').click( function() {\n";
-				$ret .= "			var titel = 'null';\n";
-				$ret .= "			var vname = 'null';\n";
-				$ret .= "			var nname = 'null';\n";
-				$ret .= "			var gebdat = 'null';\n";
-				$ret .= "			var email = 'null';\n";
-				$ret .= "			var strasse = 'null';\n";
-				$ret .= "			var hausnr = -1;\n";
-				$ret .= "			var plz = -1;\n";
-				$ret .= "			var ort = 'null';\n";
-				$ret .= "			var bundesland = 'null';\n";
-				$ret .= "			if($('#titel_" . $nr . "').val())\n";
-				$ret .= "				titel = $('#titel_" . $nr . "').val();\n";
-				$ret .= "			if($('#vname_" . $nr . "').val())\n";
-				$ret .= "				vname = $('#vname_" . $nr . "').val();\n";
-				$ret .= "			if($('#nname_" . $nr . "').val())\n";
-				$ret .= "				nname = $('#nname_" . $nr . "').val();\n";
-				$ret .= "			if($('#gebdat_" . $nr . "').val())\n";
-				$ret .= "				gebdat = $('#gebdat_" . $nr . "').val();\n";
-				$ret .= "			if($('#email_" . $nr . "').val())\n";
-				$ret .= "				email = $('#email_" . $nr . "').val();\n";
-				$ret .= "			if($('#strasse_" . $nr . "').val())\n";
-				$ret .= "				strasse = $('#strasse_" . $nr . "').val();\n";
-				$ret .= "			if($('#hausnr_" . $nr . "').val())\n";
-				$ret .= "				hausnr = $('#hausnr_" . $nr . "').val();\n";
-				$ret .= "			if($('#plz_" . $nr . "').val())\n";
-				$ret .= "				plz = $('#plz_" . $nr . "').val();\n";
-				$ret .= "			if($('#ort_" . $nr . "').val())\n";
-				$ret .= "				ort = $('#ort_" . $nr . "').val();\n";
-				$ret .= "			if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
-				$ret .= "				bundesland = document.getElementById('bundesland_" . $nr . "').options[document.getElementById('bundesland_". $nr . "').selectedIndex].text;\n";
-				$ret .= "			}\n";
-				$ret .= "			if(vname != 'null' && nname != 'null' && email != 'null' && plz != -1 && ort != 'null') {\n";
-				$ret .= "				var url = 'script_teilnehmer_bearbeiten.php?nr=" . $nr . "';\n";
-				$ret .= "				url += '&vname=' + vname;\n";
-				$ret .= "				url += '&nname=' + nname;\n";
-				$ret .= "				url += '&email=' + email;\n";
-				$ret .= "				url += '&plz=' + plz;\n";
-				$ret .= "				url += '&ort=' + ort;\n";
-				$ret .= "				if(titel != 'null')\n";
-				$ret .= "					url += '&titel=' + titel;\n";
-				$ret .= "				if(gebdat != 'null')\n";
-				$ret .= "					url += '&gebdat=' + gebdat;\n";
-				$ret .= "				if(strasse != 'null')\n";
-				$ret .= "					url += '&strasse=' + strasse;\n";
-				$ret .= "				if(hausnr != -1)\n";
-				$ret .= "					url += '&hausnr=' + hausnr;\n";
-				$ret .= "				if(bundesland != 'null')\n";
-				$ret .= "					url += '&bundesland=' + bundesland;\n";
-				$ret .= "				window.location = url;\n";
-				$ret .= "			} else {\n";
-				$ret .= "				alert('Bitte geben Sie alle Pflichtparameter ein!');\n";
-				$ret .= "			}\n";
-				$ret .= "		});";
-				$ret .= "		</script>";
 				$ret .= "	</div>";
 				$ret .= "</div>";
 			}
@@ -1211,7 +343,8 @@
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
 
-		<title>Teilnehmerliste - Veranstaltung<?php 
+		<title>Teilnehmerliste - Veranstaltung
+			<?php 
 				if(isset($_GET["vid"])) {
 					echo " #" . $_GET["vid"];
 				}
@@ -1365,6 +498,15 @@
 								<!-- suchleiste -->
 								<div class="col-sm-6 text-right">
 									<input type="search" id="searchTF" placeholder=" Suchen...">
+									<script>
+										//Enter-Taste zum Suchen
+										$(document).ready(function(){
+											$('#searchTF').keypress(function(e) {
+												if(e.keyCode==13)
+													startSearch();
+											});
+										});	
+									</script>
 									<button class="btn btn-hgoe-grey" onClick="startSearch()" style="margin-left: 10px; height: 25px; width: 25px; margin-top: -4px; box-shadow: 0px 0px 0px rgba(0,0,0,0);">
 										<img style='height: 20px; margin-top: -10px; margin-left: -10px;' src="./assets/img/search_icon.svg">
 									</button>
@@ -1489,6 +631,15 @@
 				</div>
 				<div class="col-xs-10 text-right">
 					<input type="search" id="searchTF_XS" placeholder=" Suchen..." style='height: 30px;'>
+					<script>
+						//Enter-Taste zum Suchen
+						$(document).ready(function(){
+							$('#searchTF_XS').keypress(function(e) {
+								if(e.keyCode==13)
+							  		startSearchXS();
+							});
+						});					
+					</script>
 					<button class="btn btn-hgoe-grey" onClick="startSearchXS()" style="margin-left: 10px; height: 30px; width: 30px; margin-top: -2px; box-shadow: 0px 0px 0px rgba(0,0,0,0);">
 						<img style='height: 22px; margin-top: -7px; margin-left: -9px;' src="./assets/img/search_icon.svg">
 					</button>
