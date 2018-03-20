@@ -11,6 +11,7 @@ Used for proper display in Adobe Dreamweaver CC
 
 body {
 	background-image: url("../img/background.jpg");
+	background-size: cover;
 }
 
 a:hover, a:visited, a:link, a:active {
