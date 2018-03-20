@@ -41,6 +41,16 @@ if(isset($_GET['login'])) {
 <!DOCTYPE html> 
 <html> 
 	<head>
+		<script>
+			if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+				//Internet Explorer detected
+				
+				if(!confirm("ACHTUNG: Sie verwenden den Internet Explorer.\n\nDieser Browser unterstützt nicht alle modernen Technologien die auf diesem Web-Tool verwendet werden. Deshalb wird empfohlen, auf einen anderen Browser (Google Chrome, Mozilla Firefox, ...) umzusteigen, um optimale Performance zu gewährleisten.\n\nKlicken Sie 'OK' falls Sie trotzdem zur Website fortfahren wollen.")) {
+					window.location = 'http://www.hgoe-burgenland.at';
+				}
+			}  
+		</script>
+		
 		<title>HGÖ - Login</title>
 		
 		<meta charset="UTF-8">
@@ -60,7 +70,6 @@ if(isset($_GET['login'])) {
 	</head> 
 	
 	<body style="font-family: Open Sans, Arial, sans-serif;">
-		
 		<div class="container vertical-center" style="max-width: 500px;">
 			<div class="panel panel-hgoe">
 				<div class="panel-heading text-center" style="font-size: 18px; font-family: Armata, Times New Roman, serif;">
