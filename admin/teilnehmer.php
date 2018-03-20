@@ -1285,7 +1285,7 @@
 		</style>
 	</head>
 
-	<body style="font-family: Open Sans, Arial, sans-serif;">
+	<body style="font-family: Open Sans, Arial, sans-serif; min-height: 100%;">
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-hgoe navbar-static-top hidden-sm hidden-md hidden-lg">
 		  <div class="container-fluid">
