@@ -44,9 +44,9 @@
 	</head>
 
 	<body style="font-family: Open Sans, Arial, sans-serif;">
-		<div class="container-fluid">
+		<div class="container">
 			<!-- Headline -->
-			<div class="container-fluid row" style="padding-bottom: 5px;">
+			<div class="container-fluid row box" style="margin-left: 0px; margin-right: 0px; margin-top: 20px; margin-bottom: 20px; padding-bottom: 8px; padding-top: 3px;">
 			
 				<!-- normale Bildschirmgrößen -->
 				<div class="col-sm-5 text-left hidden-xs" style="height: 70px;">
@@ -55,19 +55,15 @@
 					<p style="margin-left: 65px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
 				<div class="col-sm-7 text-right hidden-xs" style="height: 70px;">
-					<a class="btn-hgoe btn" style="color: white; margin-top:15px;" href="erstellen.php">Neue Veranstaltung erstellen</a>
-					<a class="btn btn-hgoe-red" style="margin-top: 15px; margin-left: 20px;" href="./logout.php">Ausloggen</a>
-					<a class="btn btn-hgoe-grey" style="margin-top: 15px; margin-left: 20px;" href="./settings/settings.php"><img src="assets/img/settings_icon.svg" style="height: 20px;"></a>
+					<a class="btn btn-hgoe-red" style="margin-top: 18px;" href="./logout.php"><img src="assets/img/logout_icon.svg" style="height: 20px;"> Ausloggen</a>
+					<a class="btn btn-hgoe-grey" style="margin-top: 18px; margin-left: 15px;" href="./settings/settings.php"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
 				</div>
 				
 				<!-- kleine Bildschirmgrößen -->
 				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="margin-bottom: 10px; margin-top: 5px;">
-					<h3 style="margin-top: -5px; font-size: 24px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 10px;"> &nbsp;
+					<h3 style="margin-top: -10px; font-size: 24px;"><img src="assets/img/hgoe_logo.png" style="height: 80px; margin-top: 18px;"> &nbsp;
 					Willkommen!</h3>
-					<p style="margin-left: 80px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
-				</div>
-				<div class="col-xs-12 text-center hidden-sm hidden-md hidden-lg hidden-xl" style="margin-bottom: 20px;">
-					<a class="btn-hgoe btn" style="color: white; max-width: 300px; width: 100%; word-wrap: break-word;" href="erstellen.php">Neue Veranstaltung erstellen</a>
+					<p style="margin-left: 80px; margin-top: -45px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
 			</div>
 			
@@ -75,13 +71,14 @@
 		  	<div class="panel-hgoe panel">
 				
 				<div class="panel-heading">
-					<h4 style="margin: 0px;">
-						<a data-toggle="collapse" href="#panelAktuell" style="text-decoration: none; font-weight: normal; color: white;">Aktuelle Veranstaltungen</a>
+					<h4 data-toggle="collapse" href="#panelAktuell" style="text-decoration: none; font-weight: normal; margin: 0px;">
+						Aktuelle Veranstaltungen
 					</h4>
 				</div>
-				<div id="panelAktuell" class="panel-body panel-collapse collapse in" style="font-size: 14px;">
-					<!-- Tabllen Überschrift -->
-					<div class="row-hgoe row" style="font-size: 17px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
+				<div id="panelAktuell" class="panel-body panel-collapse collapse in" style="font-size: 13px; padding: 20px;">
+					
+					<!-- Tabellen Überschrift -->
+					<div class="row-hgoe row" style="font-size: 15px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; color: white;">
 						<div class="col-xs-8 col-sm-3" style="border-color: #CBD4FF">Veranstaltung</div>
 						<div class="col-xs-4 col-sm-3" style="border-color: #CBD4FF">Datum</div>
 						<div class="col-sm-3 hidden-xs" style="border-color: #CBD4FF">Anmeldefrist</div>
@@ -163,6 +160,10 @@
 							});
 						});
 					</script>
+					
+					<div class="container-fluid text-center" style="margin-top: 20px;">
+						<a class="btn-hgoe btn" style="" href="erstellen.php">Neue Veranstaltung erstellen</a>
+					</div>
 				</div>
 			</div>
 			
@@ -170,13 +171,13 @@
 			<div class="panel-hgoe panel">
 								
 				<div class="panel-heading">
-					<h4 style="margin: 0px;">
-						<a data-toggle="collapse" href="#panelAelter" style="text-decoration: none; font-weight: normal; color: white;">Ältere Veranstaltungen</a>
+					<h4 data-toggle="collapse" href="#panelAelter" style="text-decoration: none; font-weight: normal; margin: 0px;">
+						Ältere Veranstaltungen
 					</h4>
 				</div>
-				<div id="panelAelter" class="panel-body panel-collapse collapse in" style="font-size: 14px;">
+				<div id="panelAelter" class="panel-body panel-collapse collapse" style="font-size: 13px;">
 					<!-- Tabllen Überschrift -->
-					<div class="row-hgoe row" style="font-size: 17px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
+					<div class="row-hgoe row" style="font-size: 15px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
 						<div class="col-xs-8 col-sm-3" style="border-color: #CBD4FF">Veranstaltung</div>
 						<div class="col-xs-4 col-sm-3" style="border-color: #CBD4FF">Datum</div>
 						<div class="col-sm-3 hidden-xs" style="border-color: #CBD4FF">Anmeldefrist</div>

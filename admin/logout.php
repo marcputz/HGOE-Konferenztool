@@ -29,12 +29,12 @@
 	</head>
 
 	<body style="font-family: Open Sans, Arial, sans-serif;">
-		<div class="container" style="max-width: 600px;">
-			<div class="panel panel-hgoe text-center" style="margin-top: 25px;">
-				<div class="panel-heading" style="font-family: Armata, Times New Roman, serif;">
+		<div class="container vertical-center" style="max-width: 500px;">
+			<div class="panel panel-hgoe" style='width: 100%;'>
+				<div class="panel-heading text-center" style="font-family: Armata, Times New Roman, serif;">
 					HGÖ - Logout
 				</div>
-				<div class="panel-body">
+				<div class="panel-body text-center">
 					<b>Sie wurden erfolgreich ausgeloggt!</b>
 					
 					<br><br>

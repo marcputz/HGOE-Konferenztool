@@ -42,27 +42,15 @@
 		
 		<style>
 			#mainPanel {
-				margin-top:10px;
+				margin-top:15px;
 				
 			}
 			@media (min-width: 768px) {
 				/* sm and bigger */
 				#mainPanel {
-					position: absolute;
-					height:96%;
-					width:95%;
+					min-height: 94.5%;
+					width: 100%;
 				}
-			}
-			
-			.menuBarItem {
-				background-color: <?php echo $config['color_secondary']; ?>;
-				box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-				color: black;
-				margin-bottom: 10px;
-				margin-top: 10px;
-			}
-			.menuBarItem:hover {
-				filter: brightness(90%);
 			}
 			
 			#navbar-btn {
@@ -71,13 +59,13 @@
 			
 			#absagen-btn {
 				height:29px;
-				padding:3px;
+				padding:4px;
 				background-color: tomato;
 				font-weight: normal;
 				font-size: 15px;
 			}
 			#absagen-btn:hover {
-				background-color: darkred;
+				background-color: rgba(201,63,38,1.00);
 				color: white;
 			}
 			
@@ -89,7 +77,7 @@
 				font-size: 15px;
 			}
 			#loeschen-btn:hover {
-				background-color: darkred;
+				background-color: rgba(201,63,38,1.00);
 				color: white;
 			}
 			
@@ -132,26 +120,27 @@
 			#panel-body-table div div input {
 				width: 100%;
 			}
+			
+			#headerRow {
+			height: 75px;
+			margin-right: 0px;
+			}
+			@media (max-width: 991px) { /* sm and smaller */
+				#headerRow {
+					margin-left: 8px;
+				}
+			}
+			@media (min-width: 992px) { /* md and bigger */
+				#headerRow {
+					margin-left: 92px;
+				}
+			}
 		</style>		
 	</head>
 
 <body style="font-family: 'Open Sans', sans-serif;">
 	
 	<!-- NAVBAR -->
-	
-	<!-- große Bildschirme -->
-	
-	<nav class="navbar navbar-default navbar-hgoe hidden-xs">
-		<div class="container-fluid text-right">
-			<a type="button" class="btn btn-hgoe" href="./start.php" style="text-decoration: none; color: white; margin-top: 5px;">Zurück zur <br> Startseite</a>
-			
-			<div class="navbar-header">
-				<a class="navbar-brand" href="./start.php" style="height: 70px; padding-top: 5px; padding-bottom: 5px;"><img src="assets/img/hgoe_logo_breitbild.png" style="height: 100%;"></a>
-			</div>
-		</div>
-	</nav>
-	
-	<!-- kleine bildschirme -->
 	<nav class="navbar navbar-default navbar-hgoe navbar-static-top hidden-sm hidden-md hidden-lg">
 	  <div class="container-fluid">
 		<div class="navbar-header">
@@ -177,115 +166,125 @@
 	
 	<!-- CONTENT -->
 	
+	<div class="container hidden-xs" style='margin-top: 20px; margin-bottom: 20px;'>
+		<div class="box row" id="headerRow">
+			<div class="col-xs-4">
+				<a class="navbar-brand" href="./start.php"><img style="height: 54px; margin-top: -5px;" src="assets/img/hgoe_logo_breitbild.png"></a>
+			</div>
+			<div class="col-xs-8 text-right">
+				<a class="btn btn-hgoe" style='margin-top: 20px; margin-right: 15px;' href="./start.php"><img src="assets/img/arrow_back.svg" style='height: 20px; margin-right: 5px;'> Startseite</a>
+				<a class="btn btn-hgoe-red" style='margin-top: 20px; margin-right: 5px;' href="./logout.php"><img src="./assets/img/logout_icon.svg" style='height: 20px; margin-right: 5px;'> Ausloggen</a>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container">
 		<div class="row" style="display: -webkit-flex; flex-wrap: wrap;">
    		
    			<!-- MENU BAR bei größeren Bildschirmen-->
    		
-    		<div class="hidden-xs col-md-3 col-sm-3" style="font-family: 'Armata', cursive;">
-    			<center>
-					<a class="menuBarItem btn text-center" id="teilnehmer-btn">
-						<img src="assets/img/teilnehmer_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-						<p>Teilnehmer</p>
-					</a>
-					<a class="menuBarItem btn text-center">
-						<img src="assets/img/auswertungen_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-						<p>Auswertung</p>
-					</a>
-					<a class="menuBarItem btn text-center">
-						<img src="assets/img/print_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-						<p>Etiketten</p>
-					</a>
-					<a class="menuBarItem btn text-center" id="absagen-btn">Absagen</a>
-					<a class="menuBarItem btn text-center" id="loeschen-btn">Löschen</a>
-					
-						<script>
-							$("#teilnehmer-btn").click( function() {
-								var url = "./teilnehmer.php";
-								
+    		<div class="hidden-xs col-md-3 col-sm-3 text-right" style="padding-bottom: 5px;">
+				<a class="big-btn text-center" id="teilnehmer-btn">
+					<img src="assets/img/teilnehmer_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
+					<p>Teilnehmer</p>
+				</a>
+				<a class="big-btn text-center">
+					<img src="assets/img/auswertungen_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
+					<p>Auswertung</p>
+				</a>
+				<a class="big-btn text-center">
+					<img src="assets/img/print_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
+					<p>Etiketten</p>
+				</a>
+				<a class="big-btn text-center" id="absagen-btn">Absagen</a>
+				<a class="big-btn text-center" id="loeschen-btn">Löschen</a>
+
+					<script>
+						$("#teilnehmer-btn").click( function() {
+							var url = "./teilnehmer.php";
+
+							<?php
+								if(isset($_GET["id"]))
+									echo "url += '?vid=" . $_GET["id"] . "';";
+							?>
+							window.location = url;
+						});
+
+						$("#navbar-teilnehmer-btn").click( function() {
+							var url = "./teilnehmer.php";
+
+							<?php
+								if(isset($_GET["id"]))
+									echo "url += '?vid=" . $_GET["id"] . "';";
+							?>
+							window.location = url;
+						});
+
+						$("#absagen-btn").click( function() {
+							if(confirm("Wollen Sie diese Veranstaltung wirklich absagen?")) {
+								var url = "./script_veranstaltung_absagen.php?id=";
+
 								<?php
-									if(isset($_GET["id"]))
-										echo "url += '?vid=" . $_GET["id"] . "';";
+									if(isset($_GET["id"])) {
+										echo "url += " . $_GET["id"] . ";";
+										echo "window.location = url;";
+									} else {
+										echo "alert('Kann Veranstaltung ohne ID nicht absagen');";
+									}
 								?>
-								window.location = url;
-							});
-							
-							$("#navbar-teilnehmer-btn").click( function() {
-								var url = "./teilnehmer.php";
-								
+							}
+						});
+
+						$("#navbar-absagen-btn").click( function() {
+							if(confirm("Wollen Sie diese Veranstaltung wirklich absagen?")) {
+								var url = "./script_veranstaltung_absagen.php?id=";
+
 								<?php
-									if(isset($_GET["id"]))
-										echo "url += '?vid=" . $_GET["id"] . "';";
+									if(isset($_GET["id"])) {
+										echo "url += " . $_GET["id"] . ";";
+										echo "window.location = url;";
+									} else {
+										echo "alert('Kann Veranstaltung ohne ID nicht absagen');";
+									}
 								?>
-								window.location = url;
-							});
-							
-							$("#absagen-btn").click( function() {
-								if(confirm("Wollen Sie diese Veranstaltung wirklich absagen?")) {
-									var url = "./script_veranstaltung_absagen.php?id=";
+							}
+						});
 
-									<?php
-										if(isset($_GET["id"])) {
-											echo "url += " . $_GET["id"] . ";";
-											echo "window.location = url;";
-										} else {
-											echo "alert('Kann Veranstaltung ohne ID nicht absagen');";
-										}
-									?>
-								}
-							});
-							
-							$("#navbar-absagen-btn").click( function() {
-								if(confirm("Wollen Sie diese Veranstaltung wirklich absagen?")) {
-									var url = "./script_veranstaltung_absagen.php?id=";
+						$("#loeschen-btn").click( function() {
+							if(confirm("Wollen Sie diese Veranstaltung wirklich löschen?")) {
+								var url = "./script_veranstaltung_loeschen.php?id=";
 
-									<?php
-										if(isset($_GET["id"])) {
-											echo "url += " . $_GET["id"] . ";";
-											echo "window.location = url;";
-										} else {
-											echo "alert('Kann Veranstaltung ohne ID nicht absagen');";
-										}
-									?>
-								}
-							});
-							
-							$("#loeschen-btn").click( function() {
-								if(confirm("Wollen Sie diese Veranstaltung wirklich löschen?")) {
-									var url = "./script_veranstaltung_loeschen.php?id=";
+								<?php
+									if(isset($_GET["id"])) {
+										echo "url += " . $_GET["id"] . ";";
+										echo "window.location = url;";
+									} else {
+										echo "alert('Kann Veranstaltung ohne ID nicht löschen');";
+									}
+								?>
+							}
+						});
 
-									<?php
-										if(isset($_GET["id"])) {
-											echo "url += " . $_GET["id"] . ";";
-											echo "window.location = url;";
-										} else {
-											echo "alert('Kann Veranstaltung ohne ID nicht löschen');";
-										}
-									?>
-								}
-							});
-							
-							$("#navbar-loeschen-btn").click( function() {
-								if(confirm("Wollen Sie diese Veranstaltung wirklich löschen?")) {
-									var url = "./script_veranstaltung_loeschen.php?id=";
+						$("#navbar-loeschen-btn").click( function() {
+							if(confirm("Wollen Sie diese Veranstaltung wirklich löschen?")) {
+								var url = "./script_veranstaltung_loeschen.php?id=";
 
-									<?php
-										if(isset($_GET["id"])) {
-											echo "url += " . $_GET["id"] . ";";
-											echo "window.location = url;";
-										} else {
-											echo "alert('Kann Veranstaltung ohne ID nicht löschen');";
-										}
-									?>
-								}
-							});
-							
-							$(document).ready( function() {
-								$("#navbar-loeschen-btn").hide();
-								$("#loeschen-btn").hide();
-							});
-						</script>
-				</center>
+								<?php
+									if(isset($_GET["id"])) {
+										echo "url += " . $_GET["id"] . ";";
+										echo "window.location = url;";
+									} else {
+										echo "alert('Kann Veranstaltung ohne ID nicht löschen');";
+									}
+								?>
+							}
+						});
+
+						$(document).ready( function() {
+							$("#navbar-loeschen-btn").hide();
+							$("#loeschen-btn").hide();
+						});
+					</script>
     		</div>
     		
     		<!-- MAIN PANEL -->
@@ -306,11 +305,11 @@
 					<form>
 						<div class="panel-body text-left" id="panel-body-table">
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
+								<div class="col-sm-4 col-xs-5 text-right" style='line-height: 35px;'>
 									<p>Name</p>
 								</div>
-								<div class="col-sm-8 col-xs-7">
-									<input id="name" type="text" placeholder="Veranstaltung benennen...">
+								<div class="col-sm-8 col-xs-7" style='height: 45px;'>
+									<textarea id="name" style='width: 90%;' rows="2"></textarea>
 								</div>
 							</div>
 							<div class="row">
@@ -318,31 +317,41 @@
 									<p>Datum</p>
 								</div>
 								<div class="col-sm-8 col-xs-7">
-									<input id="datum" type="date" value="2000-01-01">
+									<input id="datum" type="date" value="2000-01-01" style='width: 90%;'>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
+								<div class="col-sm-4 text-right hidden-xs">
 									<p>Beginn Anmeldefrist</p>
 								</div>
+								<div class="col-xs-5 text-right hidden-sm hidden-md hidden-lg">
+									<p>Beginn Anmeldefr.</p>
+								</div>
 								<div class="col-sm-8 col-xs-7">
-									<input id="beginnAnmeldefrist" type="datetime-local" value="2000-01-01T00:00">
+									<input id="beginnAnmeldefrist" type="datetime-local" value="2000-01-01T00:00" style='width: 90%;'>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
+								<div class="col-sm-4 text-right hidden-xs">
 									<p>Ende Anmeldefrist</p>
 								</div>
+								<div class="col-xs-5 text-right hidden-sm hidden-md hidden-lg">
+									<p>Ende Anmeldefr.</p>
+								</div>
 								<div class="col-sm-8 col-xs-7">
-									<input id="endeAnmeldefrist" type="datetime-local" value="2000-01-01T23:59">
+									<input id="endeAnmeldefrist" type="datetime-local" value="2000-01-01T23:59" style='width: 90%;'>
 								</div>
 							</div>
+							<br>
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
+								<div class="col-sm-4 text-right hidden-xs">
 									<p>Stornierung möglich</p>
 								</div>
+								<div class="col-xs-5 text-right hidden-sm hidden-md hidden-lg">
+									<p>Stornierbar</p>
+								</div>
 								<div class="col-xs-1">
-									<input id="stornierungCB" type="checkbox" style="min-height:20px; min-width:20px;">
+									<input id="stornierungCB" type="checkbox" style='min-height: 20px; min-width: 20px;'>
 									
 									<script>
 										$("#stornierungCB").click( function() {
@@ -389,6 +398,8 @@
 									<input id="maxAnmeldungen" type="number" placeholder="(Optional)">
 								</div>
 							</div>
+							<br>
+							<div class="seperator"></div>
 							<br>
 							<div class="row">
 								<div class="col-xs-5 text-right">

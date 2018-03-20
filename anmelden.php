@@ -26,15 +26,14 @@
 	<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
   </head>
   <body>
-  <div class="container-fluid" style="font-family: Open Sans, Arial, sans-serif;">
-  <div class="container" style="max-width: 700px;">
+  <div class="container" style="font-family: Open Sans, Arial, sans-serif; max-width: 700px;">
   <div class="panel panel-hgoe" style="margin-top: 15px;">
 	<div class="panel-heading text-center">
-	    <h3 class="panel-title" style="color: white; font-size: 25px; font-family: Armata, Arial, sans-serif;">Anmeldung</h3>
+	    <h3 class="panel-title" style="font-size: 25px;">Anmeldung</h3>
     </div>
 	<div class="panel-body text-right">
 		<div class="row">
-			<div class="col-xs-5 col-md-3">Veranstaltung</div>
+			<div class="col-xs-5 col-md-3" style='line-height: 24px;'>Veranstaltung</div>
 			<div class="col-xs-7">
            		<select id="veranstaltungCB" style="width: 100%">
            			<?php
@@ -73,6 +72,8 @@
         		</select>
 	  		</div>
 		</div>
+		<br>
+		<div class="seperator"></div>
 		<br>
 		<div class="row text-center" style="margin: 8px;">
 			<p>Felder mit <b>"*"</b> sind Pflichtfelder und müssen ausgefüllt werden!</p>
@@ -173,6 +174,8 @@
 		</div>
 	  	
 	  	<br>
+		<div class="seperator"></div>
+	  	<br>
 	  	<div class="row text-center" id="text" style='margin-left: 15px; margin-right: 15px;'>
 			<p>Mit dem Klick auf "Anmelden" aktzeptiere ich, die Teilnahmegebühren von <span>0</span> € an unten stehende Addresse schnellstmöglich zu überweisen:</p>
 			<p style='font-size: 16px'>
@@ -236,8 +239,7 @@
 	  		<button id="anmeldenBtn" class="btn btn-hgoe" type="submit" style="padding-left: 40px; padding-right: 40px;">Anmelden</button>
 		</div>
 	  </div>
-	  </div>
-  </div>    
+	  </div>   
   </div>
   <script>
   	$("#anmeldenBtn").click( function() {

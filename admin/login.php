@@ -61,7 +61,7 @@ if(isset($_GET['login'])) {
 	
 	<body style="font-family: Open Sans, Arial, sans-serif;">
 		
-		<div class="container" style="max-width: 500px; margin-top: 30px;">
+		<div class="container vertical-center" style="max-width: 500px;">
 			<div class="panel panel-hgoe">
 				<div class="panel-heading text-center" style="font-size: 18px; font-family: Armata, Times New Roman, serif;">
 					HGÖ - Login
