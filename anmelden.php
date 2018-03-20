@@ -80,55 +80,55 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Titel</div>
-			<div class="col-xs-7"><input type="text" id="titel" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="text" id="titel" style="width: 90%"></div>
 		</div> 
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Vorname*</div>
-			<div class="col-xs-7"><input type="text" id="vname" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="text" id="vname" style="width: 90%"></div>
 		</div> 
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Nachname*</div>
-			<div class="col-xs-7"><input type="text" id="nname" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="text" id="nname" style="width: 90%"></div>
 		</div>
 		<br> 
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Geburtsdatum</div>
-			<div class="col-xs-7"><input type="date" id="gebdat" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="date" id="gebdat" style="width: 90%"></div>
 		</div> 
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">E-Mail*</div>
-			<div class="col-xs-7"><input type="email" id="email" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="email" id="email" style="width: 90%"></div>
 		</div> 
 		<br>
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Straße</div>
-			<div class="col-xs-7"><input type="text" id="strasse" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="text" id="strasse" style="width: 90%"></div>
 		</div>
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Hausnummer</div>
-			<div class="col-xs-7"><input type="number" id="hausnr" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="number" id="hausnr" style="width: 90%"></div>
 		</div> 
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">PLZ*</div>
-			<div class="col-xs-7"><input type="number" id="plz" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="number" id="plz" style="width: 90%"></div>
 		</div> 
 		<br>
 		<div class="row">
 			<div class="col-xs-5 col-md-3">Ort*</div>
-			<div class="col-xs-7"><input type="text" id="ort" style="width: 100%"></div>
+			<div class="col-xs-7 col-md-9 text-left"><input type="text" id="ort" style="width: 90%"></div>
 		</div> 
 		<br>
 		<br>
 		<div class="row">
 			<div class="col-xs-4 col-md-3">Mitglied</div>
-			<div class="col-xs-8 text-center">
+			<div class="col-xs-8 col-md-9 text-center">
 				<label class="radio">
 					<input type="radio" name="mitglied" id="opt_mit" value="0">Ich bin HGÖ-Burgenland Mitglied
 				</label>
@@ -140,15 +140,15 @@
 				</label>
 				
 				<script>
-					document.getElementById('opt_mit').onclick = function () {
-						$("#divBundesland").fadeOut();
-					};
-					document.getElementById('opt_and').onclick = function () {
+					$("#opt_mit").click( function () {
+						$("#divBundesland").hide();
+					});
+					$("#opt_and").click( function () {
 						$("#divBundesland").fadeIn();
-					};
-					document.getElementById('opt_kein').onclick = function () {
-						$("#divBundesland").fadeOut();
-					};
+					});
+					$("#opt_kein").click( function () {
+						$("#divBundesland").hide();
+					});
 					
 					$(document).ready( function() {
 						$("#divBundesland").hide();
@@ -159,8 +159,8 @@
 		<br> 
 		<div class="row" id="divBundesland">
 			<div class="col-xs-5 col-md-3">Bundesland</div>
-			<div class="col-xs-7">
-				<select id="bundesland" style="width: 100%;">
+			<div class="col-xs-7 col-md-9 text-left">
+				<select id="bundesland" style="width: 90%;">
             		<option value="1">Steiermark</option>
             		<option value="2">Niederösterreich</option>
 					<option value="3">Oberösterreich</option>
