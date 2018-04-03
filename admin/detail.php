@@ -134,8 +134,8 @@
 				<a class="navbar-brand" href="./start.php"><img style="height: 54px; margin-top: -5px;" src="assets/img/hgoe_logo_breitbild.png"></a>
 			</div>
 			<div class="col-xs-8 text-right">
-				<a class="btn btn-hgoe" style='margin-top: 20px; margin-right: 15px;' href="./start.php"><img src="assets/img/arrow_back.svg" style='height: 20px; margin-right: 5px;'> Startseite</a>
-				<a class="btn btn-hgoe-red" style='margin-top: 20px; margin-right: 5px;' href="./logout.php"><img src="./assets/img/logout_icon.svg" style='height: 20px; margin-right: 5px;'> Ausloggen</a>
+				<a class="btn btn-hgoe" style='margin-top: 20px; margin-right: 15px;' data-toggle='tooltip' data-placement='bottom' title='Zurück zur Startseite' href="./start.php"><img src="assets/img/arrow_back.svg" style='height: 20px; margin-right: 5px;'> Startseite</a>
+				<a class="btn btn-hgoe-red" style='margin-top: 20px; margin-right: 5px;' data-toggle='tooltip' data-placement='bottom' title='Vom Konferenztool ausloggen' href="./logout.php"><img src="./assets/img/logout_icon.svg" style='height: 20px; margin-right: 5px;'> Ausloggen</a>
 			</div>
 		</div>
 	</div>
@@ -154,17 +154,17 @@
 					</div>
 					<div class="panel-body" style='font-size: 18px;'>
 						<div class="seperator"></div>
-						<div class="container-fluid menu-bar-item" id="teilnehmerMenuItem">
+						<div class="container-fluid menu-bar-item" data-toggle='tooltip' data-placement='right' title='Zur Teilnehmerliste' id="teilnehmerMenuItem">
 							<img src="assets/img/teilnehmer_icon.svg" style='width: 85%;'>
 							Teilnehmer
 						</div>
 						<div class="seperator"></div>
-						<div class="container-fluid menu-bar-item" id="statistikMenuItem">
+						<div class="container-fluid menu-bar-item" data-toggle='tooltip' data-placement='right' title='Zeige Statistiken' id="statistikMenuItem">
 							<img src="assets/img/auswertungen_icon.svg" style='width: 85%;'>
 							Statistik
 						</div>
 						<div class="seperator"></div>
-						<div class="container-fluid menu-bar-item" id="etikettenMenuItem">
+						<div class="container-fluid menu-bar-item" data-toggle='tooltip' data-placement='right' title='Drucke Etiketten und Formulare' id="etikettenMenuItem">
 							<img src="assets/img/print_icon.svg" style='width: 85%;'>
 							Etiketten
 						</div>
@@ -172,12 +172,12 @@
 					</div>
 				</div>
 			
-				<div class="btn btn-hgoe-red" style='width: 100%;' id="absagen-btn">
+				<div class="btn btn-hgoe-red" style='width: 100%;' data-toggle='tooltip' data-placement='right' title='Sagt die Veranstaltung ab' id="absagen-btn">
 					<img src="./assets/img/absagen_icon.svg" style='width: 20%; margin-right: 10px;'>
 					Absagen
 				</div>
 				
-				<div class="btn btn-hgoe-red" style='width: 100%;' id="loeschen-btn">
+				<div class="btn btn-hgoe-red" style='width: 100%;' data-toggle='tooltip' data-placement='right' title='Löscht die Veranstaltung unwiderruflich' id="loeschen-btn">
 					<img src="./assets/img/delete_icon.svg" style='width: 20%; margin-right: 10px;'>
 					Löschen
 				</div>
@@ -347,10 +347,11 @@
 							</div>
 							<br>
 							<div class="row text-center" style="margin-top:25px;" id="saveBtnDIV">
-								<input class="btn btn-hgoe" style="width: 140px" id="saveBtn" value="Speichern">
+								<input class="btn btn-hgoe" style="width: 140px" data-toggle='tooltip' data-placement='bottom auto' title='Speichert alle Aenderungen' id="saveBtn" value="Speichern">
 								
 								<script>
 									$(document).ready( function() {
+										$('[data-toggle="tooltip"]').tooltip(); 
 										$("#saveBtn").hide();
 									})
 									

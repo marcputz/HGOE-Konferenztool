@@ -55,8 +55,8 @@
 					<p style="margin-left: 65px; margin-top: -35px;"><?php if(isset($_SESSION['user'])) { echo "Angemeldet als: <b>" . $_SESSION['user'] . "</b>"; } else { echo "Nicht angemeldet"; } ?></p>
 				</div>
 				<div class="col-sm-7 text-right hidden-xs" style="height: 70px;">
-					<a class="btn btn-hgoe-red" style="margin-top: 18px;" href="./logout.php"><img src="assets/img/logout_icon.svg" style="height: 20px;"> Ausloggen</a>
-					<a class="btn btn-hgoe-grey" style="margin-top: 18px; margin-left: 15px;" href="./settings/settings.php"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
+					<a class="btn btn-hgoe-red" style="margin-top: 18px;" href="./logout.php" data-toggle="tooltip" data-placement='bottom' title='Vom Konferenztool ausloggen'><img src="assets/img/logout_icon.svg" style="height: 20px;"> Ausloggen</a>
+					<a class="btn btn-hgoe-grey" style="margin-top: 18px; margin-left: 15px;" href="./settings/settings.php" data-toggle="tooltip" data-placement='bottom' title='Das WebTool konfigurieren'><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
 				</div>
 				
 				<!-- kleine Bildschirmgrößen -->
@@ -141,7 +141,9 @@
 								} else {
 									echo "0";
 								}
-								echo " / " . $maxAnmeldungen;
+								if($maxAnmeldungen != '---') {
+									echo " von " . $maxAnmeldungen;
+								}
 								echo "	</div>";
 								echo "</div>";	
 							}
@@ -154,6 +156,8 @@
 					
 					<script>
 						jQuery(document).ready(function($) {
+							$('[data-toggle="tooltip"]').tooltip(); 
+							
 							$(".clickable-row").click(function() {
 								window.location = $(this).data("href");
 							});
@@ -235,7 +239,9 @@
 								} else {
 									echo "0";
 								}
-								echo " / " . $maxAnmeldungen;
+								if($maxAnmeldungen != '---') {
+									echo " von " . $maxAnmeldungen;
+								}
 								echo "	</div>";
 								echo "</div>";	
 							}
@@ -284,7 +290,7 @@
 					<a class="btn btn-hgoe-red" href="./logout.php" style="width: 100%;"><img src="assets/img/logout_icon.svg" style="height: 20px;"> Ausloggen</a>
 				</div>
 				<div class="col-xs-6 text-center">
-					<a class="btn btn-hgoe-grey" style="width: 100%;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
+					<a class="btn btn-hgoe-grey" style="width: 100%;" href="./settings/settings.php"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
 				</div>			
 			</div>
 		</div>

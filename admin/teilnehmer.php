@@ -246,10 +246,10 @@
 
 					$ret .= "		</script>";
 					$ret .= "		<div class='col-xs-6 text-right'>";
-					$ret .= "			<a id='savebtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe'>Speichern</a>";
+					$ret .= "			<a id='savebtn_" . $nr . "' style='width: 125px;' data-toggle='tooltip' title='Speichert alle Änderungen' class='btn btn-hgoe'>Speichern</a>";
 					$ret .= "		</div>";
 					$ret .= "		<div class='col-xs-6 text-left'>";
-					$ret .= "			<a id='abmeldenbtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe-red'>Abmelden</a>";
+					$ret .= "			<a id='abmeldenbtn_" . $nr . "' data-toggle='tooltip' title='Meldet diesen Teilnehmer von der Veranstaltung ab' style='width: 125px;' class='btn btn-hgoe-red'>Abmelden</a>";
 					$ret .= "		</div>";
 					$ret .= "		<br>";
 					
@@ -428,7 +428,7 @@
 		</style>
 		
 		<script>
-			$(document).ready( function() {
+			$(document).ready( function() {				
 				resizeMenuItemHeight();
 			});
 			window.onresize = function(event) {
@@ -474,8 +474,8 @@
 					<a class="navbar-brand" href="./start.php"><img style="height: 54px; margin-top: -5px;" src="assets/img/hgoe_logo_breitbild.png"></a>
 				</div>
 				<div class="col-xs-8 text-right">
-					<a class="btn btn-hgoe" style='margin-top: 20px; margin-right: 15px;' href="./start.php"><img src="assets/img/arrow_back.svg" style='height: 20px; margin-right: 5px;'> Startseite</a>
-					<a class="btn btn-hgoe-red" style='margin-top: 20px; margin-right: 5px;' href="./logout.php"><img src="./assets/img/logout_icon.svg" style='height: 20px; margin-right: 5px;'> Ausloggen</a>
+					<a class="btn btn-hgoe" style='margin-top: 20px; margin-right: 15px;' href="./start.php" data-toggle='tooltip' data-placement="bottom" title='Zurück zur Startseite'><img src="assets/img/arrow_back.svg" style='height: 20px; margin-right: 5px;'> Startseite</a>
+					<a class="btn btn-hgoe-red" style='margin-top: 20px; margin-right: 5px;' data-toggle='tooltip' data-placement="bottom" title='Vom Konferenztool ausloggen' href="./logout.php"><img src="./assets/img/logout_icon.svg" style='height: 20px; margin-right: 5px;'> Ausloggen</a>
 				</div>
 			</div>
 		</div>
@@ -495,17 +495,17 @@
 						</div>
 						<div class="panel-body" style='font-size: 18px;'>
 							<div class="seperator"></div>
-							<div class="container-fluid menu-bar-item" id="teilnehmerMenuItem">
+							<div class="container-fluid menu-bar-item" data-toggle='tooltip' data-placement='right' title='Zurück zur Detailansicht' id="teilnehmerMenuItem">
 								<img src="assets/img/veranstaltung_icon.svg" style='width: 85%;'>
 								<span style='margin-left: -6px;'>Veranstaltung</span>
 							</div>
 							<div class="seperator"></div>
-							<div class="container-fluid menu-bar-item" id="statistikMenuItem">
+							<div class="container-fluid menu-bar-item"  data-toggle='tooltip' data-placement='right' title='Zeige Statistiken' id="statistikMenuItem">
 								<img src="assets/img/auswertungen_icon.svg" style='width: 85%;'>
 								Statistik
 							</div>
 							<div class="seperator"></div>
-							<div class="container-fluid menu-bar-item" id="etikettenMenuItem">
+							<div class="container-fluid menu-bar-item" data-toggle='tooltip' data-placement='right' title='Drucke Etiketten und Formulare' id="etikettenMenuItem">
 								<img src="assets/img/print_icon.svg" style='width: 85%;'>
 								Etiketten
 							</div>
@@ -555,7 +555,7 @@
 											});
 										});	
 									</script>
-									<button class="btn btn-hgoe-grey" onClick="startSearch()" style="margin-left: 10px; height: 25px; width: 25px; margin-top: -4px; box-shadow: 0px 0px 0px rgba(0,0,0,0);">
+									<button class="btn btn-hgoe-grey" onClick="startSearch()" style="margin-left: 10px; height: 25px; width: 25px; margin-top: -4px; box-shadow: 0px 0px 0px rgba(0,0,0,0);" data-toggle="tooltip" title="Sucht nach einem Teilnehmer">
 										<img style='height: 20px; margin-top: -10px; margin-left: -10px;' src="./assets/img/search_icon.svg">
 									</button>
 									<script>
@@ -580,7 +580,8 @@
 													}
 												});
 											}
-										}
+											
+											}
 										
 										function startSearchXS() {
 											var search = $('#searchTF_XS').val();
@@ -603,16 +604,17 @@
 													}
 												});
 											}
-										}
+											
+											}
 									</script>
 								</div>
 							</div>
 							<div class="row text-left" style='border-top: 1pt solid rgba(0,0,0,0.2); margin-top: 10px; padding-top: 10px;'>
 								<div class="col-xs-8">
 									<b>Filtern: </b>
-									<a onClick="filterAlle()" style='margin-left: 10px;'>Alle</a>
-									<a onClick="filterBezahlt()" style='margin-left: 10px;'>Bezahlt</a>
-									<a onClick="filterAnwesend()" style='margin-left: 10px;'>Anwesend</a>
+									<a onClick="filterAlle()" data-toggle="tooltip" title="Zeigt alle Teilnehmer" style='margin-left: 10px;'>Alle</a>
+									<a onClick="filterBezahlt()" data-toggle="tooltip" title="Zeigt nur Teilnehmer, welche die Gebühren bezahlt haben" style='margin-left: 10px;'>Bezahlt</a>
+									<a onClick="filterAnwesend()" data-toggle="tooltip" title="Zeigt nur Teilnehmer, welche anwesend sind bzw. waren" style='margin-left: 10px;'>Anwesend</a>
 									
 									<script>
 										function filterAlle() {
@@ -623,7 +625,8 @@
 													$("#panelBody").html(result);
 												}
 											});
-										}
+											
+											}
 										
 										function filterBezahlt() {
 											$("#panelBody").html("<div class='row'><div class='row-hgoe row' style='background-color: white;'><div class='col-xs-12'>Lade Teilnehmer...</div></div></div>");
@@ -633,7 +636,8 @@
 													$("#panelBody").html(result);
 												}
 											});
-										}
+											
+											}
 										
 										function filterAnwesend() {
 											$("#panelBody").html("<div class='row'><div class='row-hgoe row' style='background-color: white;'><div class='col-xs-12'>Lade Teilnehmer...</div></div></div>");
@@ -643,11 +647,12 @@
 													$("#panelBody").html(result);
 												}
 											});
-										}
+											
+											}
 									</script>
 								</div>
 								<div class="col-sm-4 text-right">
-									<a class="btn btn-hgoe" href="../anmelden.php" style='height: 22px; font-size: 11px; line-height: 8px; margin: -2px;'><img style='height: 16px; margin: -10px; margin-right: 3px;' src="./assets/img/add_icon.svg">Hinzufügen</a>
+									<a class="btn btn-hgoe" href="../anmelden.php" data-toggle="tooltip" data-placement="bottom" title="Meldet einen neuen Teilnehmer zur Veranstaltung an" style='height: 22px; font-size: 11px; line-height: 8px; margin: -2px;'><img style='height: 16px; margin: -10px; margin-right: 3px;' src="./assets/img/add_icon.svg">Hinzufügen</a>
 								</div>
 							</div>
 						</div>
@@ -655,6 +660,8 @@
 							<!-- Teilnehmerliste -->
 							<script>
 								$(document).ready( function() {
+									$('[data-toggle="tooltip"]').tooltip(); 
+									
 									$("#panelBody").html("<div class='row'><div class='row-hgoe row' style='background-color: white;'><div class='col-xs-12'>Lade Teilnehmer...</div></div></div>");
 									$.ajax({
 										url: "./teilnehmer.php?vid=<?php echo $_GET['vid']; ?>&alle=1", 
