@@ -114,7 +114,8 @@
 					$ret .= "		<div class='hidden-xs hidden-sm col-md-1' style='border-right-style: solid; border-left-style: solid; border-color: grey; border-width: 1px; padding-top: 10px; padding-bottom: 10px; word-wrap: break-word;'><b>" . $lfdnr . "</b></div>";
 					$ret .= "		<div class='col-xs-10 col-sm-7 col-md-7'>" . (($titel != "null") ? ($titel . " ") : "") . $vname . " " . $nname . "</div>";
 					$ret .= "		<div class='col-xs-12 col-sm-4 col-md-3 text-right bordered-xs' style='font-size: 12.5px; border-right-width: 0px;'>";
-					$ret .= "			Bezahlt <input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . ">";
+					
+					$ret .= "			<span " . (($row["Gebuehr"] == 0.00) ? "style='color: grey;'" : "") . ">Bezahlt " . (($row["Gebuehr"] != 0.00) ? ("<i>(" . $row["Gebuehr"] . " €)</i>") : "(Gratis)") . "</span><input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . " " . (($row["Gebuehr"] == 0.00) ? "disabled='disabled'" : "") . ">";
 					$ret .= "			Anwesend <input id='anwesendCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Anwesend"] == 1) ? "checked" : "") . ">";
 					$ret .= "		</div>";
 					$ret .= "	</div>";

@@ -43,57 +43,87 @@ $config = include('./admin/config.php');
 			echo "alert('eMail bereits vorhanden');";
 			echo "window.location = 'anmelden.php';";
 		} else {
-			//INSERT
-			$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Organisation, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, KonferenzID) VALUES (";
-
-			if ($titel != "null") {
-				$sql .= "'" . $titel . "', ";
-			} else {
-				$sql .= "null, ";
-			}
-
-			$sql .= "'" . $vname . "', ";
-			$sql .= "'" . $nname . "', ";
+			//Prüfe, ob die GEbühren 0 sind. Falls ja, setze den Bezahlt-Status gleich auf BEZAHLT
+			$sql = "SELECT * FROM hgoe_konferenzen WHERE KonferenzID = " . $konferenzID . ";";
 			
-			if($org != "null") {
-				$sql .= "'" . $org . "', ";
-			} else {
-				$sql .= "null, ";
-			}
+			$result = $conn->query($sql);
+			if($result && $result->num_rows > 0) {
+				$gebMit = 'nix';
+				$gebNichtMit = 'nix';
+				while($row = $result->fetch_assoc()) {
+					$gebMit = $row['gebuehr_mitglied'];
+					$gebNichtMit = $row['gebuehr_nichtmitglied'];
+				}
+				
+				//INSERT INTO hgoe_teilnehmer
+				$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Organisation, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, KonferenzID, Bezahlt, Gebuehr) VALUES (";
 
-			if ($gebdat != "null") {
-				$sql .= "'" . $gebdat . "', ";
-			} else {
-				$sql .= "null, ";
-			}
+				if ($titel != "null") {
+					$sql .= "'" . $titel . "', ";
+				} else {
+					$sql .= "null, ";
+				}
 
-			$sql .= "'" . $email . "', ";
+				$sql .= "'" . $vname . "', ";
+				$sql .= "'" . $nname . "', ";
 
-			if ($strasse != "null") {
-				$sql .= "'" . $strasse . "', ";
-			} else {
-				$sql .= "null, ";
-			}
-			if ($hausnr != "null") {
-				$sql .= "'" . $hausnr . "', ";
-			} else {
-				$sql .= "null, ";
-			}
+				if($org != "null") {
+					$sql .= "'" . $org . "', ";
+				} else {
+					$sql .= "null, ";
+				}
 
-			$sql .= $plz . ", ";
-			$sql .= "'" . $ort . "', ";
+				if ($gebdat != "null") {
+					$sql .= "'" . $gebdat . "', ";
+				} else {
+					$sql .= "null, ";
+				}
 
-			if ($mitglied != "null") {
-				$sql .= "'" . $mitglied . "', ";
-			} else {
-				$sql .= "null, ";
-			}
+				$sql .= "'" . $email . "', ";
 
-			$sql .= $konferenzID . ");";
+				if ($strasse != "null") {
+					$sql .= "'" . $strasse . "', ";
+				} else {
+					$sql .= "null, ";
+				}
+				if ($hausnr != "null") {
+					$sql .= "'" . $hausnr . "', ";
+				} else {
+					$sql .= "null, ";
+				}
 
-			if ($conn->query($sql)) {
-				echo "alert('Erfolgreich angemeldet!');";
-				echo "window.location = 'anmelden_erfolgreich.php?id=" . $konferenzID . "';";
+				$sql .= $plz . ", ";
+				$sql .= "'" . $ort . "', ";
+
+				if ($mitglied != "null") {
+					$sql .= "'" . $mitglied . "', ";
+				} else {
+					$sql .= "null, ";
+				}
+
+				$sql .= $konferenzID . ", ";
+				
+				if($mitglied == 'null') {
+					if($gebNichtMit == 0.00) {
+						$sql .= "1, " . $gebNichtMit . ");";
+					} else {
+						$sql .= "0, " . $gebNichtMit . ");";
+					}
+				} else {
+					if($gebMit == 0.00) {
+						$sql .= "1, " . $gebMit . ");";
+					} else {
+						$sql .= "0, " . $gebMit . ");";
+					}
+				}
+
+				if ($conn->query($sql)) {
+					echo "alert('Erfolgreich angemeldet!');";
+					echo "window.location = 'anmelden_erfolgreich.php?id=" . $konferenzID . "';";
+				} else {
+					echo "alert(\"Error: Sql-Exception <br>" . $conn->error . "\");";
+					echo "window.location = 'anmelden.php';";
+				}
 			} else {
 				echo "alert(\"Error: Sql-Exception <br>" . $conn->error . "\");";
 				echo "window.location = 'anmelden.php';";
