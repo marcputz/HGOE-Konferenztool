@@ -353,13 +353,12 @@
 
 		<style>
 			#mainPanel {
-				margin-top:15px;
 				background-color: #F4F4F4;
 			}
 			@media (min-width: 768px) {
 				/* sm and bigger */
 				#mainPanel {
-					min-height: 93.5%;
+					min-height: 96%;
 					width: 100%;
 				}
 			}
@@ -378,16 +377,7 @@
 			#headerRow {
 				height: 75px;
 				margin-right: 0px;
-			}
-			@media (max-width: 991px) { /* sm and smaller */
-				#headerRow {
-					margin-left: 8px;
-				}
-			}
-			@media (min-width: 992px) { /* md and bigger */
-				#headerRow {
-					margin-left: 92px;
-				}
+				margin-left: 0px;
 			}
 
 			.row-hgoe-detail {
@@ -400,7 +390,6 @@
 
 				box-shadow: inset 0px 4px 10px -4px rgba(0,0,0, 0.8);
 			}
-
 			.row-hgoe-detail [class^='col'] {
 				padding-top: 10px;
 				padding-bottom: 10px;
@@ -416,6 +405,20 @@
 			}
 
 		</style>
+		
+		<script>
+			$(document).ready( function() {
+				resizeMenuItemHeight();
+			});
+			window.onresize = function(event) {
+				resizeMenuItemHeight();
+			};
+			
+			function resizeMenuItemHeight() {
+				var item = $('.menu-bar-item').width();
+				$('.menu-bar-item').css({'height': (item * 1.2) + 'px'});
+			}
+		</script>
 	</head>
 
 	<body style="font-family: Open Sans, Arial, sans-serif; min-height: 100%;">
@@ -460,26 +463,50 @@
 		<div class="container">
 			<div class="row" style="display: -webkit-flex; flex-wrap: wrap; margin-bottom: 50px;">
 
-				<!-- MENU BAR bei größeren Bildschirmen-->
-				<div class="hidden-xs col-md-3 col-sm-3 text-right" style="padding-bottom: 5px;">
-					<a class="big-btn text-center" href="./detail.php<?php 
-							if(isset($_GET["vid"])) { echo '?id=' . $_GET["vid"]; } 
-						?>">
-						<img src="assets/img/veranstaltung_icon.svg" alt="Teilnehmer_Icon" width="90px">
-						<p>Veranstaltung</p>
-					</a>
-					<a class="big-btn text-center">
-						<img src="assets/img/auswertungen_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-						<p>Auswertung</p>
-					</a>
-					<a class="big-btn text-center">
-						<img src="assets/img/print_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-						<p>Etiketten</p>
-					</a>
+				<!-- MENU BAR bei größeren Bildschirmen -->
+				<div class="hidden-xs col-sm-3 col-lg-2" style="">
+					
+					<div class="panel panel-hgoe text-center">
+						<div class="panel-heading">
+							<h2 id="panel-headline" class="panel-title" style="padding-top: 3px; font-weight: bold; font-size: 18px;">
+								Menü
+							</h2>
+						</div>
+						<div class="panel-body" style='font-size: 18px;'>
+							<div class="seperator"></div>
+							<div class="container-fluid menu-bar-item" id="teilnehmerMenuItem">
+								<img src="assets/img/veranstaltung_icon.svg" style='width: 85%;'>
+								<span style='margin-left: -6px;'>Veranstaltung</span>
+							</div>
+							<div class="seperator"></div>
+							<div class="container-fluid menu-bar-item" id="statistikMenuItem">
+								<img src="assets/img/auswertungen_icon.svg" style='width: 85%;'>
+								Statistik
+							</div>
+							<div class="seperator"></div>
+							<div class="container-fluid menu-bar-item" id="etikettenMenuItem">
+								<img src="assets/img/print_icon.svg" style='width: 85%;'>
+								Etiketten
+							</div>
+							<div class="seperator"></div>
+							
+							<script>
+								$("#teilnehmerMenuItem").click( function() {
+									window.location = './detail.php<?php if(isset($_GET["vid"])) { echo '?id=' . $_GET["vid"]; } ?>';
+								});
+								$("#statistikMenuItem").click( function() {
+									
+								});
+								$("#etiketteMenuItem").click( function() {
+									
+								});
+							</script>
+						</div>
+					</div>
 				</div>
 
 				<!-- MAIN PANEL -->
-				<div class="col-md-9 col-sm-9 col-xs-12">
+				<div class="col-sm-9 col-lg-10 col-xs-12">
 					<div id="mainPanel" class="panel panel-hgoe text-center">
 						<!-- kleine Bildschirme -->
 						<div class="panel-heading hidden-md hidden-sm hidden-lg">
@@ -653,10 +680,10 @@
 			</script>
 			
 			<div class="container-fluid row hide" id="footerFilterDiv" style='font-size: 16px; margin-top: 10px; margin-bottom: 10px; border-top: 1pt solid #A6A6A6; padding-top: 10px; padding-bottom: 3px;'>
-				<div class="col-xs-4">
+				<div class="col-xs-3">
 					<b>Filtern</b>
 				</div>
-				<div class="col-xs-8 text-right">
+				<div class="col-xs-9 text-right">
 					<a onClick="filterAlle()" style='margin-left: 10px;'>Alle</a>
 					<a onClick="filterBezahlt()" style='margin-left: 10px;'>Bezahlt</a>
 					<a onClick="filterAnwesend()" style='margin-left: 10px;'>Anwesend</a>

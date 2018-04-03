@@ -2,6 +2,7 @@
 session_start();
 $config = include('./config.php');
  
+//Executed when 'LOGIN'-Button pressed
 if(isset($_GET['login'])) {
 	$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
 	if ($conn->connect_error) {
@@ -78,11 +79,11 @@ if(isset($_GET['login'])) {
 				<div class="panel-body text-center">
 					<form action="?login=1" method="post">
 						<div class="row">
-							<div class="col-xs-5 text-right"><b>Nutzername:</b></div>
+							<div class="col-xs-5 text-right" style='line-height: 24px;'><b>Nutzername:</b></div>
 							<div class="col-xs-7 text-left"><input type="text" size="40" maxlength="250" name="username" style="width: 100%; max-width: 300px;"></div>
 						</div>
 						<div class="row" style="margin-top: 10px;">
-							<div class="col-xs-5 text-right"><b>Passwort:</b></div>
+							<div class="col-xs-5 text-right" style='line-height: 24px;'><b>Passwort:</b></div>
 							<div class="col-xs-7 text-left"><input type="password" size="40"  maxlength="250" name="password" style="width: 100%; max-width: 300px; "></div>
 						</div>
 						

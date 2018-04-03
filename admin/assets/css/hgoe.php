@@ -22,7 +22,7 @@ a:hover, a:visited, a:link, a:active {
 .seperator {
 	background-color: #8D8D8D;
 	width: 90%;
-	height: 1pt;
+	height: 1px;
 	margin-left: 5%;
 	margin-right: 5%;
 }
@@ -44,7 +44,9 @@ a:hover, a:visited, a:link, a:active {
     border-radius: 0;
 }	
 	
-input[type=text], input[type=password], input[type=date], input[type=email], input[type=number], input[type=datetime], textarea {
+input[type=text], input[type=password], input[type=date], input[type=email], input[type=number], input[type=datetime], input[type=datetime-local], textarea {
+	border: 1pt solid #3A3A3A;
+	
 	-webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -146,11 +148,9 @@ input[type=search] {
 	display: flex;
 	flex-wrap: wrap;
 }
-
 .row-hgoe:hover {
 	background-color: #B8C0D8;
 }
-
 .row-hgoe:active {
 	background-color: <?php echo $config['color_selected']; ?>;
 }
@@ -194,23 +194,18 @@ input[type=search] {
 	color: white;
 }
 
-.big-btn {
-	background-color: white;
-	box-shadow: 2px 2px 10px rgba(0,0,0, 0.6);
-	color: black;
-	
-	display: inline-block;
-	white-space:nowrap;
-	vertical-align:middle;
-	cursor:pointer;
-	
-	-webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
+.menu-bar-item {
+	width: 100%;
+	height: auto;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	padding-top: 2px;
+	padding-bottom: 10px;
+	padding-left: -20px;
+	padding-right: -20px;
 }
-.big-btn:hover p {
-	color: black;
-    text-decoration: none;
+.menu-bar-item:hover {
+	background-color: #E5E5E5;
 }
 	
 /* SIZE DEPENDENT */
@@ -218,6 +213,16 @@ input[type=search] {
 @media (max-width: 768px) { /* xs */ 
 	.row-hgoe [class^='col'] {
 		margin-left: -0.5px;
+	}
+	
+	.text-xs-center {
+		text-align: center;
+	}
+	.text-xs-left {
+		text-align: left;
+	}
+	.text-xs-right {
+		text-align: right;
 	}
 }
 

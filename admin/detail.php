@@ -41,44 +41,16 @@
 		<title>HGÖ - Konferenztool</title>
 		
 		<style>
-			#mainPanel {
-				margin-top:15px;
-				
-			}
 			@media (min-width: 768px) {
 				/* sm and bigger */
 				#mainPanel {
-					min-height: 94.5%;
+					min-height: 96.5%;
 					width: 100%;
 				}
 			}
 			
 			#navbar-btn {
 				height:50px;
-			}
-			
-			#absagen-btn {
-				height:29px;
-				padding:4px;
-				background-color: tomato;
-				font-weight: normal;
-				font-size: 15px;
-			}
-			#absagen-btn:hover {
-				background-color: rgba(201,63,38,1.00);
-				color: white;
-			}
-			
-			#loeschen-btn {
-				height:29px;
-				padding:3px;
-				background-color: tomato;
-				font-weight: normal;
-				font-size: 15px;
-			}
-			#loeschen-btn:hover {
-				background-color: rgba(201,63,38,1.00);
-				color: white;
 			}
 			
 			#navbar-absagen-btn {
@@ -122,18 +94,9 @@
 			}
 			
 			#headerRow {
-			height: 75px;
-			margin-right: 0px;
-			}
-			@media (max-width: 991px) { /* sm and smaller */
-				#headerRow {
-					margin-left: 8px;
-				}
-			}
-			@media (min-width: 992px) { /* md and bigger */
-				#headerRow {
-					margin-left: 92px;
-				}
+				height: 75px;
+				margin-right: 0px;
+				margin-left: 0px;
 			}
 		</style>		
 	</head>
@@ -154,7 +117,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 		  <ul id="navbar-list" class="nav navbar-nav">
-			<li><a id="navbar-teilnehmer-btn">Teilnehmer</a></li>
+			<li><a href="./teilnehmer.php<?php if(isset($_GET['id'])) { echo "?vid=" . $_GET['id']; } ?>">Teilnehmer</a></li>
 			<li><a href="#">Auswertung</a></li>
 			<li><a href="#">Ettiketten</a></li>
 			<li><a id="navbar-absagen-btn">Veranstaltung absagen</a></li>
@@ -164,8 +127,7 @@
 	  </div><!-- /.container-fluid -->
 	</nav>
 	
-	<!-- CONTENT -->
-	
+	<!-- HEADER -->
 	<div class="container hidden-xs" style='margin-top: 20px; margin-bottom: 20px;'>
 		<div class="box row" id="headerRow">
 			<div class="col-xs-4">
@@ -178,118 +140,75 @@
 		</div>
 	</div>
 	
+	<!-- CONTENT -->
 	<div class="container">
 		<div class="row" style="display: -webkit-flex; flex-wrap: wrap;">
    		
    			<!-- MENU BAR bei größeren Bildschirmen-->
-   		
-    		<div class="hidden-xs col-md-3 col-sm-3 text-right" style="padding-bottom: 5px;">
-				<a class="big-btn text-center" id="teilnehmer-btn">
-					<img src="assets/img/teilnehmer_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-					<p>Teilnehmer</p>
-				</a>
-				<a class="big-btn text-center">
-					<img src="assets/img/auswertungen_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-					<p>Auswertung</p>
-				</a>
-				<a class="big-btn text-center">
-					<img src="assets/img/print_icon_black.svg" alt="Teilnehmer_Icon" width="90px">
-					<p>Etiketten</p>
-				</a>
-				<a class="big-btn text-center" id="absagen-btn">Absagen</a>
-				<a class="big-btn text-center" id="loeschen-btn">Löschen</a>
+			<div class="hidden-xs col-sm-3 col-lg-2" style="">
+				<div class="panel panel-hgoe text-center">
+					<div class="panel-heading">
+						<h2 id="panel-headline" class="panel-title" style="padding-top: 3px; font-weight: bold; font-size: 18px;">
+							Menü
+						</h2>
+					</div>
+					<div class="panel-body" style='font-size: 18px;'>
+						<div class="seperator"></div>
+						<div class="container-fluid menu-bar-item" id="teilnehmerMenuItem">
+							<img src="assets/img/teilnehmer_icon.svg" style='width: 85%;'>
+							Teilnehmer
+						</div>
+						<div class="seperator"></div>
+						<div class="container-fluid menu-bar-item" id="statistikMenuItem">
+							<img src="assets/img/auswertungen_icon.svg" style='width: 85%;'>
+							Statistik
+						</div>
+						<div class="seperator"></div>
+						<div class="container-fluid menu-bar-item" id="etikettenMenuItem">
+							<img src="assets/img/print_icon.svg" style='width: 85%;'>
+							Etiketten
+						</div>
+						<div class="seperator"></div>
+					</div>
+				</div>
+			
+				<div class="btn btn-hgoe-red" style='width: 100%;' id="absagen-btn">
+					<img src="./assets/img/absagen_icon.svg" style='width: 20%; margin-right: 10px;'>
+					Absagen
+				</div>
+				
+				<div class="btn btn-hgoe-red" style='width: 100%;' id="loeschen-btn">
+					<img src="./assets/img/delete_icon.svg" style='width: 20%; margin-right: 10px;'>
+					Löschen
+				</div>
+				
+				<script>
+					$("#teilnehmerMenuItem").click( function() {
+						window.location = './teilnehmer.php<?php if(isset($_GET["id"])) { echo '?vid=' . $_GET["id"]; } ?>';
+					});
+					$("#statistikMenuItem").click( function() {
 
-					<script>
-						$("#teilnehmer-btn").click( function() {
-							var url = "./teilnehmer.php";
+					});
+					$("#etiketteMenuItem").click( function() {
 
-							<?php
-								if(isset($_GET["id"]))
-									echo "url += '?vid=" . $_GET["id"] . "';";
-							?>
-							window.location = url;
-						});
+					});
+					
+					$("#absagen-btn").click( function() {
+						window.location = './script_veranstaltung_absagen.php<?php if(isset($_GET["id"])) { echo '?id=' . $_GET["id"]; } ?>';
+					});
+					$("#loeschen-btn").click( function() {
+						window.location = './script_veranstaltung_loeschen.php<?php if(isset($_GET["id"])) { echo '?id=' . $_GET["id"]; } ?>';
+					});
 
-						$("#navbar-teilnehmer-btn").click( function() {
-							var url = "./teilnehmer.php";
+					$("#navbar-absagen-btn").hide();
+					$("#navbar-loeschen-btn").hide();
+					$("#absagen-btn").hide();
+					$("#loeschen-btn").hide();
+				</script>
+			</div>
 
-							<?php
-								if(isset($_GET["id"]))
-									echo "url += '?vid=" . $_GET["id"] . "';";
-							?>
-							window.location = url;
-						});
-
-						$("#absagen-btn").click( function() {
-							if(confirm("Wollen Sie diese Veranstaltung wirklich absagen?")) {
-								var url = "./script_veranstaltung_absagen.php?id=";
-
-								<?php
-									if(isset($_GET["id"])) {
-										echo "url += " . $_GET["id"] . ";";
-										echo "window.location = url;";
-									} else {
-										echo "alert('Kann Veranstaltung ohne ID nicht absagen');";
-									}
-								?>
-							}
-						});
-
-						$("#navbar-absagen-btn").click( function() {
-							if(confirm("Wollen Sie diese Veranstaltung wirklich absagen?")) {
-								var url = "./script_veranstaltung_absagen.php?id=";
-
-								<?php
-									if(isset($_GET["id"])) {
-										echo "url += " . $_GET["id"] . ";";
-										echo "window.location = url;";
-									} else {
-										echo "alert('Kann Veranstaltung ohne ID nicht absagen');";
-									}
-								?>
-							}
-						});
-
-						$("#loeschen-btn").click( function() {
-							if(confirm("Wollen Sie diese Veranstaltung wirklich löschen?")) {
-								var url = "./script_veranstaltung_loeschen.php?id=";
-
-								<?php
-									if(isset($_GET["id"])) {
-										echo "url += " . $_GET["id"] . ";";
-										echo "window.location = url;";
-									} else {
-										echo "alert('Kann Veranstaltung ohne ID nicht löschen');";
-									}
-								?>
-							}
-						});
-
-						$("#navbar-loeschen-btn").click( function() {
-							if(confirm("Wollen Sie diese Veranstaltung wirklich löschen?")) {
-								var url = "./script_veranstaltung_loeschen.php?id=";
-
-								<?php
-									if(isset($_GET["id"])) {
-										echo "url += " . $_GET["id"] . ";";
-										echo "window.location = url;";
-									} else {
-										echo "alert('Kann Veranstaltung ohne ID nicht löschen');";
-									}
-								?>
-							}
-						});
-
-						$(document).ready( function() {
-							$("#navbar-loeschen-btn").hide();
-							$("#loeschen-btn").hide();
-						});
-					</script>
-    		</div>
-    		
-    		<!-- MAIN PANEL -->
-    		
-    		<div class="col-md-9 col-sm-9 col-xs-12">
+			<!-- MAIN PANEL -->
+			<div class="col-sm-9 col-lg-10 col-xs-12">
     			<div id="mainPanel" class="panel panel-hgoe text-center">
 					<div class="panel-heading">
 						<h3 id="panel-headline" class="panel-title" style="font-weight: bold">
@@ -303,54 +222,53 @@
 						</h3>
 					</div>
 					<form>
-						<div class="panel-body text-left" id="panel-body-table">
+						<div class="panel-body text-left text-xs-center" id="panel-body-table">
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right" style='line-height: 35px;'>
-									<p>Name</p>
+								<div class="col-sm-4 col-xs-12 text-right text-xs-center" style='line-height: 40px;'>
+									Name
 								</div>
-								<div class="col-sm-8 col-xs-7" style='height: 45px;'>
+								<div class="col-sm-8 col-xs-12" style='height: 35px;'>
 									<textarea id="name" style='width: 90%;' rows="2"></textarea>
 								</div>
 							</div>
+							<br>
+							<div class="seperator"></div>
+							<br>
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
-									<p>Datum</p>
+								<div class="col-sm-4 col-xs-12 text-right text-xs-center">
+									Datum
 								</div>
-								<div class="col-sm-8 col-xs-7">
+								<div class="col-xs-1 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-sm-8 col-xs-10">
 									<input id="datum" type="date" value="2000-01-01" style='width: 90%;'>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-4 text-right hidden-xs">
-									<p>Beginn Anmeldefrist</p>
+								<div class="col-sm-4 col-xs-12 text-right text-xs-center">
+									Beginn Anmeldefrist
 								</div>
-								<div class="col-xs-5 text-right hidden-sm hidden-md hidden-lg">
-									<p>Beginn Anmeldefr.</p>
-								</div>
-								<div class="col-sm-8 col-xs-7">
+								<div class="col-xs-1 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-sm-8 col-xs-10">
 									<input id="beginnAnmeldefrist" type="datetime-local" value="2000-01-01T00:00" style='width: 90%;'>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-4 text-right hidden-xs">
-									<p>Ende Anmeldefrist</p>
+								<div class="col-sm-4 col-xs-12 text-right text-xs-center">
+									Ende Anmeldefrist
 								</div>
-								<div class="col-xs-5 text-right hidden-sm hidden-md hidden-lg">
-									<p>Ende Anmeldefr.</p>
-								</div>
-								<div class="col-sm-8 col-xs-7">
+								<div class="col-xs-1 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-sm-8 col-xs-10">
 									<input id="endeAnmeldefrist" type="datetime-local" value="2000-01-01T23:59" style='width: 90%;'>
 								</div>
 							</div>
 							<br>
+							<div class="seperator"></div>
+							<br>
 							<div class="row">
-								<div class="col-sm-4 text-right hidden-xs">
+								<div class="col-xs-9 col-sm-4 text-right">
 									<p>Stornierung möglich</p>
 								</div>
-								<div class="col-xs-5 text-right hidden-sm hidden-md hidden-lg">
-									<p>Stornierbar</p>
-								</div>
-								<div class="col-xs-1">
+								<div class="col-xs-3 text-left">
 									<input id="stornierungCB" type="checkbox" style='min-height: 20px; min-width: 20px;'>
 									
 									<script>
@@ -369,11 +287,12 @@
 								
 							</div>
 							<div class="row" id="stornierungsfristDiv">
-								<div class="col-sm-4 col-xs-5 text-right">
+								<div class="col-sm-4 col-xs-12 text-right text-xs-center">
 									<p>Ende Stornierungsfrist</p>
 								</div>
-								<div class="col-sm-8 col-xs-7">
-									<input id="endeStornierungsfrist" type="datetime-local" value="2000-01-01T23:59">
+								<div class="col-xs-1 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-sm-6 col-xs-10">
+									<input id="endeStornierungsfrist" type="datetime-local" value="2000-01-01T23:59" style='width: 90%;'>
 									
 									<script>
 										$(document).ready( function() {
@@ -391,21 +310,23 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-4 col-xs-5 text-right">
+								<div class="col-sm-4 col-xs-12 text-right text-xs-center">
 									<p>Max. Anmeldungen</p>
 								</div>
-								<div class="col-sm-8 col-xs-7">
-									<input id="maxAnmeldungen" type="number" placeholder="(Optional)">
+								<div class="col-xs-3 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-xs-6">
+									<input id="maxAnmeldungen" type="number" placeholder="(Optional)" style='width: 90%;'>
 								</div>
 							</div>
 							<br>
 							<div class="seperator"></div>
 							<br>
 							<div class="row">
-								<div class="col-xs-5 text-right">
+								<div class="col-xs-12 col-sm-4 text-right text-xs-center">
 									<p>Gebühren Mitglieder</p>
 								</div>
-								<div class="col-xs-5">
+								<div class="col-xs-3 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-xs-6 col-sm-5">
 									<input id="gebuehrenMitglieder" type="number">
 								</div>
 								<div class="col-xs-1">
@@ -413,23 +334,26 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-xs-5 text-right">
+								<div class="col-xs-12 col-sm-4 text-right text-xs-center">
 									<p>Gebühren Nicht-Mitglieder</p>
 								</div>
-								<div class="col-xs-5">
+								<div class="col-xs-3 hidden-sm hidden-md hidden-lg"></div>
+								<div class="col-xs-6 col-sm-5">
 									<input id="gebuehrenNichtmitglieder" type="number">
 								</div>
 								<div class="col-xs-1">
 									<b style='margin-left: -20px;'>€</b>
 								</div>
 							</div>
-							
-							<br>
 							<br>
 							<div class="row text-center" style="margin-top:25px;" id="saveBtnDIV">
 								<input class="btn btn-hgoe" style="width: 140px" id="saveBtn" value="Speichern">
 								
 								<script>
+									$(document).ready( function() {
+										$("#saveBtn").hide();
+									})
+									
 									$("#saveBtn").click( function() {
 										<?php
 											if(isset($_GET['id'])) {
@@ -522,6 +446,12 @@
 
 					if ($result->num_rows > 0) {
 						// output data of each row
+						
+						//Speichern Button einblenden
+						echo "$(\"#saveBtn\").show();";
+						//Absagen Knöpfe einblenden
+						echo "$(\"#absagen-btn\").show();";
+						echo "$(\"#navbar-absagen-btn\").show();";
 
 						$name = "null";
 						$datum = "null";
@@ -579,11 +509,6 @@
 						if ($result->num_rows > 0) {
 							//ABGESAGTE KONFERENZ GEFUNDEN
 							
-							//Speichern Knopf ausblenden
-							echo "$(\"#saveBtnDIV\").hide();";
-							//Absagen Knöpfe ausblenden
-							echo "$(\"#absagen-btn\").hide();";
-							echo "$(\"#navbar-absagen-btn\").hide();";
 							//Löschen Knöpfe einblenden
 							echo "$(\"#loeschen-btn\").show();";
 							echo "$(\"#navbar-loeschen-btn\").show();";
@@ -636,6 +561,7 @@
 							echo "alert('DB-Error: Zugehöriger Eintrag wurde nicht gefunden! ID:" . $id . " ');";
 						}
 					}
+					
 					$conn->close();
 
 				} else {

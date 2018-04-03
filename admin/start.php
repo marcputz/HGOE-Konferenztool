@@ -68,8 +68,7 @@
 			</div>
 			
 		  	<!-- Aktuelle Veranstaltungen -->
-		  	<div class="panel-hgoe panel">
-				
+		  	<div class="panel-hgoe panel" style='margin-top: 30px;'>
 				<div class="panel-heading">
 					<h4 data-toggle="collapse" href="#panelAktuell" style="text-decoration: none; font-weight: normal; margin: 0px;">
 						Aktuelle Veranstaltungen
@@ -168,14 +167,13 @@
 			</div>
 			
 			<!-- Ältere Veranstaltungen -->
-			<div class="panel-hgoe panel">
-								
+			<div class="panel-hgoe panel" style='margin-top: 30px;'>					
 				<div class="panel-heading">
 					<h4 data-toggle="collapse" href="#panelAelter" style="text-decoration: none; font-weight: normal; margin: 0px;">
 						Ältere Veranstaltungen
 					</h4>
 				</div>
-				<div id="panelAelter" class="panel-body panel-collapse collapse" style="font-size: 13px;">
+				<div id="panelAelter" class="panel-body panel-collapse collapse in" style="font-size: 13px;">
 					<!-- Tabllen Überschrift -->
 					<div class="row-hgoe row" style="font-size: 15px; font-weight: bold; background-color: <?php echo $config['color_primary']; ?>; border-bottom-style: solid; border-bottom-width: 3px; color: white;">
 						<div class="col-xs-8 col-sm-3" style="border-color: #CBD4FF">Veranstaltung</div>
@@ -258,15 +256,36 @@
 				</div>
 			</div>
 			
-			<div class="container-fluid text-center hidden-sm hidden-md hidden-lg" style="margin-bottom: 15px;">
-				<a class="btn btn-hgoe-red" href="./logout.php" style="width: 180px;">Ausloggen</a>
-				<br>
-				<a class="btn btn-hgoe-grey" style="margin-top: 17px; width: 180px;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
+			<div class="container-fluid text-center" style="margin-top: 20px; margin-bottom: 5px;">
+				<p>© HGÖ Konferenztool - <b>Version 0.3</b><br> (Pre-Release)</p>
 			</div>
 			
-			<div class="container-fluid text-center" style="margin-bottom: 20px;">
-				<p>© HGÖ Konferenztool - <b>Version 0.3</b> (Pre-Release)</p>
+			<div class="container-fluid text-center" style="margin-bottom: 80px; margin-top: 10px;">
 				<a href="../hilfe.php" style="font-size: 18px; color: black;"><img src="./assets/img/help_icon.svg" style="height: 22px; margin-top: -3px; margin-right: 3px;">Hilfe</a>
+			</div>
+		</div>
+		
+		<!-- FOOTER -->
+		<div class="box navbar-fixed-bottom hidden-sm hidden-md hidden-lg" style='box-shadow: 0px -2px 10px rgba(0,0,0,0.6);'>
+			<div class="container-fluid row" style='margin-top: 10px; margin-bottom: 10px;'>
+				<div class="col-xs-12 text-center" id="burgerIcon">
+					<img src="./assets/img/burger_icon.svg" style="height: 30px;">
+				</div>
+			</div>
+			
+			<script>
+				$("#burgerIcon").click( function() {
+					$("#footerButtonDiv").toggleClass('hide');
+				})
+			</script>
+			
+			<div class="container-fluid row hide" id="footerButtonDiv" style='font-size: 16px; margin-top: 10px; margin-bottom: 10px; border-top: 1pt solid #A6A6A6; padding-top: 10px; padding-bottom: 3px;'>
+				<div class="col-xs-6 text-center">
+					<a class="btn btn-hgoe-red" href="./logout.php" style="width: 100%;"><img src="assets/img/logout_icon.svg" style="height: 20px;"> Ausloggen</a>
+				</div>
+				<div class="col-xs-6 text-center">
+					<a class="btn btn-hgoe-grey" style="width: 100%;" onClick="settingsPlaceholder()"><img src="assets/img/settings_icon.svg" style="height: 20px;"> Einstellungen</a>
+				</div>			
 			</div>
 		</div>
 	</body>
