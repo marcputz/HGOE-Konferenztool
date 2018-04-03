@@ -48,18 +48,22 @@
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
+			$lfdnr = 0;
 			while($row = $result->fetch_assoc()) {
 				$nr = "null";
 				$titel = "null";
 				$vname = "null";
 				$nname = "null";
 				$gebdat = "null";
+				$org = "null";
 				$email = "null";
 				$strasse = "null";
-				$hausnr = -1;
+				$hausnr = "null";
 				$ort = "null";
 				$plz = "null";
 				$mitglied = "null";
+				
+				$lfdnr = $lfdnr + 1;
 
 				$nr = $row["TeilnehmerNr"];
 				$vname = $row["Vorname"];
@@ -67,6 +71,9 @@
 				$ort = $row["Ort"];
 				$plz = $row["PLZ"];
 				$email = $row["eMail"];
+				if(!(is_null($row["Organisation"]))) {
+					$org = $row["Organisation"];
+				}
 				if(!(is_null($row["Mitglied"]))) {
 					$mitglied = $row["Mitglied"];
 				}
@@ -104,34 +111,40 @@
 					$ret .= "			});\n";
 					$ret .= "			</script>";
 					$ret .= "		</a></div>";
-					$ret .= "		<div class='hidden-xs hidden-sm col-md-1' style='border-right-style: solid; border-left-style: solid; border-color: grey; border-width: 1px; padding-top: 10px; padding-bottom: 10px; word-wrap: break-word;'><b>" . $nr . "</b></div>";
+					$ret .= "		<div class='hidden-xs hidden-sm col-md-1' style='border-right-style: solid; border-left-style: solid; border-color: grey; border-width: 1px; padding-top: 10px; padding-bottom: 10px; word-wrap: break-word;'><b>" . $lfdnr . "</b></div>";
 					$ret .= "		<div class='col-xs-10 col-sm-7 col-md-7'>" . (($titel != "null") ? ($titel . " ") : "") . $vname . " " . $nname . "</div>";
 					$ret .= "		<div class='col-xs-12 col-sm-4 col-md-3 text-right bordered-xs' style='font-size: 12.5px; border-right-width: 0px;'>";
 					$ret .= "			Bezahlt <input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . ">";
 					$ret .= "			Anwesend <input id='anwesendCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Anwesend"] == 1) ? "checked" : "") . ">";
 					$ret .= "		</div>";
 					$ret .= "	</div>";
-					$ret .= "	<div class='row-hgoe-detail row collapse text-right' style='font-size: 13px;' id='detail_" . $nr . "'>";
-					$ret .= "		<div class='col-xs-12' style='height: 5px;'></div>";
+					
+					$ret .= "	<div class='row-hgoe-detail row collapse text-right' style='font-size: 13px; padding-right: 15px;' id='detail_" . $nr . "'>";
+					$ret .= "		<br>";
 					$ret .= "		<div class='col-xs-4 col-md-2'>Titel</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='titel_" . $nr . "' type='text' style='width: 90%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='titel_" . $nr . "' type='text' style='width: 100%;' placeholder='(Optional)' " . (($titel != 'null') ? ("value='" . $titel . "'") : "") . "></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'><b>Vorname</b></div>";
-					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='vname_" . $nr . "' type='text' style='width: 90%;' value='" . $vname . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='vname_" . $nr . "' type='text' style='width: 100%;' value='" . $vname . "'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'><b>Name</b></div>";
-					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='nname_" . $nr . "' type='text' style='width: 90%;' value='" . $nname . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='nname_" . $nr . "' type='text' style='width: 100%;' value='" . $nname . "'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2 hidden-sm hidden-md hidden-lg'>Geb-Dat.</div>";
 					$ret .= "		<div class='col-xs-4 col-md-2 hidden-xs'>Geburtsdat.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='gebdat_" . $nr . "' type='date' style='width: 90%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='gebdat_" . $nr . "' type='date' style='width: 100%;' placeholder='(Optional)' " . (($gebdat != 'null') ? ("value='" . $gebdat . "'") : "") . "></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'><b>E-Mail</b></div>";
-					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='email_" . $nr . "' type='email' style='width: 90%;' value='" . $email . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input id='email_" . $nr . "' type='email' style='width: 100%;' value='" . $email . "'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'>Straße</div>";
-					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 90%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-8 col-md-4 text-left'><input placeholder='(Optional)' id='strasse_" . $nr . "' type='text' style='width: 100%;' " . (($strasse != 'null') ? ("value='" . $strasse . "'") : "") . "></div>";
+					
 					$ret .= "		<div class='col-xs-4 col-md-2'>Hausnr.</div>";
-					$ret .= "		<div class='col-xs-8 col-md-2 text-left'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 90%;' " . (($hausnr != -1) ? ("value='" . $hausnr . "'") : "") . "></div>";
+					$ret .= "		<div class='col-xs-8 col-md-2 text-left'><input placeholder='(Optional)' id='hausnr_" . $nr . "' type='number' style='width: 100%;' " . (($hausnr != 'null') ? ("value='" . $hausnr . "'") : "") . "></div>";
 					$ret .= "		<div class='col-xs-4 col-md-2'><b>PLZ</b></div>";
-					$ret .= "		<div class='col-xs-8 col-md-2 text-left'><input id='plz_" . $nr . "' type='number' style='width: 90%;' value='" . $plz . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-2 text-left'><input id='plz_" . $nr . "' type='number' style='width: 100%;' value='" . $plz . "'></div>";
 					$ret .= "		<div class='col-xs-4 col-md-1'><b>Ort</b></div>";
-					$ret .= "		<div class='col-xs-8 col-md-3 text-left'><input id='ort_" . $nr . "' type='text' style='width: 90%;' value='" . $ort . "'></div>";
+					$ret .= "		<div class='col-xs-8 col-md-3 text-left'><input id='ort_" . $nr . "' type='text' style='width: 100%;' value='" . $ort . "'></div>";
+					
+					$ret .= "		<div class='col-xs-4 col-md-2'>Firma/Organisation</div>";
+					$ret .= "		<div class='col-xs-8 col-md-10 text-left'><input id='org_" . $nr . "' type='text' style='width: 100%;' " . (($org != 'null') ? ("value='" . $org . "'") : "") . "'></div>";
+					
 					$ret .= "		<div class='col-xs-4 col-md-2'><b>Ist Mitglied</b></div>";
 					$ret .= "		<div class='col-xs-2 col-md-2 text-left' style='height: 38px;'>";
 					$ret .= "			<input id='mitglied_" . $nr . "' type='checkbox' style='width: 100%; min-height:20px; min-width:20px; margin-top: -2px;' value='true'>";
@@ -139,7 +152,7 @@
 					$ret .= "		<div class='col-xs-12 col-md-8' style='margin: 0px; padding: 0px;'>";
 					$ret .= "			<div class='col-xs-4 col-md-3'>Bundesland</div>";
 					$ret .= "			<div class='col-xs-8 col-md-9 text-left'>";
-					$ret .= "				<select style='width: 90%;' id='bundesland_" . $nr . "'>";
+					$ret .= "				<select style='width: 100%;' id='bundesland_" . $nr . "'>";
 					$ret .= "					<option value='1'>Burgenland</option>";
 					$ret .= "					<option value='2'>Steiermark</option>";
 					$ret .= "					<option value='3'>Niederösterreich</option>";
@@ -237,6 +250,8 @@
 					$ret .= "		<div class='col-xs-6 text-left'>";
 					$ret .= "			<a id='abmeldenbtn_" . $nr . "' style='width: 125px;' class='btn btn-hgoe-red'>Abmelden</a>";
 					$ret .= "		</div>";
+					$ret .= "		<br>";
+					
 					$ret .= "		<script>\n";
 					$ret .= "		$('#abmeldenbtn_" . $nr . "').click( function() {\n";
 					$ret .= "			if(confirm('Wollen Sie diesen Teilnehmer wirklich abmelden?')) {\n";
@@ -250,6 +265,7 @@
 					$ret .= "			var gebdat = 'null';\n";
 					$ret .= "			var email = 'null';\n";
 					$ret .= "			var strasse = 'null';\n";
+					$ret .= "			var org = 'null';\n";
 					$ret .= "			var hausnr = -1;\n";
 					$ret .= "			var plz = -1;\n";
 					$ret .= "			var ort = 'null';\n";
@@ -262,6 +278,8 @@
 					$ret .= "				nname = $('#nname_" . $nr . "').val();\n";
 					$ret .= "			if($('#gebdat_" . $nr . "').val())\n";
 					$ret .= "				gebdat = $('#gebdat_" . $nr . "').val();\n";
+					$ret .= "			if($('#org_" . $nr . "').val())\n";
+					$ret .= "				org = $('#org_" . $nr . "').val();\n";
 					$ret .= "			if($('#email_" . $nr . "').val())\n";
 					$ret .= "				email = $('#email_" . $nr . "').val();\n";
 					$ret .= "			if($('#strasse_" . $nr . "').val())\n";
@@ -284,6 +302,8 @@
 					$ret .= "				url += '&ort=' + ort;\n";
 					$ret .= "				if(titel != 'null')\n";
 					$ret .= "					url += '&titel=' + titel;\n";
+					$ret .= "				if(org != 'null')\n";
+					$ret .= "					url += '&org=' + org;\n";
 					$ret .= "				if(gebdat != 'null')\n";
 					$ret .= "					url += '&gebdat=' + gebdat;\n";
 					$ret .= "				if(strasse != 'null')\n";

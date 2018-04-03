@@ -265,10 +265,10 @@
 							<div class="seperator"></div>
 							<br>
 							<div class="row">
-								<div class="col-xs-9 col-sm-4 text-right">
+								<div class="col-xs-7 col-sm-4 text-right">
 									<p>Stornierung möglich</p>
 								</div>
-								<div class="col-xs-3 text-left">
+								<div class="col-xs-1 text-left">
 									<input id="stornierungCB" type="checkbox" style='min-height: 20px; min-width: 20px;'>
 									
 									<script>

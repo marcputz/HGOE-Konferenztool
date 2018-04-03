@@ -18,13 +18,12 @@ $config = include('./admin/config.php');
 		$email = $_GET["email"];
 		$plz = $_GET["plz"];
 		$ort = $_GET["ort"];
+		$org = (isset($_GET['org'])) ? $_GET['org'] : 'null';
 		$strasse = (isset($_GET['strasse'])) ? $_GET['strasse'] : 'null';
 		$hausnr = (isset($_GET['hausnr'])) ? $_GET['hausnr'] : 'null';
 		$gebdat = (isset($_GET['gebdat'])) ? $_GET['gebdat'] : 'null';
 		$titel = (isset($_GET['titel'])) ? $_GET['titel'] : 'null';
-		$mitglied = (isset($_GET['bundesland'])) ? $_GET['bundesland'] : 'null';
-		$arbeit = $_GET['arbeit'];
-		
+		$mitglied = (isset($_GET['bundesland'])) ? $_GET['bundesland'] : 'null';		
 		
 		echo "console.log('Database Server: " . $config['db_host'] . "');\n";
 		
@@ -36,17 +35,16 @@ $config = include('./admin/config.php');
 			die("Connection failed: " . $conn->connect_error);
 		} 
 		
-		//eMail CHECK
-		
+		//eMail CHECK	
 		$sql = "SELECT eMail FROM hgoe_teilnehmer WHERE eMail = " . $email . ";";
 		
 		$result = $conn->query($sql);
-		if($result->num_rows > 0) {
+		if($result && $result->num_rows > 0) {
 			echo "alert('eMail bereits vorhanden');";
 			echo "window.location = 'anmelden.php';";
 		} else {
 			//INSERT
-			$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, Berufsgruppe, KonferenzID) VALUES (";
+			$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Organisation, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, KonferenzID) VALUES (";
 
 			if ($titel != "null") {
 				$sql .= "'" . $titel . "', ";
@@ -56,6 +54,12 @@ $config = include('./admin/config.php');
 
 			$sql .= "'" . $vname . "', ";
 			$sql .= "'" . $nname . "', ";
+			
+			if($org != "null") {
+				$sql .= "'" . $org . "', ";
+			} else {
+				$sql .= "null, ";
+			}
 
 			if ($gebdat != "null") {
 				$sql .= "'" . $gebdat . "', ";
@@ -84,8 +88,6 @@ $config = include('./admin/config.php');
 			} else {
 				$sql .= "null, ";
 			}
-			
-			$sql .= "'" . $arbeit . "',";
 
 			$sql .= $konferenzID . ");";
 

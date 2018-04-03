@@ -21,37 +21,42 @@ $config = include('./admin/config.php');
   </head>
 
 <body>
-	<div class="container text-center">
-		<div class="panel panel-hgoe" style="margin-top: 30px; padding-bottom: 15px;">
-			<div class="panel-body">
-				<h1 style="color: white;">Anmelden erfolgreich!</h1>
-				<p><b>Sie haben sich erfolgreich zur Veranstaltung <?php
-					
-					if(isset($_GET["id"])) {
-						$id = $_GET["id"];
-						
-						// Create connection
-						$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
+	<div class="container-fluid vertical-center">
+		<div class="container text-center" style='max-width: 700px;'>
+			<div class="panel panel-hgoe" style="margin-top: 30px; padding-bottom: 15px;">
+				<div class="panel-heading">
+					<h3>Anmelden erfolgreich!</h3>
+				</div>
+				<div class="panel-body">
+					<br>
+					<p>Sie haben sich erfolgreich zur Veranstaltung <?php
 
-						// Check connection
-						if ($conn->connect_error) {
-							die("Connection failed: " . $conn->connect_error);
-						}
-						
-						$sql = "SELECT Name FROM hgoe_konferenzen WHERE KonferenzID = " . $id . ";";
-						
-						$result = $conn->query($sql);
-						if($result->num_rows > 0) {
-							$name = "Unbekannte Veranstaltung";
-							while($row = $result->fetch_assoc()) {
-								$name = $row["Name"];
+						if(isset($_GET["id"])) {
+							$id = $_GET["id"];
+
+							// Create connection
+							$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
+
+							// Check connection
+							if ($conn->connect_error) {
+								die("Connection failed: " . $conn->connect_error);
 							}
-							echo "</b>" . $name . " <b>";
+
+							$sql = "SELECT Name FROM hgoe_konferenzen WHERE KonferenzID = " . $id . ";";
+
+							$result = $conn->query($sql);
+							if($result->num_rows > 0) {
+								$name = "Unbekannte Veranstaltung";
+								while($row = $result->fetch_assoc()) {
+									$name = $row["Name"];
+								}
+								echo "<b>" . $name . " </b>";
+							}
 						}
-					}
-				?> angemeldet</b></p>
-				
-				<a href="http://www.hgoe-burgenland.at/" class="btn btn-hgoe" style="width: 225px; margin-top: 20px;">Zurück zur Startseite</a>
+					?> angemeldet</p>
+
+					<a href="http://www.hgoe-burgenland.at/" class="btn btn-hgoe" style="width: 225px; margin-top: 20px;">Zurück zur Startseite</a>
+				</div>
 			</div>
 		</div>
 	</div>
