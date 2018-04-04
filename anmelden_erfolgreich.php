@@ -53,7 +53,7 @@ $config = include('./admin/config.php');
 								echo "<b>" . $name . " </b>";
 							}
 						}
-					?> angemeldet</p>
+					?> angemeldet. Sie erhalten in Kürze eine E-Mail mit Ihrer Anmeldebestätigung.</p>
 
 					<a href="http://www.hgoe-burgenland.at/" class="btn btn-hgoe" style="width: 225px; margin-top: 20px;">Zurück zur Startseite</a>
 				</div>

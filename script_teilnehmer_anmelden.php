@@ -5,8 +5,10 @@ $config = include('./admin/config.php');
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Anmelden...</title>
+	<meta charset="UTF-8">
+	<title>Anmelden...</title>
+	
+	<script src="./admin/assets/jquery.min.js"></script>
 </head>
 <body>
 <script>
@@ -44,15 +46,17 @@ $config = include('./admin/config.php');
 			echo "window.location = 'anmelden.php';";
 		} else {
 			//Prüfe, ob die GEbühren 0 sind. Falls ja, setze den Bezahlt-Status gleich auf BEZAHLT
-			$sql = "SELECT * FROM hgoe_konferenzen WHERE KonferenzID = " . $konferenzID . ";";
+			$konfSql = "SELECT * FROM hgoe_konferenzen WHERE KonferenzID = " . $konferenzID . ";";
 			
-			$result = $conn->query($sql);
-			if($result && $result->num_rows > 0) {
-				$gebMit = 'nix';
-				$gebNichtMit = 'nix';
-				while($row = $result->fetch_assoc()) {
-					$gebMit = $row['gebuehr_mitglied'];
-					$gebNichtMit = $row['gebuehr_nichtmitglied'];
+			$konfResult = $conn->query($konfSql);
+			if($konfResult && $konfResult->num_rows > 0) {
+				$gebMit = 'null';
+				$gebNichtMit = 'null';
+				$konferenzName = 'null';
+				while($konfRow = $konfResult->fetch_assoc()) {
+					$gebMit = $konfRow['gebuehr_mitglied'];
+					$gebNichtMit = $konfRow['gebuehr_nichtmitglied'];
+					$konferenzName = $konfRow['Name'];
 				}
 				
 				//INSERT INTO hgoe_teilnehmer
@@ -118,7 +122,16 @@ $config = include('./admin/config.php');
 				}
 
 				if ($conn->query($sql)) {
-					echo "alert('Erfolgreich angemeldet!');";
+					//send email
+					echo '		$.post( "./script_sendMail.php", { ';
+					echo '			to: "' . $email . '",';
+					echo '			subject: "Anmeldebestätigung",';
+					echo '			msg_title: "Sehr geehrte/r Herr/Frau ' . (($titel != 'null') ? ($titel . ' ') : '') . $nname . '!",';
+					echo '			msg_body: "Sie haben sich erfolgreich für die Veranstaltung \"' . $konferenzName . '\" angemeldet." ';
+					echo '		}).done(function( data ) {';
+					echo '			console.log( data );';
+					echo '		});';
+					
 					echo "window.location = 'anmelden_erfolgreich.php?id=" . $konferenzID . "';";
 				} else {
 					echo "alert(\"Error: Sql-Exception <br>" . $conn->error . "\");";

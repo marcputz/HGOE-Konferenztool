@@ -4,10 +4,10 @@
 	session_start();
 
 	//Für Testzwecke ggf. auskommentieren
-	/*if(!isset($_SESSION['user'])) {
+	if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
-	}*/
+	}
 
 	if(isset($_GET['save'])) {
 		//save to $config
