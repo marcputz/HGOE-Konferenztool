@@ -7,6 +7,157 @@
 		header("location: login.php");
 		exit();
 	}
+
+	if(isset($_GET['getAktuell'])) {
+		echo getAktuell();
+		exit;
+	}
+
+	if(isset($_GET['getAelter'])) {
+		echo getAelter();
+		exit;
+	}
+
+	function getAktuell() {
+		$config = include('./config.php');
+		
+		// Create connection
+		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
+
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		} 
+
+		$ret = "";
+		
+		$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen ORDER BY datum ASC";
+		$result = $conn->query($sql);
+
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				$id = "null";
+				$name = "null";
+				$datum = "null";
+				$endeAnmeldefrist = "null";
+				$maxAnmeldungen = "---";
+
+				$id = $row["KonferenzID"];
+				$name = $row["Name"];
+				$datum = $row["datum"];
+				$endeAnmeldefrist = $row["endeanmeldefrist"];
+				if(!(is_null($row["maxanmeldungen"]))) {
+					$maxAnmeldungen = $row["maxanmeldungen"];
+				}
+
+				$ret .= "<div class='row-hgoe row clickable-row' data-href='detail.php?id=" . $id . "'>";
+				$ret .=	"	<div class='col-xs-8 col-sm-3'>";
+				$ret .=	"	" . $name;
+				$ret .= "	</div>";
+
+				$ret .= "	<div class='col-xs-4 col-sm-3'>";
+				$datumFormatiert = date_create($datum);
+				$ret .= date_format($datumFormatiert, 'd.m.Y');
+				$ret .= "	</div>";
+
+				$ret .= "	<div class='col-sm-3 hidden-xs'>";
+				$anmeldefristFormatiert = date_create($endeAnmeldefrist);
+				$ret .= date_format($anmeldefristFormatiert, 'd.m.Y  -  H:i');
+				$ret .= "	</div>";
+
+				$ret .= "	<div class='col-sm-3 hidden-xs'>";
+				$ret .= "		";
+				$countResult = $conn->query("SELECT count(*) AS total FROM hgoe_teilnehmer WHERE KonferenzID = " . $id);
+				if($countResult->num_rows > 0) {
+					$tmp = $countResult->fetch_assoc();
+					$ret .= $tmp['total'];
+				} else {
+					$ret .= "0";
+				}
+				if($maxAnmeldungen != '---') {
+					$ret .= " von " . $maxAnmeldungen;
+				}
+				$ret .= "	</div>";
+				$ret .= "</div>";	
+			}
+		} else {
+			$ret .= "<div class='row-hgoe row'>";
+			$ret .= "	<div class='col-xs-12'>Keine aktuellen Veranstaltungen</div>";
+			$ret .= "</div>";
+		}
+		
+		return $ret;
+	}
+
+	function getAelter() {
+		$config = include('./config.php');
+		
+		// Create connection
+		$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
+
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		} 
+
+		$ret = "";
+		
+		$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen_history ORDER BY datum DESC";
+		$result = $conn->query($sql);
+
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				$id = "null";
+				$name = "null";
+				$datum = "null";
+				$endeAnmeldefrist = "null";
+				$maxAnmeldungen = "---";
+
+				$id = $row["KonferenzID"];
+				$name = $row["Name"];
+				$datum = $row["datum"];
+				$endeAnmeldefrist = $row["endeanmeldefrist"];
+				if(!(is_null($row["maxanmeldungen"]))) {
+					$maxAnmeldungen = $row["maxanmeldungen"];
+				}
+
+				$ret .= "<div class='row-hgoe row clickable-row' data-href='detail.php?id=" . $id . "'>";
+				$ret .=	"	<div class='col-xs-8 col-sm-3'>";
+				$ret .=	"	" . $name;
+				$ret .= "	</div>";
+
+				$ret .= "	<div class='col-xs-4 col-sm-3'>";
+				$datumFormatiert = date_create($datum);
+				$ret .= date_format($datumFormatiert, 'd.m.Y');
+				$ret .= "	</div>";
+
+				$ret .= "	<div class='col-sm-3 hidden-xs'>";
+				$anmeldefristFormatiert = date_create($endeAnmeldefrist);
+				$ret .= date_format($anmeldefristFormatiert, 'd.m.Y  -  H:i');
+				$ret .= "	</div>";
+
+				$ret .= "	<div class='col-sm-3 hidden-xs'>";
+				$countResult = $conn->query("SELECT count(*) AS total FROM hgoe_teilnehmer WHERE KonferenzID = " . $id);
+				if($countResult->num_rows > 0) {
+					$tmp = $countResult->fetch_assoc();
+					$ret .= $tmp['total'];
+				} else {
+					$ret .= "0";
+				}
+				/*if($maxAnmeldungen != '---') {
+					$ret .= " von " . $maxAnmeldungen;
+				}*/
+				$ret .= "	</div>";
+				$ret .= "</div>";	
+			}
+		} else {
+			$ret .= "<div class='row-hgoe row'>";
+			$ret .= "	<div class='col-xs-12'>Keine älteren Veranstaltungen</div>";
+			$ret .= "</div>";
+		}
+		
+		return $ret;
+	}
 ?>
 
 <!doctype html>
@@ -35,15 +186,82 @@
 		<link rel="stylesheet" href="assets/css/hgoe.php" type="text/css">
 		<script src="./assets/jquery.min.js"></script>
 		<script src="./assets/bootstrap.min.js"></script>
+		<script src="assets/hgoe_js.php" type="text/javascript"></script>
 		
 		<!-- Custom Fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Armata" rel="stylesheet">
 		
 		<title>HGÖ - Startseite</title>
+		
+		<style>
+			#loader {
+			  background-color: white;
+			  opacity: 0.95;
+			  width:      100%;
+			  height:     100%; 
+			  z-index:    10;
+			  top:        0; 
+			  left:       0; 
+			  position:   fixed; 
+			}
+		</style>
 	</head>
 
 	<body style="font-family: Open Sans, Arial, sans-serif;">
+		<div id="loader" class="container-fluid vertical-center"  style='padding-left: 45%;'>
+			<center>
+				<h1><b>Laden...</b></h1>
+				<div class="progress">
+				  	<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%" id="progressBar">
+						<span class="sr-only">0% Complete</span>
+					</div>
+				</div>
+			</center>
+		</div>
+		
+		<script>
+			function refreshAktuell() {
+				$.ajax({
+					url: './start.php?getAktuell=1', 
+					async: false, 
+					success: function(result) {
+						$('#veranstaltungenAktuell').html(result);
+					}
+				});
+			}
+			
+			function refreshAelter() {
+				$.ajax({
+					url: './start.php?getAelter=1', 
+					async: false, 
+					success: function(result) {
+						$('#veranstaltungenAelter').html(result);
+					}
+				});
+			}
+			
+			function setClickable() {
+				$(".clickable-row").click(function() {
+					window.location = $(this).data("href");
+				});
+			}
+			
+			$(window).load( function() {
+				$('[data-toggle="tooltip"]').tooltip(); 
+
+				performCheck();
+				$('#progressBar').delay(100).css('width', 33+'%').attr('aria-valuenow', 33);  
+				refreshAktuell();
+				$('#progressBar').delay(100).css('width', 67+'%').attr('aria-valuenow', 67);    
+				refreshAelter();
+				$('#progressBar').delay(100).css('width', 100+'%').attr('aria-valuenow', 100).delay(5000); 
+				$('#loader').delay(250).fadeOut();
+				
+				setClickable();
+			});
+		</script>
+	
 		<div class="container">
 			<!-- Headline -->
 			<div class="container-fluid row box" style="margin-left: 0px; margin-right: 0px; margin-top: 20px; margin-bottom: 20px; padding-bottom: 8px; padding-top: 3px;">
@@ -85,79 +303,11 @@
 					</div>
 					
 					<!-- Veranstaltungen -->
-					<?php
-						echo "<script>";
-						echo "	console.log('Connected to Database: " . $config['db_host'] . " as user " . $config['db_user'] . "');\n";
-						echo "</script>";
-
-						// Create connection
-						$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
-
-						// Check connection
-						if ($conn->connect_error) {
-							die("Connection failed: " . $conn->connect_error);
-						} 
-
-						$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen ORDER BY datum ASC";
-						$result = $conn->query($sql);
-
-						if ($result->num_rows > 0) {
-							while($row = $result->fetch_assoc()) {
-								$id = "null";
-								$name = "null";
-								$datum = "null";
-								$endeAnmeldefrist = "null";
-								$maxAnmeldungen = "---";
-								
-								$id = $row["KonferenzID"];
-								$name = $row["Name"];
-								$datum = $row["datum"];
-								$endeAnmeldefrist = $row["endeanmeldefrist"];
-								if(!(is_null($row["maxanmeldungen"]))) {
-									$maxAnmeldungen = $row["maxanmeldungen"];
-								}
-								
-								echo "<div class='row-hgoe row clickable-row' data-href='detail.php?id=" . $id . "'>";
-								echo "	<div class='col-xs-8 col-sm-3'>";
-								echo "		" . $name;
-								echo "	</div>";
-								
-								echo "	<div class='col-xs-4 col-sm-3'>";
-								$datumFormatiert = date_create($datum);
-								echo date_format($datumFormatiert, 'd.m.Y');
-								echo "	</div>";
-								
-								echo "	<div class='col-sm-3 hidden-xs'>";
-								$anmeldefristFormatiert = date_create($endeAnmeldefrist);
-								echo date_format($anmeldefristFormatiert, 'd.m.Y  -  H:i');
-								echo "	</div>";
-								
-								echo "	<div class='col-sm-3 hidden-xs'>";
-								echo "		";
-								$countResult = $conn->query("SELECT count(*) AS total FROM hgoe_teilnehmer WHERE KonferenzID = " . $id);
-								if($countResult->num_rows > 0) {
-									$tmp = $countResult->fetch_assoc();
-									echo $tmp['total'];
-								} else {
-									echo "0";
-								}
-								if($maxAnmeldungen != '---') {
-									echo " von " . $maxAnmeldungen;
-								}
-								echo "	</div>";
-								echo "</div>";	
-							}
-						} else {
-							echo "<div class='row-hgoe row'>";
-							echo "	<div class='col-xs-12'>Keine aktuellen Veranstaltungen</div>";
-							echo "</div>";
-						}
-					?>
+					<span id="veranstaltungenAktuell">
+					</span>
 					
 					<script>
 						jQuery(document).ready(function($) {
-							$('[data-toggle="tooltip"]').tooltip(); 
-							
 							$(".clickable-row").click(function() {
 								window.location = $(this).data("href");
 							});
@@ -187,78 +337,8 @@
 					</div>
 					
 					<!-- Veranstaltungen -->
-					<?php
-						// Create connection
-						$conn = new mysqli($config['db_host'], $config['db_user'], $config['db_password'], $config['db_schema']);
-
-						// Check connection
-						if ($conn->connect_error) {
-							die("Connection failed: " . $conn->connect_error);
-						} 
-
-						$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen_history ORDER BY datum DESC";
-						$result = $conn->query($sql);
-
-						if ($result->num_rows > 0) {
-							while($row = $result->fetch_assoc()) {
-								$id = "null";
-								$name = "null";
-								$datum = "null";
-								$endeAnmeldefrist = "null";
-								$maxAnmeldungen = "---";
-								
-								$id = $row["KonferenzID"];
-								$name = $row["Name"];
-								$datum = $row["datum"];
-								$endeAnmeldefrist = $row["endeanmeldefrist"];
-								if(!(is_null($row["maxanmeldungen"]))) {
-									$maxAnmeldungen = $row["maxanmeldungen"];
-								}
-								
-								echo "<div class='row-hgoe row clickable-row' data-href='detail.php?id=" . $id . "'>";
-								echo "	<div class='col-xs-8 col-sm-3'>";
-								echo "		" . $name;
-								echo "	</div>";
-								
-								echo "	<div class='col-xs-4 col-sm-3'>";
-								$datumFormatiert = date_create($datum);
-								echo date_format($datumFormatiert, 'd.m.Y');
-								echo "	</div>";
-								
-								echo "	<div class='col-sm-3 hidden-xs'>";
-								$anmeldefristFormatiert = date_create($endeAnmeldefrist);
-								echo date_format($anmeldefristFormatiert, 'd.m.Y  -  H:i');
-								echo "	</div>";
-								
-								echo "	<div class='col-sm-3 hidden-xs'>";
-								echo "		";
-								$countResult = $conn->query("SELECT count(*) AS total FROM hgoe_teilnehmer WHERE KonferenzID = " . $id);
-								if($countResult->num_rows > 0) {
-									$tmp = $countResult->fetch_assoc();
-									echo $tmp['total'];
-								} else {
-									echo "0";
-								}
-								if($maxAnmeldungen != '---') {
-									echo " von " . $maxAnmeldungen;
-								}
-								echo "	</div>";
-								echo "</div>";	
-							}
-						} else {
-							echo "<div class='row-hgoe row'>";
-							echo "	<div class='col-xs-12'>Keine älteren Veranstaltungen</div>";
-							echo "</div>";
-						}
-					?>
-					
-					<script>
-						jQuery(document).ready(function($) {
-							$(".clickable-row").click(function() {
-								window.location = $(this).data("href");
-							});
-						});
-					</script>
+					<div id="veranstaltungenAelter">
+					</div>
 				</div>
 			</div>
 			

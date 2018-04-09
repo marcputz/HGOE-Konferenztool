@@ -85,16 +85,22 @@ if(!isset($_SESSION['user'])) {
 				echo "console.log('Aus Veranstaltungs-Tabelle gelöscht');";
 			}
 
-			echo "alert('Veranstaltung abgesagt!');";
+			if(!isset($_GET["noAlert"])) {
+				echo "alert('Veranstaltung abgesagt!');";
+			}
 			echo "window.location = 'start.php';";
 		} else {
-			echo "alert('DB-Error: Veranstaltung wurde nicht gefunden!');";
+			if(!isset($_GET["noAlert"])) {
+				echo "alert('DB-Error: Veranstaltung wurde nicht gefunden!');";
+			}
 			echo "window.location = 'detail.php?id=" . $id . "';";
 		}
 
 		mysqli_close($conn);
 	} else {
-		echo "alert('Kann leere Veranstaltung nicht absagen!');";
+		if(!isset($_GET["noAlert"])) {
+			echo "alert('Kann leere Veranstaltung nicht absagen!');";
+		}
 		echo "window.location = 'detail.php'";
 	}
 ?>

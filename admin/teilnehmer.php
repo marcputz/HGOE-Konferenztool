@@ -2,10 +2,10 @@
 	session_start();
 	$config = include('./config.php');
 
-	/*if(!isset($_SESSION['user'])) {
+	if(!isset($_SESSION['user'])) {
 		header("location: login.php");
 		exit();
-	}*/
+	}
 
 	if(isset($_GET['vid'])) {
 		if(isset($_GET['alle'])) {
@@ -115,7 +115,20 @@
 					$ret .= "		<div class='col-xs-10 col-sm-7 col-md-7'>" . (($titel != "null") ? ($titel . " ") : "") . $vname . " " . $nname . "</div>";
 					$ret .= "		<div class='col-xs-12 col-sm-4 col-md-3 text-right bordered-xs' style='font-size: 12.5px; border-right-width: 0px;'>";
 					
-					$ret .= "			<span " . (($row["Gebuehr"] == 0.00) ? "style='color: grey;'" : "") . ">Bezahlt " . (($row["Gebuehr"] != 0.00) ? ("<i>(" . $row["Gebuehr"] . " €)</i>") : "(Gratis)") . "</span><input id='bezahltCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Bezahlt"] == 1) ? "checked" : "") . " " . (($row["Gebuehr"] == 0.00) ? "disabled='disabled'" : "") . ">";
+					$ret .= "			<span " . 
+						(($row["Gebuehr"] == 0.00) ? "style='color: grey;'" : "") . ">Bezahlt ";
+					
+					if($row["Gebuehr"] != 0.00) {
+						if($row["Gebuehr"] > 0.00)
+							$ret .= "<i>(" . $row["Gebuehr"] . " €)</i>";
+					} else {
+						$ret .= "(Gratis)";
+					}
+							
+					$ret .=	"</span><input id='bezahltCB_" . $nr . 
+						"' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . 
+						(($row["Bezahlt"] == 1) ? "checked" : "") . " " . 
+						(($row["Gebuehr"] == 0.00) ? "disabled='disabled'" : "") . ">";
 					$ret .= "			Anwesend <input id='anwesendCB_" . $nr . "' style='margin-left: 3px; margin-right: 1px;' type='checkbox' " . (($row["Anwesend"] == 1) ? "checked" : "") . ">";
 					$ret .= "		</div>";
 					$ret .= "	</div>";
