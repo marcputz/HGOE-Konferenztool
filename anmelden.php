@@ -15,11 +15,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Anmeldung Veranstaltung</title>
+    
     <!-- Bootstrap -->
 	<link href="admin/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="admin/assets/css/hgoe.php" rel="stylesheet">
 	<script src="./admin/assets/jquery.min.js" type="text/javascript"></script>
 	<script src="./admin/assets/bootstrap.min.js"></script>
+  	<script src="./admin/assets/hgoe_js.php" type="text/javascript"></script>
 		
 	<!-- Custom Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -158,6 +160,7 @@
 							});
 
 							$(document).ready( function() {
+								performCheckAsync();
 								$("#divBundesland").hide();
 							});
 						</script>
