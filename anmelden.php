@@ -70,15 +70,34 @@
 										$valid = false;
 										while($valid == false && $validRow = $validResult->fetch_assoc()) {
 											$validId = $validRow['KonferenzID'];
-											if($id === $validId) { //if ID exists in the valid Konferenzen
-												echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "'>" . $name . "</option>";
+											if($id === $validId) { 
+												//anmeldefrist ist gültig (> beginn; < ende)
 												
-												$valid = true;
-												$anz = $anz + 1;
+												$maxAnmeldungen = $validRow['maxanmeldungen'];
+												$anmeldungen = 0;
+												//teilnehmer abzählen
+												$sql = "SELECT count(*) AS total FROM hgoe_teilnehmer WHERE KonferenzID = " . $id;
+												$countResult = $conn->query($sql);
+												if($countResult && $countResult->num_rows > 0) {
+													while($countRow = $countResult->fetch_assoc()) {
+														$anmeldungen = $countRow['total'];
+													}
+												}
+												
+												if($anmeldungen < $maxAnmeldungen) {
+													echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "'>" . $name . "</option>";
+													$anz = $anz + 1;
+												} else {
+													//max Anmeldugnen überschritten
+													echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "' disabled>" . $name . " - Alle Plätze belegt</option>";
+												}
+												
+												$fristValid = true;
 											}
 										}
 										
-										if($valid == false) {
+										if($fristValid == false) {
+											//Anmeldung ist abgelaufen
 											echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "' disabled>" . $name . " - Anmeldefrist abgelaufen</option>";
 										}
 									}
