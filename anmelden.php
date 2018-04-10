@@ -37,7 +37,7 @@
 			<div class="panel-body text-right">
 				<div class="row">
 					<div class="col-xs-5 col-md-3" style='line-height: 24px;'>Veranstaltung</div>
-					<div class="col-xs-7 text-left">
+					<div class="col-xs-7 col-md-9 text-left">
 						<select id="veranstaltungCB" style="width: 90%">
 							<?php
 								$config = include('./admin/config.php');
@@ -51,10 +51,10 @@
 									die("Connection failed: " . $conn->connect_error);
 								} 
 
-								$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen WHERE endeanmeldefrist > NOW();";
-								$validResult = $conn->query($sql); //with valid date
-								$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen";
-								$allResult = $conn->query($sql); //all
+								$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen WHERE endeanmeldefrist > NOW() AND beginnanmeldefrist <= NOW();";
+								$validResult = $conn->query($sql); //während anmeldefrist
+								$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen WHERE beginnanmeldefrist <= NOW()";
+								$allResult = $conn->query($sql); //während und nach anmledefrist
 
 								if ($allResult->num_rows > 0) {
 									$id = "null";
@@ -281,7 +281,7 @@
 	  </div>
 
 	  <script>
-		$("#anmeldenBtn").click( function() {
+		 $("#anmeldenBtn").click( function() {
 			var url = "./script_teilnehmer_anmelden.php";
 
 			var veranstaltung = document.getElementById('veranstaltungCB').options[document.getElementById('veranstaltungCB').selectedIndex].value;
