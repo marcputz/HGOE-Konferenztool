@@ -37,8 +37,8 @@
 			<div class="panel-body text-right">
 				<div class="row">
 					<div class="col-xs-5 col-md-3" style='line-height: 24px;'>Veranstaltung</div>
-					<div class="col-xs-7">
-						<select id="veranstaltungCB" style="width: 100%">
+					<div class="col-xs-7 text-left">
+						<select id="veranstaltungCB" style="width: 90%">
 							<?php
 								$config = include('./admin/config.php');
 
@@ -51,23 +51,44 @@
 									die("Connection failed: " . $conn->connect_error);
 								} 
 
+								$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen WHERE endeanmeldefrist > NOW();";
+								$validResult = $conn->query($sql); //with valid date
 								$sql = "SELECT * FROM hgoe_17.hgoe_konferenzen";
-								$result = $conn->query($sql);
+								$allResult = $conn->query($sql); //all
 
-								if ($result->num_rows > 0) {
+								if ($allResult->num_rows > 0) {
 									$id = "null";
 									$name = "null";
+									$anz = 0;
 
-									while($row = $result->fetch_assoc()) {
+									while($row = $allResult->fetch_assoc()) {
 										$id = $row["KonferenzID"];
 										$name = $row["Name"];
 										$gebuehrMitglied = $row['gebuehr_mitglied'];
 										$gebuehrNichtmitglied = $row['gebuehr_nichtmitglied'];
 
-										echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "'>" . $name . "</option>";
+										$valid = false;
+										while($valid == false && $validRow = $validResult->fetch_assoc()) {
+											$validId = $validRow['KonferenzID'];
+											if($id === $validId) { //if ID exists in the valid Konferenzen
+												echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "'>" . $name . "</option>";
+												
+												$valid = true;
+												$anz = $anz + 1;
+											}
+										}
+										
+										if($valid == false) {
+											echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "' disabled>" . $name . " - Anmeldefrist abgelaufen</option>";
+										}
+									}
+									
+									if($anz == 0) {
+										//Keine gültigen Veranstaltungen
+										echo "<option value='0' data-gebMit='0.00' data-gebNichtMit='0.00'>Keine aktuellen Veranstaltungen</option>";
 									}
 								} else {
-									echo "<option value='0'>Keine aktuellen Veranstaltungen</option>";
+									echo "<option value='0' data-gebMit='0.00' data-gebNichtMit='0.00'>Keine aktuellen Veranstaltungen</option>";
 								}
 
 								mysqli_close($conn);
@@ -159,8 +180,15 @@
 								$("#divBundesland").hide();
 							});
 
+							function timeout() {
+								alert('Sie haben zu lange gebraucht um die Felder auszufüllen. Aus Sicherheitsgründen wird die Seite neu geladen');
+								window.location = './anmelden.php';
+							}
+							
 							$(document).ready( function() {
 								performCheckAsync();
+								window.setTimeout('timeout()', 15*60*1000); // 15 min
+								
 								$("#divBundesland").hide();
 							});
 						</script>
