@@ -13,13 +13,14 @@ $config = include('./admin/config.php');
 <body>
 <script>
 <?php
-	if(isset($_GET["KonferenzID"]) && isset($_GET["vname"]) && isset($_GET["nname"]) && isset($_GET["email"]) && isset($_GET["plz"]) && isset($_GET["ort"])) {
+	if(isset($_GET["KonferenzID"]) && isset($_GET["vname"]) && isset($_GET["nname"]) && isset($_GET["email"]) && isset($_GET["plz"]) && isset($_GET["ort"]) && isset($_GET['geschlecht'])) {
 		$konferenzID = $_GET["KonferenzID"];
 		$vname = $_GET["vname"];
 		$nname = $_GET["nname"];
 		$email = $_GET["email"];
 		$plz = $_GET["plz"];
 		$ort = $_GET["ort"];
+		$geschlecht = $_GET['geschlecht'];
 		$org = (isset($_GET['org'])) ? $_GET['org'] : 'null';
 		$strasse = (isset($_GET['strasse'])) ? $_GET['strasse'] : 'null';
 		$hausnr = (isset($_GET['hausnr'])) ? $_GET['hausnr'] : 'null';
@@ -60,7 +61,7 @@ $config = include('./admin/config.php');
 				}
 				
 				//INSERT INTO hgoe_teilnehmer
-				$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Organisation, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, KonferenzID, Bezahlt, Gebuehr) VALUES (";
+				$sql = "INSERT INTO hgoe_teilnehmer (Titel, Vorname, Nachname, Organisation, Geburtsdatum, eMail, Strasse, Hausnr, PLZ, Ort, Mitglied, KonferenzID, Bezahlt, Gebuehr, Geschlecht) VALUES (";
 
 				if ($titel != "null") {
 					$sql .= "'" . $titel . "', ";
@@ -109,17 +110,19 @@ $config = include('./admin/config.php');
 				
 				if($mitglied == 'null') {
 					if($gebNichtMit == 0.00) {
-						$sql .= "1, " . $gebNichtMit . ");";
+						$sql .= "1, " . $gebNichtMit;
 					} else {
-						$sql .= "0, " . $gebNichtMit . ");";
+						$sql .= "0, " . $gebNichtMit;
 					}
 				} else {
 					if($gebMit == 0.00) {
-						$sql .= "1, " . $gebMit . ");";
+						$sql .= "1, " . $gebMit;
 					} else {
-						$sql .= "0, " . $gebMit . ");";
+						$sql .= "0, " . $gebMit;
 					}
 				}
+				
+				$sql .= ", '" . $geschlecht . "');";
 
 				if ($conn->query($sql)) {
 					//send email
@@ -127,7 +130,19 @@ $config = include('./admin/config.php');
 					echo '			to: "' . $email . '",';
 					echo '			subject: "Anmeldebestätigung",';
 					echo '			msg_title: "Sehr geehrte/r Herr/Frau ' . (($titel != 'null') ? ($titel . ' ') : '') . $nname . '!",';
-					echo '			msg_body: "Sie haben sich erfolgreich für die Veranstaltung \"' . $konferenzName . '\" angemeldet." ';
+					echo '			msg_body: "Sie haben sich erfolgreich für die Veranstaltung \"' . $konferenzName . '\" angemeldet. ';
+					
+					if($mitglied != 'null') {
+						if($gebMit != 0.00) {
+							echo '<br><br>Wir möchten Sie nochmals darauf hinweisen, den Umkostenbeitrag von <b>' . $gebMit . ' €</b> an folgendes Konto zu überweisen:<br>-------------<br><b>IBAN: </b> ' . $config['iban'] . '<br><b>BIC: </b>' . $config['bic'] . '<br><b>Verwendungszweck: </b>Name + Veranstaltung';
+						}
+					} else {
+						if($gebNichtMit != 0.00) {
+							echo '<br><br>Wir möchten Sie nochmals darauf hinweisen, den Umkostenbeitrag von <b>' . $gebNichtMit . ' €</b> an folgendes Konto zu überweisen:<br>-------------<br><b>IBAN: </b> ' . $config['iban'] . '<br><b>BIC: </b>' . $config['bic'] . '<br><b>Verwendungszweck: </b>Name + Veranstaltung';
+						}
+					}
+					
+					echo '			"';
 					echo '		}).done(function( data ) {';
 					echo '			console.log( data );';
 					echo '		});';

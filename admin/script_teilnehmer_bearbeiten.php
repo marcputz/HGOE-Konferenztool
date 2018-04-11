@@ -19,7 +19,7 @@
 <body>
 	<script>
 	<?php
-		if(isset($_GET["nr"]) && isset($_GET["vname"]) && isset($_GET["nname"]) && isset($_GET["email"]) && isset($_GET["plz"]) && isset($_GET["ort"])) {
+		if(isset($_GET["nr"]) && isset($_GET["vname"]) && isset($_GET["nname"]) && isset($_GET["email"]) && isset($_GET["plz"]) && isset($_GET["ort"]) && isset($_GET['geschlecht'])) {
 			$nr = $_GET["nr"];
 			$vname = $_GET["vname"];
 			$nname = $_GET["nname"];
@@ -27,6 +27,7 @@
 			$plz = $_GET["plz"];
 			$ort = $_GET["ort"];
 			$titel = "null";
+			$geschlecht = $_GET['geschlecht'];
 			$strasse = "null";
 			$hausnr = "null";
 			$org = "null";
@@ -56,7 +57,7 @@
 
 			$sql = "UPDATE hgoe_teilnehmer SET Vorname = '" . 
 					$vname . "', Nachname = '" . $nname . "', eMail = '" . 
-					$email . "', plz = " . $plz . ", ort = '" . $ort . "'";
+					$email . "', plz = " . $plz . ", ort = '" . $ort . "', Geschlecht = '" . $geschlecht . "'";
 
 			if($gebdat != 'null') {
 				$sql .= ", Geburtsdatum = '" . $gebdat . "'";

@@ -60,6 +60,7 @@
 				$strasse = "null";
 				$hausnr = "null";
 				$ort = "null";
+				$geschlecht = "null";
 				$plz = "null";
 				$mitglied = "null";
 				
@@ -70,6 +71,7 @@
 				$nname = $row["Nachname"];
 				$ort = $row["Ort"];
 				$plz = $row["PLZ"];
+				$geschlecht = $row['Geschlecht'];
 				$email = $row["eMail"];
 				if(!(is_null($row["Organisation"]))) {
 					$org = $row["Organisation"];
@@ -156,16 +158,16 @@
 					$ret .= "		<div class='col-xs-4 col-md-1'><b>Ort</b></div>";
 					$ret .= "		<div class='col-xs-8 col-md-3 text-left'><input id='ort_" . $nr . "' type='text' style='width: 100%;' value='" . $ort . "'></div>";
 					
-					$ret .= "		<div class='col-xs-4 col-md-2'>Firma/Organisation</div>";
-					$ret .= "		<div class='col-xs-8 col-md-10 text-left'><input id='org_" . $nr . "' type='text' style='width: 100%;' " . (($org != 'null') ? ("value='" . $org . "'") : "") . "'></div>";
+					$ret .= "		<div class='col-xs-4 col-md-3 col-lg-2'>Firma/Organisation</div>";
+					$ret .= "		<div class='col-xs-8 col-md-9 col-lg-10 text-left'><input id='org_" . $nr . "' type='text' style='width: 100%;' " . (($org != 'null') ? ("value='" . $org . "'") : "") . "'></div>";
 					
-					$ret .= "		<div class='col-xs-4 col-md-2'><b>Ist Mitglied</b></div>";
-					$ret .= "		<div class='col-xs-2 col-md-2 text-left' style='height: 38px;'>";
+					$ret .= "		<div class='col-xs-4 col-md-2 col-lg-2'><b>Ist Mitglied</b></div>";
+					$ret .= "		<div class='col-xs-8 col-md-1 col-lg-1 text-left' style='height: 38px;'>";
 					$ret .= "			<input id='mitglied_" . $nr . "' type='checkbox' style='width: 100%; min-height:20px; min-width:20px; margin-top: -2px;' value='true'>";
 					$ret .= "		</div>";
-					$ret .= "		<div class='col-xs-12 col-md-8' style='margin: 0px; padding: 0px;'>";
-					$ret .= "			<div class='col-xs-4 col-md-3'>Bundesland</div>";
-					$ret .= "			<div class='col-xs-8 col-md-9 text-left'>";
+					$ret .= "		<div class='col-xs-12 col-md-5' style='margin: 0px; padding: 0px;'>";
+					$ret .= "			<div class='col-xs-4 col-md-5 col-lg-4'>Bundesland</div>";
+					$ret .= "			<div class='col-xs-8 col-md-7 col-lg-8 text-left'>";
 					$ret .= "				<select style='width: 100%;' id='bundesland_" . $nr . "'>";
 					$ret .= "					<option value='1'>Burgenland</option>";
 					$ret .= "					<option value='2'>Steiermark</option>";
@@ -179,6 +181,17 @@
 					$ret .= "				</select>";
 					$ret .= "			</div>";
 					$ret .= "		</div>";
+					$ret .= "		<div class='col-xs-12 col-md-4' style='margin: 0px; padding: 0px;'>";
+					$ret .= "			<div class='col-xs-4 col-md-6'>Geschlecht</div>";
+					$ret .= "			<div class='col-xs-8 col-md-6 text-left'>";
+					$ret .= "				<select style='width: 100%;' id='geschlecht_" . $nr . "'>";
+					$ret .= "					<option value='S'>Sonstige / Kein Angabe</option>";
+					$ret .= "					<option value='M'>Männlich</option>";
+					$ret .= "					<option value='W'>Weiblich</option>";
+					$ret .= "				</select>";
+					$ret .= "			</div>";
+					$ret .= "		</div>";
+					
 					$ret .= "		<script>";
 					$ret .= "		$('#bezahltCB_" . $nr . "').click( function() {\n";
 					$ret .= "			if(document.getElementById('bezahltCB_" . $nr . "').checked == true) {\n";
@@ -233,9 +246,18 @@
 					$ret .= "					document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";
 					$ret .= "				}";
 					$ret .= "			});";
+					
+					$ret .= "		$(document).ready( function() {\n";
+					switch($geschlecht) {
+						case "S": $ret .= "$('#geschlecht_" . $nr . "').val('S');\n"; break;
+						case "M": $ret .= "$('#geschlecht_" . $nr . "').val('M');\n"; break;
+						case "W": $ret .= "$('#geschlecht_" . $nr . "').val('W');\n"; break;
+					}
+					$ret .= "		});\n";
 
 					if($mitglied == 'null') {
 						$ret .= "		$(document).ready( function() {";
+						
 						$ret .= "			document.getElementById('bundesland_" . $nr . "').disabled = true;";
 						$ret .= "			document.getElementById('bundesland_" . $nr . "').style.backgroundColor = '#CCCCCC';";
 						$ret .= "			document.getElementById('bundesland_" . $nr . "').style.color = '#AAAAAA';";	
@@ -280,6 +302,7 @@
 					$ret .= "			var email = 'null';\n";
 					$ret .= "			var strasse = 'null';\n";
 					$ret .= "			var org = 'null';\n";
+					$ret .= "			var geschlecht = 'null';\n";
 					$ret .= "			var hausnr = -1;\n";
 					$ret .= "			var plz = -1;\n";
 					$ret .= "			var ort = 'null';\n";
@@ -307,6 +330,9 @@
 					$ret .= "			if(document.getElementById('mitglied_" . $nr . "').checked == true) {\n";
 					$ret .= "				bundesland = document.getElementById('bundesland_" . $nr . "').options[document.getElementById('bundesland_". $nr . "').selectedIndex].text;\n";
 					$ret .= "			}\n";
+					
+				$ret .= "				geschlecht = document.getElementById('geschlecht_" . $nr . "').options[document.getElementById('geschlecht_". $nr . "').selectedIndex].value;\n";
+					
 					$ret .= "			if(vname != 'null' && nname != 'null' && email != 'null' && plz != -1 && ort != 'null') {\n";
 					$ret .= "				var url = 'script_teilnehmer_bearbeiten.php?nr=" . $nr . "';\n";
 					$ret .= "				url += '&vname=' + vname;\n";
@@ -314,6 +340,7 @@
 					$ret .= "				url += '&email=' + email;\n";
 					$ret .= "				url += '&plz=' + plz;\n";
 					$ret .= "				url += '&ort=' + ort;\n";
+					$ret .= "				url += '&geschlecht=' + geschlecht;\n";
 					$ret .= "				if(titel != 'null')\n";
 					$ret .= "					url += '&titel=' + titel;\n";
 					$ret .= "				if(org != 'null')\n";

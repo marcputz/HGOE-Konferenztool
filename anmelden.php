@@ -149,6 +149,17 @@
 				</div> 
 				<br>
 				<div class="row">
+					<div class="col-xs-5 col-md-3">Geschlecht*</div>
+					<div class="col-xs-7 col-md-9 text-left">
+						<select style='width: 90%;' id="geschlecht">
+							<option value='S'>Sonstige / Keine Anganbe</option>
+							<option value='M'>Männlich</option>
+							<option value='W'>Weiblich</option>
+						</select>
+					</div>
+				</div> 
+				<br>
+				<div class="row">
 					<div class="col-xs-5 col-md-3">E-Mail*</div>
 					<div class="col-xs-7 col-md-9 text-left"><input type="email" id="email" style="width: 90%"></div>
 				</div> 
@@ -320,6 +331,8 @@
 				var ort = document.getElementById("ort").value.trim();
 
 				var bundesland = document.getElementById("bundesland").options[document.getElementById('bundesland').selectedIndex].text;
+				
+				var geschlecht = document.getElementById("geschlecht").options[document.getElementById('geschlecht').selectedIndex].value;
 
 				var mitglied = document.querySelector('input[name="mitglied"]:checked').value;
 
@@ -356,6 +369,8 @@
 					if(bundesland != "null") {
 						url += "&bundesland=" + bundesland;
 					}
+					
+					url += "&geschlecht=" + geschlecht;
 
 					window.location = url;
 				}
