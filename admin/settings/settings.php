@@ -5,7 +5,7 @@
 
 	//Für Testzwecke ggf. auskommentieren
 	if(!isset($_SESSION['user'])) {
-		header("location: login.php");
+		header("location: ../login.php");
 		exit();
 	}
 
@@ -29,6 +29,15 @@
 			//user database changed, so logout
 			header('location: ../logout.php');
 			exit;
+		}
+	}
+	
+	if(isset($_GET['backup_del'])) {
+		$filename = $_GET['backup_del'];
+		echo "console.log('Datei " . $filename . " wird gesucht...');";
+		if(file_exists("./backups/" . $filename)) {
+			echo "console.log('Datei " . $filename . " wurde gefunden');";
+			unlink("./backups/" . $filename);
 		}
 	}
 ?>
@@ -82,10 +91,10 @@
 				<div class="panel-heading">
 					<h3 class="panel-title" style="font-weight: bold">Einstellungen</h3>
 				</div>
-				<div class="panel-body text-left">
+				<div class="panel-body text-center">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-xs-6"><h4>Benutzerkonten</h4></div>
+							<div class="col-xs-6 text-left"><h4>Benutzerkonten</h4></div>
 							<div class="col-xs-6 text-right"><?php
 								if($_SESSION['admin'] == 1) {
 									echo "<a class='btn btn-hgoe' style='width: 100%; max-width: 150px;' href='./user_anlegen.php'>Neuer Nutzer</a>";
@@ -97,7 +106,7 @@
 
 							// Check connection
 							if ($conn->connect_error) {
-								echo "<div class='row row-hgoe' style='margin-bottom: 0px;'>";
+								echo "<div class='row row-hgoe text-left' style='margin-bottom: 0px;'>";
 								echo "	<div class='col-xs-12'>Fehler beim Herstellen der Datenbank-Verbindung</div>";
 								echo "</div>";
 							} 
@@ -110,7 +119,7 @@
 									$username = $row['username'];
 									$administrator = $row['administrator'];
 
-									echo "<div class='row row-hgoe' style='margin-bottom: 0px;'>";
+									echo "<div class='row row-hgoe text-left' style='margin-bottom: 0px;'>";
 
 									$str = "	<div class='col-xs-5'>" . $username;
 									if($administrator == 1) {
@@ -140,6 +149,29 @@
 								//keine Benutzer --> FATAL ERROR --> Anmeldung nicht mehr möglich
 							}
 						?>
+						
+						<br>
+						<div class="container-fluid" style="margin: 5px;">
+							<div class="row">
+								<div class="col-xs-12">
+									<h4>Kontodaten</h4>
+									<p>Diese Daten werden dem User bei der Anmeldung angezeigt</p>
+								</div>
+							</div>
+							<form action="?save=1&kontodaten=1" method="post">
+								<div class="row">
+									<div class="col-xs-4 text-right">IBAN: </div>
+									<div class="col-xs-8 text-left"><input type="text" name="ibanTF" style="width: 90%" value='<?php echo $config['iban']; ?>'></div>
+								</div>
+								<div class="row">
+									<div class="col-xs-4 text-right">BIC: </div>
+									<div class="col-xs-8 text-left"><input type="text" name="bicTF" style="width: 90%" value='<?php echo $config['bic']; ?>'></div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12"><button class="btn btn-hgoe" type="submit" style="margin-top: 5px; width: 150px;">Speichern</button></div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -162,29 +194,6 @@
 					});
 				</script>
 				<div class="panel-body" id="advancedSettingsPanel">
-					<div class="container-fluid" style="margin: 5px;">
-						<div class="row">
-							<div class="col-xs-12">
-								<h4>Kontodaten</h4>
-								<p>Diese Daten werden dem User bei der Anmeldung angezeigt</p>
-							</div>
-						</div>
-						<form action="?save=1&kontodaten=1" method="post">
-							<div class="row">
-								<div class="col-xs-4 text-right">IBAN: </div>
-								<div class="col-xs-8 text-left"><input type="text" name="ibanTF" style="width: 90%" value='<?php echo $config['iban']; ?>'></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-4 text-right">BIC: </div>
-								<div class="col-xs-8 text-left"><input type="text" name="bicTF" style="width: 90%" value='<?php echo $config['bic']; ?>'></div>
-							</div>
-							<div class="row">
-								<div class="col-xs-12"><button class="btn btn-hgoe" type="submit" style="margin-top: 5px; width: 150px;">Speichern</button></div>
-							</div>
-						</form>
-					</div>
-					
-					<br>
 					<div class="container-fluid" style="margin: 5px;">
 						<div class="row">
 							<div class="col-xs-12">
@@ -213,6 +222,38 @@
 								<div class="col-xs-12"><button class="btn btn-hgoe" type="submit" style="margin-top: 5px; width: 150px;">Speichern</button></div>
 							</div>
 						</form>
+					</div>
+					
+					<div class="container-fluid" style="margin: 5px;">
+						<div class="row">
+							<div class="col-xs-12">
+								<h4>Backups</h4>
+								<p>Hier können Sie alle Daten des Konferenztools sichern</p>
+							</div>
+						</div>
+						<span>
+							<!-- BACKUP LISTE -->
+							<div style='border: 2px solid black; margin: 0px; padding: 0px; margin-left: 10%; width: 80%;' class="text-left">
+							<?php
+								$files = array_diff(scandir("./backups"), array('..', '.', '.DS_Store'));
+
+								foreach($files as $key => $file) {
+									echo "<div class='row row-hgoe' style='border-bottom: 2px solid #AAA; margin: 0px; background-color: #DDD;'>";
+									echo "	<div class='col-xs-7 col-sm-9' style='border-width: 0px;'>" . substr($file, 7) . "</div>";
+									echo "	<div class='col-xs-5 col-sm-3 text-right' style='border-width: 0px;'><a class='btn btn-hgoe' style='height: 20px; line-height: 8px; font-size: 12px; margin-right: 5px;' title='Wiederherstellen' disabled='disabled'><img src='../assets/img/restore_icon.svg' style='height: 16px; margin-top: -5px;'></a>";
+									echo "		<a href='?backup_del=" . $file . "' class='btn btn-hgoe-red' title='Löschen' style='height: 20px; line-height: 8px; font-size: 12px;'><img src='../assets/img/delete_icon.svg' style='height: 16px; margin-top: -5px;'></a></div>";
+									echo "</div>";
+								}
+								
+								if (!$files || empty($files)) {
+								 	echo "<div class='row row-hgoe' style='border-bottom: 2px solid #AAA; margin: 0px; background-color: #DDD;' data-toggle='collapse'>";
+									echo "	<div class='col-xs-12' style='border-width: 0px;'>" . "Keine Backups gefunden" . "</div>";
+									echo "</div>";
+								}
+							?>
+							</div>
+							<a type='submit' class='btn btn-hgoe' style='margin-top: 15px;' href="./backup_erstellen.php">Backup erstellen</a>
+						</span>
 					</div>
 				</div>
 			</div>
