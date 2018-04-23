@@ -84,7 +84,7 @@
 													}
 												}
 												
-												if($anmeldungen < $maxAnmeldungen) {
+												if(!isset($maxAnmeldungen) || ($anmeldungen < $maxAnmeldungen)) {
 													echo "<option value='" . $id . "' data-gebMit='" . $gebuehrMitglied . "' data-gebNichtMit='" . $gebuehrNichtmitglied . "'>" . $name . "</option>";
 													$anz = $anz + 1;
 												} else {

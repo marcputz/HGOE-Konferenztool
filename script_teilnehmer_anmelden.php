@@ -129,7 +129,17 @@ $config = include('./admin/config.php');
 					echo '		$.post( "./script_sendMail.php", { ';
 					echo '			to: "' . $email . '",';
 					echo '			subject: "Anmeldebestätigung",';
-					echo '			msg_title: "Sehr geehrte/r Herr/Frau ' . (($titel != 'null') ? ($titel . ' ') : '') . $nname . '!",';
+					echo '			msg_title: "';
+					if($geschlecht == 'M') {
+						echo 'Sehr geehrter Herr ';
+					}
+					if($geschlecht == 'W') {
+						echo 'Sehr geehrte Frau ';
+					}
+					if($geschlecht == 'S') {
+						echo 'Sehr geehrte/r Herr/Frau ';
+					}
+					echo (($titel != 'null') ? ($titel . ' ') : '') . $nname . '!",';
 					echo '			msg_body: "Sie haben sich erfolgreich für die Veranstaltung \"' . $konferenzName . '\" angemeldet. ';
 					
 					if($mitglied != 'null') {

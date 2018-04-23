@@ -25,17 +25,17 @@ if(isset($_POST['to']) && isset($_POST['msg_body']) && isset($_POST['msg_title']
 		$mail->addAddress($_POST['to']);                      // Add a recipient
 		
 		//make html msg
-		$html = '<body style="background-color: rgb(215, 228, 233);">';
+		$html = '<body style="">';
 		$html .= '	<style>';
 		$html .= '		@import url("https://fonts.googleapis.com/css?family=Open+Sans");';
 		$html .= '	</style>';		
-		$html .= '	<span style="font-family: Open Sans, Arial, sans-serif; width: 100%;">';
-		$html .= '		<div style="width: 100%; text-align: center; margin-top: 20px; height: 86px; line-height: 86px;">';
+		$html .= '	<div style="background-color: rgb(215, 228, 233); margin: 0px auto; max-width: 800px; font-family: Open Sans, Arial, sans-serif; width: 100%;margin-top: 10px; padding-top: 20px; padding-bottom: 30px;">';
+		$html .= '		<div style="width: 100%; max-width: 600px; text-align: left; margin-top: 20px; margin: 0px auto; height: 86px; line-height: 86px;">';
 		$html .= '			<a href="www.hgoe-burgenland.at" style="margin: 8px; filter: drop-shadow(1px 2px 3px #444);">';
 		$html .= '				<img style="height: 70px;" src="http://hgoe-burgenland.at/konferenztool/admin/assets/img/hgoe_logo_breitbild.png">';
 		$html .= '			</a>';
 		$html .= '		</div>';
-		$html .= '		<div style="border: 1px solid #000; margin: 30px; margin-top: 10px; padding: 30px; background-color: #FFF; box-shadow: 3px 3px 5px #777 ;">';
+		$html .= '		<div style="border: 1px solid #000; margin: 30px auto; margin-top: 10px; padding: 30px; background-color: #FFF; box-shadow: 3px 3px 5px #777 ;max-width: 600px;">';
 		$html .= '			<div style="margin-bottom: 30px;">';
 		$html .= '				' . $_POST['msg_title'];
 		$html .= '			</div>';
@@ -47,7 +47,7 @@ if(isset($_POST['to']) && isset($_POST['msg_body']) && isset($_POST['msg_title']
 		$html .= '				<b>Ihr HGÖ Team</b>';
 		$html .= '			</div>';
 		$html .= '		</div>';
-		$html .= '	</span>';
+		$html .= '	</div>';
 		$html .= '</body>';
 
 		//Content
